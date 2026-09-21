@@ -6,7 +6,7 @@ let particles = [];
 const mouse = {
   x: null,
   y: null,
-  radius: 30
+  radius: 80
 };
 
 // Настройки
