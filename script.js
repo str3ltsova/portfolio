@@ -13,7 +13,7 @@ const mouse = {
     x: null,
     y: null,
 
-    radius: 100
+    radius: 50
 
 };
 
@@ -142,7 +142,7 @@ canvas.addEventListener(
 ========================= */
 
 canvas.addEventListener(
-    "mouseleave",
+    "leave",
     function() {
 
         mouse.x = null;
