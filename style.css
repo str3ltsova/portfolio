@@ -1,41 +1,713 @@
-.particle-section {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
-    background: #f3f3f3;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+:root {
+    --black: #171717;
+    --gray: #777;
+    --light: #f3f3f3;
+    --placeholder: #d8d8d8;
+    --border: #e8e8e8;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: white;
+    color: var(--black);
+    line-height: 1.4;
+}
+
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+.container {
+    width: min(
+        1200px,
+        calc(100% - 80px)
+    );
+
+    margin: 0 auto;
+}
+
+
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    height: 90px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.logo {
+    width: 120px;
+    height: 28px;
+
+    background: var(--placeholder);
+
+    border-radius: 7px;
+}
+
+
+nav {
+    display: flex;
+    gap: 35px;
+
+    font-size: 14px;
+}
+
+
+nav a {
+    transition: opacity .2s;
+}
+
+
+nav a:hover {
+    opacity: .45;
+}
+
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    padding-top: 70px;
+    padding-bottom: 100px;
+}
+
+
+.hero-grid {
+    display: grid;
+
+    grid-template-columns:
+        1.7fr 1fr;
+
+    gap: 22px;
+}
+
+
+.hero-main {
+    background: var(--light);
+
+    border-radius: 28px;
+
+    min-height: 440px;
+
+    padding: 45px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.eyebrow {
+    color: #888;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+
+.hero h1 {
+    font-size: clamp(
+        50px,
+        7vw,
+        82px
+    );
+
+    line-height: .9;
+
+    letter-spacing: -4px;
+
+    font-weight: 500;
+}
+
+
+.hero-description {
+    max-width: 540px;
+
+    margin-top: 35px;
+
+    color: #555;
+
+    font-size: 17px;
+
+    line-height: 1.5;
+}
+
+
+.hero-meta {
+    display: flex;
+    gap: 30px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+.hero-photo {
+    min-height: 440px;
+
+    background: var(--placeholder);
+
     border-radius: 28px;
 }
 
+
+
+/* =========================
+   INFO BENTO
+========================= */
+
+.info-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    gap: 22px;
+
+    margin-top: 22px;
+}
+
+
+.info-card {
+    min-height: 160px;
+
+    padding: 28px;
+
+    border-radius: 22px;
+
+    background: var(--light);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.info-label {
+    color: #888;
+
+    font-size: 12px;
+}
+
+
+.info-card strong {
+    font-size: 45px;
+
+    letter-spacing: -2px;
+
+    font-weight: 500;
+}
+
+
+.info-card small {
+    color: #888;
+}
+
+
+.info-card .small-title {
+    font-size: 25px;
+
+    line-height: 1.05;
+}
+
+
+
+/* =========================
+   PROJECTS
+========================= */
+
+.projects {
+    padding-bottom: 120px;
+}
+
+
+.section-heading {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: end;
+
+    margin-bottom: 30px;
+}
+
+
+.section-heading h2 {
+    font-size: 42px;
+
+    font-weight: 500;
+
+    letter-spacing: -1.5px;
+}
+
+
+.section-heading p {
+    max-width: 300px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+.projects-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(12, 1fr);
+
+    grid-auto-rows: 90px;
+
+    gap: 22px;
+}
+
+
+.project {
+    grid-column: span 5;
+    grid-row: span 4;
+
+    padding: 23px;
+
+    border-radius: 24px;
+
+    background: var(--light);
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+
+.project-large {
+    grid-column: span 7;
+    grid-row: span 5;
+}
+
+
+.project-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: start;
+}
+
+
+.project h3 {
+    font-size: 23px;
+
+    font-weight: 500;
+}
+
+
+.project span {
+    color: #888;
+
+    font-size: 12px;
+}
+
+
+.project-tag {
+    width: 65px;
+    height: 24px;
+
+    border-radius: 100px;
+
+    background: #d2d2d2;
+}
+
+
+.project-image {
+    flex: 1;
+
+    min-height: 150px;
+
+    margin-top: 20px;
+
+    border-radius: 13px;
+
+    background: var(--placeholder);
+}
+
+
+
+/* =========================
+   METRICS
+========================= */
+
+.metrics {
+    display: grid;
+
+    grid-template-columns:
+        2fr 1fr 1fr;
+
+    gap: 22px;
+
+    padding-bottom: 120px;
+}
+
+
+.metric {
+    min-height: 200px;
+
+    padding: 30px;
+
+    border-radius: 23px;
+
+    background: var(--light);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.metric strong {
+    font-size: 52px;
+
+    font-weight: 500;
+
+    letter-spacing: -3px;
+}
+
+
+.metric span {
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+
+/* =========================
+   ABOUT
+========================= */
+
+.about {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1.5fr;
+
+    gap: 22px;
+
+    padding-bottom: 120px;
+}
+
+
+.about-intro {
+    min-height: 430px;
+
+    padding: 40px;
+
+    background: var(--light);
+
+    border-radius: 28px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.about h2 {
+    font-size: 50px;
+
+    line-height: .95;
+
+    letter-spacing: -2px;
+
+    font-weight: 500;
+}
+
+
+.about-intro p {
+    color: #555;
+
+    font-size: 16px;
+
+    line-height: 1.5;
+}
+
+
+.hobbies {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 22px;
+}
+
+
+.hobby {
+    min-height: 200px;
+
+    padding: 25px;
+
+    background: var(--light);
+
+    border-radius: 22px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+
+.hobby-wide {
+    grid-column: span 2;
+}
+
+
+.hobby-icon {
+    width: 45px;
+    height: 45px;
+
+    margin-bottom: auto;
+
+    border-radius: 12px;
+
+    background: var(--placeholder);
+}
+
+
+.hobby h3 {
+    font-size: 21px;
+
+    font-weight: 500;
+
+    margin-bottom: 5px;
+}
+
+
+.hobby p {
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+
+/* =========================
+   PARTICLE CANVAS
+========================= */
+
+.particle-section {
+    position: relative;
+
+    height: 320px;
+
+    overflow: hidden;
+
+    border-radius: 28px;
+
+    background: #f3f3f3;
+
+    margin-bottom: 120px;
+}
+
+
 #particleCanvas {
     position: absolute;
+
     inset: 0;
+
     width: 100%;
     height: 100%;
 }
 
-.particle-text {
+
+.particle-content {
     position: absolute;
+
     inset: 0;
 
     display: flex;
+
     flex-direction: column;
-    align-items: center;
+
     justify-content: center;
 
-    pointer-events: none;
+    align-items: center;
+
     text-align: center;
+
+    pointer-events: none;
 }
 
-.particle-text span {
-    font-size: 13px;
+
+.particle-content span {
     color: #888;
+
+    font-size: 12px;
+
     margin-bottom: 12px;
 }
 
-.particle-text h2 {
-    font-size: 42px;
+
+.particle-content h2 {
+    font-size: 44px;
+
     line-height: 1;
+
     font-weight: 500;
-    letter-spacing: -1.5px;
+
+    letter-spacing: -2px;
+}
+
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    border-top: 1px solid var(--border);
+
+    padding: 35px 0 50px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #888;
+
+    font-size: 12px;
+}
+
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    .container {
+        width: calc(100% - 40px);
+    }
+
+
+    nav {
+        display: none;
+    }
+
+
+    .hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .hero-photo {
+        min-height: 300px;
+    }
+
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .projects-grid {
+        grid-template-columns: 1fr 1fr;
+
+        grid-auto-rows: auto;
+    }
+
+
+    .project,
+    .project-large {
+        grid-column: span 1;
+
+        grid-row: span 1;
+
+        min-height: 350px;
+    }
+
+
+    .metrics {
+        grid-template-columns: 1fr;
+    }
+
+
+    .about {
+        grid-template-columns: 1fr;
+    }
+
+
+    .about-intro {
+        min-height: 350px;
+    }
+
+}
+
+
+@media (max-width: 550px) {
+
+    .hero-main {
+        padding: 28px;
+    }
+
+
+    .hero h1 {
+        font-size: 55px;
+    }
+
+
+    .projects-grid,
+    .hobbies {
+        grid-template-columns: 1fr;
+    }
+
+
+    .project,
+    .project-large {
+        grid-column: span 1;
+    }
+
+
+    .hobby-wide {
+        grid-column: span 1;
+    }
+
+
+    .section-heading {
+        display: block;
+    }
+
+
+    .section-heading p {
+        margin-top: 10px;
+    }
+
+
+    .particle-content h2 {
+        font-size: 35px;
+    }
+
 }
