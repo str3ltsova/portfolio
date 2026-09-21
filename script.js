@@ -6,7 +6,7 @@ let particles = [];
 const mouse = {
   x: null,
   y: null,
-  radius: 80
+  radius: 30
 };
 
 
@@ -15,7 +15,7 @@ const mouse = {
 // =========================
 
 const PARTICLE_SIZE = 1.4;
-const PARTICLE_COLOR = "#bcbcbc";
+const PARTICLE_COLOR = "#131415";
 
 const LIME_COLOR = "#F36D07";
 
