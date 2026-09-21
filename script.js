@@ -22,10 +22,10 @@ const LIME_COLOR = "#F36D07";
 const CURSOR_SIZE = 8;
 
 // Насколько далеко курсор окрашивает точки
-const COLOR_RADIUS = 45;
+const COLOR_RADIUS = 28;
 
 // Расстояние между точками
-const SPACING = 24;
+const SPACING = 18;
 
 
 // =========================
