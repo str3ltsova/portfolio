@@ -17,7 +17,7 @@ const mouse = {
 const PARTICLE_SIZE = 1.4;
 const PARTICLE_COLOR = "#bcbcbc";
 
-const LIME_COLOR = "#B7FF00";
+const LIME_COLOR = "#F36D07";
 
 const CURSOR_SIZE = 4;
 
