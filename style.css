@@ -1,1 +1,41 @@
+.particle-section {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    background: #f3f3f3;
+    border-radius: 28px;
+}
 
+#particleCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.particle-text {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
+    text-align: center;
+}
+
+.particle-text span {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 12px;
+}
+
+.particle-text h2 {
+    font-size: 42px;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: -1.5px;
+}
