@@ -1,53 +1,93 @@
-const canvas = document.getElementById("particleCanvas");
-const ctx = canvas.getContext("2d");
+const canvas =
+    document.getElementById("particleCanvas");
+
+const ctx =
+    canvas.getContext("2d");
+
 
 let particles = [];
 
+
 const mouse = {
+
     x: null,
     y: null,
+
     radius: 100
+
 };
 
 
-// ================================
-// CANVAS SIZE
-// ================================
+
+/* =========================
+   RESIZE
+========================= */
 
 function resizeCanvas() {
 
-    const rect = canvas.getBoundingClientRect();
+    const rect =
+        canvas.getBoundingClientRect();
 
-    const dpr = window.devicePixelRatio || 1;
 
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
+    const dpr =
+        window.devicePixelRatio || 1;
 
-    canvas.style.width = rect.width + "px";
-    canvas.style.height = rect.height + "px";
 
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    canvas.width =
+        rect.width * dpr;
+
+
+    canvas.height =
+        rect.height * dpr;
+
+
+    ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+
 
     createParticles();
+
 }
 
 
-// ================================
-// CREATE PARTICLES
-// ================================
+
+/* =========================
+   CREATE PARTICLES
+========================= */
 
 function createParticles() {
 
     particles = [];
 
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
+
+    const width =
+        canvas.clientWidth;
+
+
+    const height =
+        canvas.clientHeight;
+
 
     const spacing = 18;
 
-    for (let x = spacing; x < width; x += spacing) {
 
-        for (let y = spacing; y < height; y += spacing) {
+    for (
+        let x = spacing;
+        x < width;
+        x += spacing
+    ) {
+
+        for (
+            let y = spacing;
+            y < height;
+            y += spacing
+        ) {
 
             particles.push({
 
@@ -57,7 +97,8 @@ function createParticles() {
                 originalX: x,
                 originalY: y,
 
-                size: Math.random() * 1.5 + 1,
+                size:
+                    Math.random() * 1.5 + 1,
 
                 vx: 0,
                 vy: 0
@@ -67,112 +108,177 @@ function createParticles() {
         }
 
     }
+
 }
 
 
-// ================================
-// MOUSE
-// ================================
 
-canvas.addEventListener("mousemove", (event) => {
+/* =========================
+   MOUSE MOVE
+========================= */
 
-    const rect = canvas.getBoundingClientRect();
+canvas.addEventListener(
+    "mousemove",
+    function(event) {
 
-    mouse.x = event.clientX - rect.left;
-    mouse.y = event.clientY - rect.top;
-
-});
-
-
-canvas.addEventListener("mouseleave", () => {
-
-    mouse.x = null;
-    mouse.y = null;
-
-});
+        const rect =
+            canvas.getBoundingClientRect();
 
 
-// ================================
-// PARTICLE PHYSICS
-// ================================
+        mouse.x =
+            event.clientX - rect.left;
+
+
+        mouse.y =
+            event.clientY - rect.top;
+
+    }
+);
+
+
+
+/* =========================
+   MOUSE LEAVE
+========================= */
+
+canvas.addEventListener(
+    "mouseleave",
+    function() {
+
+        mouse.x = null;
+        mouse.y = null;
+
+    }
+);
+
+
+
+/* =========================
+   UPDATE
+========================= */
 
 function updateParticles() {
 
-    particles.forEach(particle => {
+    particles.forEach(
+        particle => {
 
-        // --------------------------------
-        // MOUSE REPULSION
-        // --------------------------------
 
-        if (mouse.x !== null) {
+            /* MOUSE FORCE */
 
-            const dx = particle.x - mouse.x;
-            const dy = particle.y - mouse.y;
+            if (mouse.x !== null) {
 
-            const distance = Math.sqrt(
-                dx * dx + dy * dy
-            );
+                const dx =
+                    particle.x - mouse.x;
 
-            if (distance < mouse.radius) {
 
-                const angle = Math.atan2(dy, dx);
+                const dy =
+                    particle.y - mouse.y;
 
-                const force =
-                    (mouse.radius - distance)
-                    / mouse.radius;
 
-                const strength = force * 8;
+                const distance =
+                    Math.sqrt(
+                        dx * dx +
+                        dy * dy
+                    );
 
-                particle.vx += Math.cos(angle) * strength;
-                particle.vy += Math.sin(angle) * strength;
+
+                if (
+                    distance < mouse.radius &&
+                    distance > 0
+                ) {
+
+                    const angle =
+                        Math.atan2(
+                            dy,
+                            dx
+                        );
+
+
+                    const force =
+                        (
+                            mouse.radius -
+                            distance
+                        ) /
+                        mouse.radius;
+
+
+                    const strength =
+                        force * 8;
+
+
+                    particle.vx +=
+                        Math.cos(angle) *
+                        strength;
+
+
+                    particle.vy +=
+                        Math.sin(angle) *
+                        strength;
+
+                }
 
             }
 
+
+
+            /* RETURN HOME */
+
+            const homeX =
+                particle.originalX -
+                particle.x;
+
+
+            const homeY =
+                particle.originalY -
+                particle.y;
+
+
+            particle.vx +=
+                homeX * 0.015;
+
+
+            particle.vy +=
+                homeY * 0.015;
+
+
+
+            /* FRICTION */
+
+            particle.vx *= 0.85;
+
+            particle.vy *= 0.85;
+
+
+
+            /* MOVE */
+
+            particle.x +=
+                particle.vx;
+
+
+            particle.y +=
+                particle.vy;
+
         }
-
-
-        // --------------------------------
-        // RETURN TO ORIGINAL POSITION
-        // --------------------------------
-
-        const homeX =
-            particle.originalX - particle.x;
-
-        const homeY =
-            particle.originalY - particle.y;
-
-        particle.vx += homeX * 0.015;
-        particle.vy += homeY * 0.015;
-
-
-        // --------------------------------
-        // FRICTION
-        // --------------------------------
-
-        particle.vx *= 0.85;
-        particle.vy *= 0.85;
-
-
-        // --------------------------------
-        // MOVE
-        // --------------------------------
-
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-
-    });
+    );
 
 }
 
 
-// ================================
-// DRAW
-// ================================
+
+/* =========================
+   DRAW
+========================= */
 
 function drawParticles() {
 
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
+    const width =
+        canvas.clientWidth;
+
+
+    const height =
+        canvas.clientHeight;
+
 
     ctx.clearRect(
         0,
@@ -182,49 +288,61 @@ function drawParticles() {
     );
 
 
-    particles.forEach(particle => {
+    particles.forEach(
+        particle => {
 
-        ctx.beginPath();
+            ctx.beginPath();
 
-        ctx.arc(
-            particle.x,
-            particle.y,
-            particle.size,
-            0,
-            Math.PI * 2
-        );
 
-        ctx.fillStyle = "#bcbcbc";
+            ctx.arc(
+                particle.x,
+                particle.y,
+                particle.size,
+                0,
+                Math.PI * 2
+            );
 
-        ctx.fill();
 
-    });
+            ctx.fillStyle =
+                "#bcbcbc";
+
+
+            ctx.fill();
+
+        }
+    );
 
 }
 
 
-// ================================
-// ANIMATION LOOP
-// ================================
+
+/* =========================
+   ANIMATION
+========================= */
 
 function animate() {
 
     updateParticles();
+
     drawParticles();
 
-    requestAnimationFrame(animate);
+    requestAnimationFrame(
+        animate
+    );
 
 }
 
 
-// ================================
-// START
-// ================================
+
+/* =========================
+   START
+========================= */
 
 window.addEventListener(
     "resize",
     resizeCanvas
 );
+
 
 resizeCanvas();
 
