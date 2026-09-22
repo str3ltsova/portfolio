@@ -146,6 +146,8 @@ section:not(.arc-section):not(.particle-section) {
     font-weight: 400;
 
     letter-spacing: -0.075em;
+
+    margin-bottom: 0.1em;
 }
 
 .hero-bottom {
