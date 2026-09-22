@@ -574,3 +574,175 @@ section:not(.arc-section):not(.particle-section) {
     display: block;
     object-fit: cover;
 }
+
+/* =========================
+   PROJECT PAGE
+========================= */
+
+.project-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 32px 120px;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    display: flex;
+    gap: 10px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: #777;
+    margin-bottom: 60px;
+}
+.breadcrumbs a {
+    color: #777;
+    transition: color .2s;
+}
+.breadcrumbs a:hover {
+    color: #F36D07;
+}
+.breadcrumbs .current {
+    color: #fff;
+}
+
+/* Title */
+.project-hero {
+    margin-bottom: 70px;
+}
+.project-hero h1 {
+    font-size: clamp(48px, 8vw, 130px);
+    line-height: 0.9;
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    margin-bottom: 30px;
+}
+.project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: #777;
+    text-transform: uppercase;
+}
+
+/* Intro */
+.project-intro {
+    max-width: 780px;
+    margin-bottom: 80px;
+}
+.project-intro .big-text {
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -1px;
+    margin-bottom: 30px;
+}
+.project-intro p {
+    color: #888;
+    line-height: 1.6;
+}
+
+/* Cover */
+.project-cover {
+    margin-bottom: 100px;
+}
+
+/* Text blocks */
+.project-block {
+    max-width: 720px;
+    margin-bottom: 80px;
+}
+.project-block h2 {
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #777;
+    font-weight: 400;
+    margin-bottom: 24px;
+}
+.project-block p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #ccc;
+}
+
+/* Full image */
+.project-image-full {
+    margin-bottom: 100px;
+}
+
+/* Other projects */
+.other-projects {
+    margin-top: 140px;
+    border-top: 1px solid #222;
+    padding-top: 80px;
+}
+.other-projects .project-grid.two-col {
+    grid-template-columns: 1fr 1fr;
+}
+.other-projects .project-image {
+    height: 380px;
+}
+
+/* Back link */
+.back-link {
+    margin-top: 100px;
+    text-align: center;
+}
+.back-link a {
+    font-size: 13px;
+    color: #777;
+    letter-spacing: 0.1em;
+    transition: color .2s;
+}
+.back-link a:hover {
+    color: #F36D07;
+}
+
+/* =========================
+   PLACEHOLDER (заглушка вместо фото)
+========================= */
+
+.placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 380px;
+
+    background: #151515;
+    border: 1px solid #222;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #555;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.placeholder-wide {
+    min-height: 620px;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    .project-page {
+        padding: 40px 20px 80px;
+    }
+    .other-projects .project-grid.two-col {
+        grid-template-columns: 1fr;
+    }
+    .other-projects .project-image {
+        height: 280px;
+    }
+    .project-intro .big-text {
+        font-size: 24px;
+    }
+    .placeholder {
+        min-height: 240px;
+    }
+    .placeholder-wide {
+        min-height: 320px;
+    }
+}
