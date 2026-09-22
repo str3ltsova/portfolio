@@ -700,7 +700,7 @@ section:not(.arc-section):not(.particle-section) {
 }
 
 /* =========================
-   PLACEHOLDER (заглушка вместо фото)
+   PLACEHOLDER
 ========================= */
 
 .placeholder {
@@ -723,6 +723,18 @@ section:not(.arc-section):not(.particle-section) {
 
 .placeholder-wide {
     min-height: 620px;
+}
+
+/* Ссылки-карточки не красятся в синий */
+.project,
+.project:hover,
+.project:visited {
+    color: inherit;
+    text-decoration: none;
+}
+
+.project h3 {
+    color: #fff;
 }
 
 /* Mobile */
