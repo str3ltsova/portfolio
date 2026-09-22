@@ -136,16 +136,16 @@ section:not(.arc-section):not(.particle-section) {
 
 .hero h1 {
     font-size: clamp(
-        80px,
-        15vw,
-        230px
+        56px,
+        11vw,
+        170px
     );
 
-    line-height: 0.82;
+    line-height: 0.85;
 
     font-weight: 400;
 
-    letter-spacing: -0.075em;
+    letter-spacing: -0.04em;
 
     margin-bottom: 0.15em;
 }
