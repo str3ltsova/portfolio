@@ -19,10 +19,10 @@ const PARTICLE_COLOR = "#333333";
 
 const LIME_COLOR = "#F36D07";
 
-const CURSOR_SIZE = 8;
+const CURSOR_SIZE = 5;
 
 // Насколько далеко курсор окрашивает точки
-const COLOR_RADIUS = 28;
+const COLOR_RADIUS = 38;
 
 // Расстояние между точками
 const SPACING = 18;
