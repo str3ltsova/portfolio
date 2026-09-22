@@ -14,15 +14,15 @@ const mouse = {
 // НАСТРОЙКИ
 // =========================
 
-const PARTICLE_SIZE = 2.4;
+const PARTICLE_SIZE = 1.4;
 const PARTICLE_COLOR = "#333333";
 
 const LIME_COLOR = "#F36D07";
 
-const CURSOR_SIZE = 5;
+const CURSOR_SIZE = 8;
 
 // Насколько далеко курсор окрашивает точки
-const COLOR_RADIUS = 38;
+const COLOR_RADIUS = 28;
 
 // Расстояние между точками
 const SPACING = 18;
