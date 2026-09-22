@@ -1414,3 +1414,51 @@
     animate();
 
 })();
+
+/* =========================
+   CUSTOM CURSOR
+========================= */
+
+body,
+a,
+button,
+canvas {
+    cursor: none;
+}
+
+.cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    background: #F36D07;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width .2s ease, height .2s ease, background .2s ease;
+    opacity: 0;
+}
+
+.cursor-dot.visible {
+    opacity: 1;
+}
+
+.cursor-dot.hover {
+    width: 42px;
+    height: 42px;
+    background: rgba(243, 109, 7, 0.35);
+}
+
+@media (hover: none) {
+    body,
+    a,
+    button,
+    canvas {
+        cursor: auto;
+    }
+    .cursor-dot {
+        display: none;
+    }
+}
