@@ -1,420 +1,320 @@
 const canvas = document.getElementById("particleCanvas");
+const ctx = canvas.getContext("2d");
 
-if (!canvas) {
-    console.error("Canvas #particleCanvas не найден");
-} else {
+let particles = [];
 
-    const ctx = canvas.getContext("2d");
-
-    let particles = [];
-
-    const mouse = {
-        x: null,
-        y: null
-    };
-
-    let activeParticle = null;
+const mouse = {
+  x: null,
+  y: null,
+  radius: 30
+};
 
 
-    // ==========================================
-    // НАСТРОЙКИ
-    // ==========================================
+// =========================
+// НАСТРОЙКИ
+// =========================
 
-    // Размер обычной точки
-    const PARTICLE_SIZE = 2.7;
+const PARTICLE_SIZE = 2.4;
+const PARTICLE_COLOR = "#333333";
 
-    // Цвет обычных точек
-    const PARTICLE_COLOR = "#333333";
+const LIME_COLOR = "#F36D07";
 
-    // Цвет точки под курсором
-    const ACCENT_COLOR = "#F36D07";
+const CURSOR_SIZE = 5;
 
-    // Размер центральной точки курсора
-    // примерно в 1.5 раза больше обычной
-    const CURSOR_SIZE = 4;
+// Насколько далеко курсор окрашивает точки
+const COLOR_RADIUS = 38;
 
-    // Расстояние между точками
-    const SPACING = 14;
-
-    // Радиус, в котором точки разлетаются
-    const REPULSION_RADIUS = 75;
-
-    // Радиус поиска ближайшей точки
-    const ACTIVE_RADIUS = 24;
-
-    // Насколько быстро точки возвращаются
-    const RETURN_FORCE = 0.018;
-
-    // Плавность
-    const FRICTION = 0.84;
+// Расстояние между точками
+const SPACING = 18;
 
 
-    // ==========================================
-    // РАЗМЕР CANVAS
-    // ==========================================
+// =========================
+// RESIZE
+// =========================
 
-    function resizeCanvas() {
+function resizeCanvas() {
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
 
-        const rect = canvas.getBoundingClientRect();
+  createParticles();
+}
 
-        const width = rect.width;
-        const height = rect.height;
 
-        // Если canvas почему-то не имеет размера,
-        // используем запасные значения
-        canvas.width = width > 0 ? width : 1000;
-        canvas.height = height > 0 ? height : 240;
+// =========================
+// СОЗДАНИЕ СЕТКИ
+// =========================
 
-        createParticles();
+function createParticles() {
+
+  particles = [];
+
+  for (
+    let y = SPACING / 2;
+    y < canvas.height;
+    y += SPACING
+  ) {
+
+    for (
+      let x = SPACING / 2;
+      x < canvas.width;
+      x += SPACING
+    ) {
+
+      particles.push({
+
+        x: x,
+        y: y,
+
+        originalX: x,
+        originalY: y,
+
+        vx: 0,
+        vy: 0
+      });
+    }
+  }
+}
+
+
+// =========================
+// КУРСОР
+// =========================
+
+canvas.addEventListener("mousemove", (event) => {
+
+  const rect = canvas.getBoundingClientRect();
+
+  mouse.x = event.clientX - rect.left;
+  mouse.y = event.clientY - rect.top;
+
+});
+
+
+canvas.addEventListener("mouseleave", () => {
+
+  mouse.x = null;
+  mouse.y = null;
+
+});
+
+
+// =========================
+// ДВИЖЕНИЕ ТОЧЕК
+// =========================
+
+function updateParticles() {
+
+  particles.forEach((particle) => {
+
+    if (mouse.x !== null) {
+
+      const dx = particle.x - mouse.x;
+      const dy = particle.y - mouse.y;
+
+      const distance = Math.sqrt(
+        dx * dx + dy * dy
+      );
+
+
+      // Разлёт точек от курсора
+      if (
+        distance < mouse.radius &&
+        distance > 0
+      ) {
+
+        const angle = Math.atan2(dy, dx);
+
+        const force =
+          (mouse.radius - distance) /
+          mouse.radius;
+
+        const strength = force * 8;
+
+        particle.vx +=
+          Math.cos(angle) * strength;
+
+        particle.vy +=
+          Math.sin(angle) * strength;
+      }
     }
 
 
-    // ==========================================
-    // СОЗДАНИЕ ТОЧЕК
-    // ==========================================
+    // Возвращаем точку
+    // на исходную позицию
 
-    function createParticles() {
+    const homeX =
+      particle.originalX - particle.x;
 
-        particles = [];
+    const homeY =
+      particle.originalY - particle.y;
 
-        for (
-            let y = SPACING / 2;
-            y < canvas.height;
-            y += SPACING
-        ) {
 
-            for (
-                let x = SPACING / 2;
-                x < canvas.width;
-                x += SPACING
-            ) {
+    particle.vx += homeX * 0.015;
+    particle.vy += homeY * 0.015;
 
-                particles.push({
 
-                    x: x,
-                    y: y,
+    // Плавность движения
 
-                    originalX: x,
-                    originalY: y,
+    particle.vx *= 0.85;
+    particle.vy *= 0.85;
 
-                    vx: 0,
-                    vy: 0,
 
-                    // Для лёгкого jiggle
-                    jiggle: Math.random() * Math.PI * 2
-                });
-            }
+    particle.x += particle.vx;
+    particle.y += particle.vy;
+
+  });
+}
+
+
+// =========================
+// ОТРИСОВКА
+// =========================
+
+function drawParticles() {
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+
+  // -------------------------
+  // ТОЧКИ СЕТКИ
+  // -------------------------
+
+  particles.forEach((particle) => {
+
+    let color = PARTICLE_COLOR;
+    let size = PARTICLE_SIZE;
+
+
+    // Если курсор находится
+    // внутри canvas
+
+    if (mouse.x !== null) {
+
+      const dx =
+        particle.x - mouse.x;
+
+      const dy =
+        particle.y - mouse.y;
+
+
+      const distance = Math.sqrt(
+        dx * dx + dy * dy
+      );
+
+
+      // -------------------------
+      // ОКРАШИВАНИЕ ТОЧЕК
+      // -------------------------
+
+      if (distance < COLOR_RADIUS) {
+
+        /*
+          intensity:
+
+          1 = точка прямо возле курсора
+
+          0 = край зоны воздействия
+        */
+
+        const intensity =
+          1 - distance / COLOR_RADIUS;
+
+
+        /*
+          Только ближайшие точки
+          становятся зелёными.
+
+          Это не создаёт искусственное
+          кольцо — окрашиваются
+          реальные точки сетки.
+        */
+
+        if (intensity > 0.15) {
+
+          color = LIME_COLOR;
+
+
+          // Ближайшие точки
+          // немного крупнее
+
+          size =
+            PARTICLE_SIZE +
+            intensity * 1.2;
         }
+      }
     }
 
 
-    // ==========================================
-    // КУРСОР
-    // ==========================================
-
-    canvas.addEventListener("mousemove", function(event) {
-
-        const rect = canvas.getBoundingClientRect();
-
-        mouse.x = event.clientX - rect.left;
-        mouse.y = event.clientY - rect.top;
-
-    });
-
-
-    canvas.addEventListener("mouseleave", function() {
-
-        mouse.x = null;
-        mouse.y = null;
-
-        activeParticle = null;
-
-    });
-
-
-    // ==========================================
-    // ПОИСК БЛИЖАЙШЕЙ ТОЧКИ
-    // ==========================================
-
-    function findActiveParticle() {
-
-        activeParticle = null;
-
-        if (
-            mouse.x === null ||
-            mouse.y === null
-        ) {
-            return;
-        }
-
-        let closestDistance = ACTIVE_RADIUS;
-
-        for (const particle of particles) {
-
-            const dx =
-                particle.x - mouse.x;
-
-            const dy =
-                particle.y - mouse.y;
-
-            const distance =
-                Math.sqrt(
-                    dx * dx +
-                    dy * dy
-                );
-
-
-            if (distance < closestDistance) {
-
-                closestDistance = distance;
-
-                activeParticle = particle;
-            }
-        }
-    }
-
-
-    // ==========================================
-    // ОБНОВЛЕНИЕ ТОЧЕК
-    // ==========================================
-
-    function updateParticles() {
-
-        findActiveParticle();
-
-
-        particles.forEach(function(particle) {
-
-            // ----------------------------------
-            // ОТТАЛКИВАНИЕ ОТ КУРСОРА
-            // ----------------------------------
-
-            if (
-                mouse.x !== null &&
-                mouse.y !== null
-            ) {
-
-                const dx =
-                    particle.x - mouse.x;
-
-                const dy =
-                    particle.y - mouse.y;
-
-                const distance =
-                    Math.sqrt(
-                        dx * dx +
-                        dy * dy
-                    );
-
-
-                if (
-                    distance < REPULSION_RADIUS &&
-                    distance > 0.01
-                ) {
-
-                    const angle =
-                        Math.atan2(dy, dx);
-
-
-                    const force =
-                        (REPULSION_RADIUS - distance) /
-                        REPULSION_RADIUS;
-
-
-                    const strength =
-                        force * 3.5;
-
-
-                    particle.vx +=
-                        Math.cos(angle) * strength;
-
-                    particle.vy +=
-                        Math.sin(angle) * strength;
-                }
-            }
-
-
-            // ----------------------------------
-            // JIGGLE АКТИВНОЙ ТОЧКИ
-            // ----------------------------------
-
-            if (particle === activeParticle) {
-
-                particle.jiggle += 0.18;
-
-
-                particle.vx +=
-                    Math.sin(
-                        particle.jiggle * 4
-                    ) * 0.025;
-
-
-                particle.vy +=
-                    Math.cos(
-                        particle.jiggle * 3
-                    ) * 0.025;
-
-            } else {
-
-                particle.jiggle *= 0.96;
-            }
-
-
-            // ----------------------------------
-            // ВОЗВРАТ К ИСХОДНОЙ ПОЗИЦИИ
-            // ----------------------------------
-
-            const homeX =
-                particle.originalX - particle.x;
-
-            const homeY =
-                particle.originalY - particle.y;
-
-
-            particle.vx +=
-                homeX * RETURN_FORCE;
-
-            particle.vy +=
-                homeY * RETURN_FORCE;
-
-
-            // ----------------------------------
-            // FRICTION
-            // ----------------------------------
-
-            particle.vx *= FRICTION;
-            particle.vy *= FRICTION;
-
-
-            // ----------------------------------
-            // ДВИЖЕНИЕ
-            // ----------------------------------
-
-            particle.x += particle.vx;
-            particle.y += particle.vy;
-
-        });
-    }
-
-
-    // ==========================================
-    // ОТРИСОВКА
-    // ==========================================
-
-    function drawParticles() {
-
-        // Очищаем canvas
-        ctx.clearRect(
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
-
-
-        // --------------------------------------
-        // ОБЫЧНЫЕ ТОЧКИ
-        // --------------------------------------
-
-        particles.forEach(function(particle) {
-
-            let size = PARTICLE_SIZE;
-
-            let color = PARTICLE_COLOR;
-
-
-            // ----------------------------------
-            // АКТИВНАЯ ТОЧКА
-            // ----------------------------------
-
-            if (particle === activeParticle) {
-
-                color = ACCENT_COLOR;
-
-
-                // Лёгкое изменение размера
-                // создаёт ощущение bounce
-
-                const pulse =
-                    Math.sin(
-                        particle.jiggle * 4
-                    ) * 0.35;
-
-
-                size =
-                    PARTICLE_SIZE + pulse;
-            }
-
-
-            ctx.beginPath();
-
-            ctx.arc(
-                particle.x,
-                particle.y,
-                size,
-                0,
-                Math.PI * 2
-            );
-
-            ctx.fillStyle = color;
-
-            ctx.fill();
-
-        });
-
-
-        // --------------------------------------
-        // ЦЕНТРАЛЬНАЯ ТОЧКА КУРСОРА
-        // --------------------------------------
-
-        if (
-            mouse.x !== null &&
-            mouse.y !== null
-        ) {
-
-            ctx.beginPath();
-
-            ctx.arc(
-                mouse.x,
-                mouse.y,
-                CURSOR_SIZE,
-                0,
-                Math.PI * 2
-            );
-
-            ctx.fillStyle = ACCENT_COLOR;
-
-            ctx.fill();
-        }
-    }
-
-
-    // ==========================================
-    // АНИМАЦИЯ
-    // ==========================================
-
-    function animate() {
-
-        updateParticles();
-
-        drawParticles();
-
-        requestAnimationFrame(animate);
-    }
-
-
-    // ==========================================
-    // ЗАПУСК
-    // ==========================================
-
-    window.addEventListener(
-        "resize",
-        resizeCanvas
+    // Рисуем точку
+
+    ctx.beginPath();
+
+    ctx.arc(
+      particle.x,
+      particle.y,
+      size,
+      0,
+      Math.PI * 2
     );
 
+    ctx.fillStyle = color;
 
-    resizeCanvas();
+    ctx.fill();
 
-    animate();
+  });
 
+
+  // -------------------------
+  // ЦЕНТРАЛЬНАЯ ТОЧКА
+  // -------------------------
+
+  if (mouse.x !== null) {
+
+    ctx.beginPath();
+
+    ctx.arc(
+      mouse.x,
+      mouse.y,
+      CURSOR_SIZE,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.fillStyle = LIME_COLOR;
+
+    ctx.fill();
+  }
 }
+
+
+// =========================
+// АНИМАЦИЯ
+// =========================
+
+function animate() {
+
+  updateParticles();
+
+  drawParticles();
+
+  requestAnimationFrame(animate);
+}
+
+
+// =========================
+// ЗАПУСК
+// =========================
+
+window.addEventListener(
+  "resize",
+  resizeCanvas
+);
+
+resizeCanvas();
+
+animate();
