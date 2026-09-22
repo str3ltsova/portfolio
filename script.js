@@ -1,320 +1,629 @@
-const canvas = document.getElementById("particleCanvas");
-const ctx = canvas.getContext("2d");
-
-let particles = [];
-
-const mouse = {
-  x: null,
-  y: null,
-  radius: 30
-};
+const canvas = document.getElementById("arcCanvas");
+const gl = canvas.getContext("webgl", {
+    alpha: false,
+    antialias: false,
+    depth: false
+});
 
 
-// =========================
-// НАСТРОЙКИ
-// =========================
+// =========================================
+// WEBGL
+// =========================================
 
-const PARTICLE_SIZE = 1.4;
-const PARTICLE_COLOR = "#333333";
+if (!gl) {
 
-const LIME_COLOR = "#F36D07";
+    console.error("WebGL is not supported");
 
-const CURSOR_SIZE = 8;
+} else {
 
-// Насколько далеко курсор окрашивает точки
-const COLOR_RADIUS = 28;
+    const vertexShaderSource = `
 
-// Расстояние между точками
-const SPACING = 18;
+        attribute vec2 a_position;
 
+        void main() {
 
-// =========================
-// RESIZE
-// =========================
+            gl_Position =
+                vec4(a_position, 0.0, 1.0);
 
-function resizeCanvas() {
-  canvas.width = canvas.offsetWidth;
-  canvas.height = canvas.offsetHeight;
+        }
 
-  createParticles();
-}
+    `;
 
 
-// =========================
-// СОЗДАНИЕ СЕТКИ
-// =========================
+    const fragmentShaderSource = `
 
-function createParticles() {
+        precision highp float;
 
-  particles = [];
+        uniform vec2 u_resolution;
 
-  for (
-    let y = SPACING / 2;
-    y < canvas.height;
-    y += SPACING
-  ) {
+        uniform float u_time;
 
-    for (
-      let x = SPACING / 2;
-      x < canvas.width;
-      x += SPACING
+        uniform vec2 u_mouse;
+
+        uniform float u_mouseActive;
+
+
+        void main() {
+
+            vec2 pixel = gl_FragCoord.xy;
+
+
+            // ---------------------------------
+            // GRID
+            // ---------------------------------
+
+            float spacing = 14.0;
+
+            vec2 grid =
+                floor(pixel / spacing) *
+                spacing +
+                spacing * 0.5;
+
+
+            float x = grid.x;
+
+            float y =
+                u_resolution.y -
+                grid.y;
+
+
+            float width =
+                u_resolution.x;
+
+            float height =
+                u_resolution.y;
+
+
+            // ---------------------------------
+            // NORMALIZED X
+            // ---------------------------------
+
+            float normX =
+                (x - width * 0.5) /
+                (width * 0.75);
+
+
+            // ---------------------------------
+            // ARCH
+            // ---------------------------------
+
+            float centerY =
+                height * 0.58;
+
+
+            float curve =
+                normX *
+                normX *
+                height *
+                0.30;
+
+
+            float wave =
+                sin(
+                    x * 0.012 +
+                    u_time * 0.7
+                ) * 7.0;
+
+
+            float curveY =
+                centerY +
+                curve +
+                wave;
+
+
+            // ---------------------------------
+            // MOUSE
+            // ---------------------------------
+
+            float dx =
+                x - u_mouse.x;
+
+
+            float influence =
+                exp(
+                    -(dx * dx) /
+                    (2.0 * 120.0 * 120.0)
+                );
+
+
+            curveY =
+                mix(
+                    curveY,
+                    u_mouse.y,
+                    influence *
+                    u_mouseActive *
+                    0.25
+                );
+
+
+            // ---------------------------------
+            // DISTANCE FROM ARC
+            // ---------------------------------
+
+            float distanceFromArc =
+                abs(
+                    y - curveY
+                );
+
+
+            float thickness =
+                80.0 +
+                (1.0 - abs(normX))
+                * 60.0;
+
+
+            float intensity =
+                1.0 -
+                smoothstep(
+                    0.0,
+                    thickness,
+                    distanceFromArc
+                );
+
+
+            // ---------------------------------
+            // FADE EDGES
+            // ---------------------------------
+
+            intensity *=
+                max(
+                    0.0,
+                    1.0 -
+                    pow(
+                        abs(normX),
+                        2.4
+                    )
+                );
+
+
+            // ---------------------------------
+            // DOT
+            // ---------------------------------
+
+            float dotSize = 3.0;
+
+            vec2 distanceToCell =
+                abs(
+                    pixel - grid
+                );
+
+
+            float dot =
+                1.0 -
+                smoothstep(
+                    dotSize - 1.0,
+                    dotSize + 1.0,
+                    max(
+                        distanceToCell.x,
+                        distanceToCell.y
+                    )
+                );
+
+
+            float visibility =
+                dot *
+                intensity;
+
+
+            // ---------------------------------
+            // COLOR
+            // ---------------------------------
+
+            vec3 background =
+                vec3(
+                    0.0,
+                    0.0,
+                    0.0
+                );
+
+
+            vec3 baseColor =
+                vec3(
+                    0.35,
+                    0.35,
+                    0.35
+                );
+
+
+            vec3 accentColor =
+                vec3(
+                    1.0,
+                    0.42,
+                    0.02
+                );
+
+
+            vec3 color =
+                mix(
+                    baseColor,
+                    accentColor,
+                    pow(
+                        intensity,
+                        1.3
+                    )
+                );
+
+
+            color =
+                mix(
+                    background,
+                    color,
+                    visibility
+                );
+
+
+            gl_FragColor =
+                vec4(
+                    color,
+                    1.0
+                );
+
+        }
+
+    `;
+
+
+    // =========================================
+    // SHADER
+    // =========================================
+
+    function createShader(type, source) {
+
+        const shader =
+            gl.createShader(type);
+
+        gl.shaderSource(
+            shader,
+            source
+        );
+
+        gl.compileShader(
+            shader
+        );
+
+
+        if (
+            !gl.getShaderParameter(
+                shader,
+                gl.COMPILE_STATUS
+            )
+        ) {
+
+            console.error(
+                gl.getShaderInfoLog(shader)
+            );
+
+            gl.deleteShader(shader);
+
+            return null;
+        }
+
+
+        return shader;
+    }
+
+
+    const vertexShader =
+        createShader(
+            gl.VERTEX_SHADER,
+            vertexShaderSource
+        );
+
+
+    const fragmentShader =
+        createShader(
+            gl.FRAGMENT_SHADER,
+            fragmentShaderSource
+        );
+
+
+    if (
+        !vertexShader ||
+        !fragmentShader
     ) {
 
-      particles.push({
+        throw new Error(
+            "Shader compilation failed"
+        );
 
-        x: x,
-        y: y,
-
-        originalX: x,
-        originalY: y,
-
-        vx: 0,
-        vy: 0
-      });
-    }
-  }
-}
-
-
-// =========================
-// КУРСОР
-// =========================
-
-canvas.addEventListener("mousemove", (event) => {
-
-  const rect = canvas.getBoundingClientRect();
-
-  mouse.x = event.clientX - rect.left;
-  mouse.y = event.clientY - rect.top;
-
-});
-
-
-canvas.addEventListener("mouseleave", () => {
-
-  mouse.x = null;
-  mouse.y = null;
-
-});
-
-
-// =========================
-// ДВИЖЕНИЕ ТОЧЕК
-// =========================
-
-function updateParticles() {
-
-  particles.forEach((particle) => {
-
-    if (mouse.x !== null) {
-
-      const dx = particle.x - mouse.x;
-      const dy = particle.y - mouse.y;
-
-      const distance = Math.sqrt(
-        dx * dx + dy * dy
-      );
-
-
-      // Разлёт точек от курсора
-      if (
-        distance < mouse.radius &&
-        distance > 0
-      ) {
-
-        const angle = Math.atan2(dy, dx);
-
-        const force =
-          (mouse.radius - distance) /
-          mouse.radius;
-
-        const strength = force * 8;
-
-        particle.vx +=
-          Math.cos(angle) * strength;
-
-        particle.vy +=
-          Math.sin(angle) * strength;
-      }
     }
 
 
-    // Возвращаем точку
-    // на исходную позицию
-
-    const homeX =
-      particle.originalX - particle.x;
-
-    const homeY =
-      particle.originalY - particle.y;
+    const program =
+        gl.createProgram();
 
 
-    particle.vx += homeX * 0.015;
-    particle.vy += homeY * 0.015;
+    gl.attachShader(
+        program,
+        vertexShader
+    );
+
+    gl.attachShader(
+        program,
+        fragmentShader
+    );
+
+    gl.linkProgram(
+        program
+    );
 
 
-    // Плавность движения
+    if (
+        !gl.getProgramParameter(
+            program,
+            gl.LINK_STATUS
+        )
+    ) {
 
-    particle.vx *= 0.85;
-    particle.vy *= 0.85;
+        console.error(
+            gl.getProgramInfoLog(program)
+        );
 
-
-    particle.x += particle.vx;
-    particle.y += particle.vy;
-
-  });
-}
-
-
-// =========================
-// ОТРИСОВКА
-// =========================
-
-function drawParticles() {
-
-  ctx.clearRect(
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
+    }
 
 
-  // -------------------------
-  // ТОЧКИ СЕТКИ
-  // -------------------------
-
-  particles.forEach((particle) => {
-
-    let color = PARTICLE_COLOR;
-    let size = PARTICLE_SIZE;
+    gl.useProgram(program);
 
 
-    // Если курсор находится
-    // внутри canvas
+    // =========================================
+    // FULL SCREEN TRIANGLE
+    // =========================================
 
-    if (mouse.x !== null) {
-
-      const dx =
-        particle.x - mouse.x;
-
-      const dy =
-        particle.y - mouse.y;
+    const buffer =
+        gl.createBuffer();
 
 
-      const distance = Math.sqrt(
-        dx * dx + dy * dy
-      );
+    gl.bindBuffer(
+        gl.ARRAY_BUFFER,
+        buffer
+    );
 
 
-      // -------------------------
-      // ОКРАШИВАНИЕ ТОЧЕК
-      // -------------------------
+    gl.bufferData(
+        gl.ARRAY_BUFFER,
 
-      if (distance < COLOR_RADIUS) {
+        new Float32Array([
+            -1, -1,
+             3, -1,
+            -1,  3
+        ]),
 
-        /*
-          intensity:
-
-          1 = точка прямо возле курсора
-
-          0 = край зоны воздействия
-        */
-
-        const intensity =
-          1 - distance / COLOR_RADIUS;
+        gl.STATIC_DRAW
+    );
 
 
-        /*
-          Только ближайшие точки
-          становятся зелёными.
-
-          Это не создаёт искусственное
-          кольцо — окрашиваются
-          реальные точки сетки.
-        */
-
-        if (intensity > 0.15) {
-
-          color = LIME_COLOR;
+    const position =
+        gl.getAttribLocation(
+            program,
+            "a_position"
+        );
 
 
-          // Ближайшие точки
-          // немного крупнее
+    gl.enableVertexAttribArray(
+        position
+    );
 
-          size =
-            PARTICLE_SIZE +
-            intensity * 1.2;
+
+    gl.vertexAttribPointer(
+        position,
+        2,
+        gl.FLOAT,
+        false,
+        0,
+        0
+    );
+
+
+    // =========================================
+    // UNIFORMS
+    // =========================================
+
+    const resolution =
+        gl.getUniformLocation(
+            program,
+            "u_resolution"
+        );
+
+
+    const time =
+        gl.getUniformLocation(
+            program,
+            "u_time"
+        );
+
+
+    const mouse =
+        gl.getUniformLocation(
+            program,
+            "u_mouse"
+        );
+
+
+    const mouseActive =
+        gl.getUniformLocation(
+            program,
+            "u_mouseActive"
+        );
+
+
+    // =========================================
+    // MOUSE
+    // =========================================
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    let targetMouseX = 0;
+    let targetMouseY = 0;
+
+    let mouseActiveValue = 0;
+
+
+    canvas.addEventListener(
+        "mousemove",
+        function(event) {
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+
+            targetMouseX =
+                event.clientX -
+                rect.left;
+
+
+            targetMouseY =
+                rect.height -
+                (
+                    event.clientY -
+                    rect.top
+                );
+
+
+            mouseActiveValue = 1;
+
         }
-      }
+    );
+
+
+    canvas.addEventListener(
+        "mouseleave",
+        function() {
+
+            mouseActiveValue = 0;
+
+        }
+    );
+
+
+    // =========================================
+    // RESIZE
+    // =========================================
+
+    function resizeCanvas() {
+
+        const dpr =
+            Math.min(
+                window.devicePixelRatio || 1,
+                2
+            );
+
+
+        const width =
+            canvas.clientWidth;
+
+
+        const height =
+            canvas.clientHeight;
+
+
+        canvas.width =
+            width * dpr;
+
+
+        canvas.height =
+            height * dpr;
+
+
+        gl.viewport(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
     }
 
 
-    // Рисуем точку
-
-    ctx.beginPath();
-
-    ctx.arc(
-      particle.x,
-      particle.y,
-      size,
-      0,
-      Math.PI * 2
+    window.addEventListener(
+        "resize",
+        resizeCanvas
     );
 
-    ctx.fillStyle = color;
 
-    ctx.fill();
-
-  });
+    resizeCanvas();
 
 
-  // -------------------------
-  // ЦЕНТРАЛЬНАЯ ТОЧКА
-  // -------------------------
+    // =========================================
+    // ANIMATION
+    // =========================================
 
-  if (mouse.x !== null) {
+    let startTime =
+        performance.now();
 
-    ctx.beginPath();
 
-    ctx.arc(
-      mouse.x,
-      mouse.y,
-      CURSOR_SIZE,
-      0,
-      Math.PI * 2
-    );
+    function animate() {
 
-    ctx.fillStyle = LIME_COLOR;
+        const now =
+            performance.now();
 
-    ctx.fill();
-  }
+
+        const elapsed =
+            (now - startTime) /
+            1000;
+
+
+        // плавное движение курсора
+
+        mouseX +=
+            (targetMouseX - mouseX)
+            * 0.08;
+
+
+        mouseY +=
+            (targetMouseY - mouseY)
+            * 0.08;
+
+
+        gl.uniform2f(
+            resolution,
+            canvas.width,
+            canvas.height
+        );
+
+
+        gl.uniform1f(
+            time,
+            elapsed
+        );
+
+
+        gl.uniform2f(
+            mouse,
+            mouseX *
+                (
+                    canvas.width /
+                    canvas.clientWidth
+                ),
+
+            mouseY *
+                (
+                    canvas.height /
+                    canvas.clientHeight
+                )
+        );
+
+
+        gl.uniform1f(
+            mouseActive,
+            mouseActiveValue
+        );
+
+
+        gl.drawArrays(
+            gl.TRIANGLES,
+            0,
+            3
+        );
+
+
+        requestAnimationFrame(
+            animate
+        );
+
+    }
+
+
+    animate();
+
 }
-
-
-// =========================
-// АНИМАЦИЯ
-// =========================
-
-function animate() {
-
-  updateParticles();
-
-  drawParticles();
-
-  requestAnimationFrame(animate);
-}
-
-
-// =========================
-// ЗАПУСК
-// =========================
-
-window.addEventListener(
-  "resize",
-  resizeCanvas
-);
-
-resizeCanvas();
-
-animate();
