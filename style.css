@@ -29,30 +29,29 @@ a {
     text-decoration: none;
 }
 
-
 /* =========================
-   PREDICTIVE ARC
+   PREDICTIVE ARC — TOP ONLY
 ========================= */
 
 .arc-section {
     position: relative;
-
     width: 100%;
-    height: 78vh;
+    height: 620px;
     min-height: 620px;
-
     background: #000;
-
     overflow: hidden;
 }
 
 #arcCanvas {
     position: absolute;
-
     inset: 0;
+
+    display: block;
 
     width: 100%;
     height: 100%;
+
+    cursor: crosshair;
 }
 
 .arc-label {
@@ -60,19 +59,20 @@ a {
 
     left: 32px;
     right: 32px;
-    bottom: 28px;
+    bottom: 26px;
 
     display: flex;
     justify-content: space-between;
 
-    font-size: 11px;
-    letter-spacing: 0.12em;
-
     color: #fff;
+
+    font-size: 10px;
+    line-height: 1;
+
+    letter-spacing: 0.12em;
 
     pointer-events: none;
 }
-
 
 /* =========================
    GENERAL SECTIONS
