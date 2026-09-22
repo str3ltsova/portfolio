@@ -1,715 +1,531 @@
+/* =========================================
+   RESET
+========================================= */
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-
-:root {
-    --black: #171717;
-    --gray: #777;
-    --light: #f3f3f3;
-    --placeholder: #d8d8d8;
-    --border: #e8e8e8;
-}
-
-
 html {
     scroll-behavior: smooth;
 }
 
-
 body {
+    background: #000000;
+    color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
-    background: white;
-    color: var(--black);
-    line-height: 1.4;
+    overflow-x: hidden;
 }
-
 
 a {
     color: inherit;
     text-decoration: none;
 }
 
-
-.container {
-    width: min(
-        1200px,
-        calc(100% - 80px)
-    );
-
-    margin: 0 auto;
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
 }
 
 
-
-/* =========================
-   HEADER
-========================= */
-
-header {
-    height: 90px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-
-.logo {
-    width: 120px;
-    height: 28px;
-
-    background: var(--placeholder);
-
-    border-radius: 7px;
-}
-
-
-nav {
-    display: flex;
-    gap: 35px;
-
-    font-size: 14px;
-}
-
-
-nav a {
-    transition: opacity .2s;
-}
-
-
-nav a:hover {
-    opacity: .45;
-}
-
-
-
-/* =========================
-   HERO
-========================= */
-
-.hero {
-    padding-top: 70px;
-    padding-bottom: 100px;
-}
-
-
-.hero-grid {
-    display: grid;
-
-    grid-template-columns:
-        1.7fr 1fr;
-
-    gap: 22px;
-}
-
-
-.hero-main {
-    background: var(--light);
-
-    border-radius: 28px;
-
-    min-height: 440px;
-
-    padding: 45px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-
-.eyebrow {
-    color: #888;
-    font-size: 13px;
-    margin-bottom: 20px;
-}
-
-
-.hero h1 {
-    font-size: clamp(
-        50px,
-        7vw,
-        82px
-    );
-
-    line-height: .9;
-
-    letter-spacing: -4px;
-
-    font-weight: 500;
-}
-
-
-.hero-description {
-    max-width: 540px;
-
-    margin-top: 35px;
-
-    color: #555;
-
-    font-size: 17px;
-
-    line-height: 1.5;
-}
-
-
-.hero-meta {
-    display: flex;
-    gap: 30px;
-
-    color: #777;
-
-    font-size: 13px;
-}
-
-
-.hero-photo {
-    min-height: 440px;
-
-    background: var(--placeholder);
-
-    border-radius: 28px;
-}
-
-
-
-/* =========================
-   INFO BENTO
-========================= */
-
-.info-grid {
-    display: grid;
-
-    grid-template-columns:
-        1fr 1fr 1fr;
-
-    gap: 22px;
-
-    margin-top: 22px;
-}
-
-
-.info-card {
-    min-height: 160px;
-
-    padding: 28px;
-
-    border-radius: 22px;
-
-    background: var(--light);
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-
-.info-label {
-    color: #888;
-
-    font-size: 12px;
-}
-
-
-.info-card strong {
-    font-size: 45px;
-
-    letter-spacing: -2px;
-
-    font-weight: 500;
-}
-
-
-.info-card small {
-    color: #888;
-}
-
-
-.info-card .small-title {
-    font-size: 25px;
-
-    line-height: 1.05;
-}
-
-
-
-/* =========================
-   PROJECTS
-========================= */
-
-.projects {
-    padding-bottom: 120px;
-}
-
-
-.section-heading {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: end;
-
-    margin-bottom: 30px;
-}
-
-
-.section-heading h2 {
-    font-size: 42px;
-
-    font-weight: 500;
-
-    letter-spacing: -1.5px;
-}
-
-
-.section-heading p {
-    max-width: 300px;
-
-    color: #777;
-
-    font-size: 13px;
-}
-
-
-.projects-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(12, 1fr);
-
-    grid-auto-rows: 90px;
-
-    gap: 22px;
-}
-
-
-.project {
-    grid-column: span 5;
-    grid-row: span 4;
-
-    padding: 23px;
-
-    border-radius: 24px;
-
-    background: var(--light);
-
-    display: flex;
-    flex-direction: column;
-
-    overflow: hidden;
-}
-
-
-.project-large {
-    grid-column: span 7;
-    grid-row: span 5;
-}
-
-
-.project-top {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: start;
-}
-
-
-.project h3 {
-    font-size: 23px;
-
-    font-weight: 500;
-}
-
-
-.project span {
-    color: #888;
-
-    font-size: 12px;
-}
-
-
-.project-tag {
-    width: 65px;
-    height: 24px;
-
-    border-radius: 100px;
-
-    background: #d2d2d2;
-}
-
-
-.project-image {
-    flex: 1;
-
-    min-height: 150px;
-
-    margin-top: 20px;
-
-    border-radius: 13px;
-
-    background: var(--placeholder);
-}
-
-
-
-/* =========================
-   METRICS
-========================= */
-
-.metrics {
-    display: grid;
-
-    grid-template-columns:
-        2fr 1fr 1fr;
-
-    gap: 22px;
-
-    padding-bottom: 120px;
-}
-
-
-.metric {
-    min-height: 200px;
-
-    padding: 30px;
-
-    border-radius: 23px;
-
-    background: var(--light);
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-
-.metric strong {
-    font-size: 52px;
-
-    font-weight: 500;
-
-    letter-spacing: -3px;
-}
-
-
-.metric span {
-    color: #777;
-
-    font-size: 13px;
-}
-
-
-
-/* =========================
-   ABOUT
-========================= */
-
-.about {
-    display: grid;
-
-    grid-template-columns:
-        1fr 1.5fr;
-
-    gap: 22px;
-
-    padding-bottom: 120px;
-}
-
-
-.about-intro {
-    min-height: 430px;
-
-    padding: 40px;
-
-    background: var(--light);
-
-    border-radius: 28px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-
-.about h2 {
-    font-size: 50px;
-
-    line-height: .95;
-
-    letter-spacing: -2px;
-
-    font-weight: 500;
-}
-
-
-.about-intro p {
-    color: #555;
-
-    font-size: 16px;
-
-    line-height: 1.5;
-}
-
-
-.hobbies {
-    display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap: 22px;
-}
-
-
-.hobby {
-    min-height: 200px;
-
-    padding: 25px;
-
-    background: var(--light);
-
-    border-radius: 22px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-}
-
-
-.hobby-wide {
-    grid-column: span 2;
-}
-
-
-.hobby-icon {
-    width: 45px;
-    height: 45px;
-
-    margin-bottom: auto;
-
-    border-radius: 12px;
-
-    background: var(--placeholder);
-}
-
-
-.hobby h3 {
-    font-size: 21px;
-
-    font-weight: 500;
-
-    margin-bottom: 5px;
-}
-
-
-.hobby p {
-    color: #777;
-
-    font-size: 13px;
-}
-
-
-
-/* =========================
-   PARTICLE CANVAS
-========================= */
-
-.particle-section {
+/* =========================================
+   HERO ANIMATION
+========================================= */
+
+.hero-animation {
     position: relative;
 
-    height: 320px;
-
-    overflow: hidden;
-
-    border-radius: 28px;
+    width: 100%;
+    height: 620px;
 
     background: #000000;
 
-    margin-bottom: 120px;
+    overflow: hidden;
 }
 
-
-#particleCanvas {
+#arcCanvas {
     position: absolute;
 
     inset: 0;
 
     width: 100%;
     height: 100%;
+
+    display: block;
 }
 
 
-.particle-content {
+/* верхняя подпись */
+
+.hero-label {
     position: absolute;
 
-    inset: 0;
+    top: 32px;
+    left: 32px;
 
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    align-items: center;
-
-    text-align: center;
-
-    pointer-events: none;
-}
-
-
-.particle-content span {
-    color: #888;
+    z-index: 2;
 
     font-size: 12px;
-
-    margin-bottom: 12px;
-}
-
-
-.particle-content h2 {
-    font-size: 44px;
-
-    line-height: 1;
-
     font-weight: 500;
 
-    letter-spacing: -2px;
+    letter-spacing: 0.08em;
 
-    color: white;
+    color: #ffffff;
 }
 
 
+/* нижняя строка */
 
-/* =========================
-   FOOTER
-========================= */
+.hero-bottom {
+    position: absolute;
 
-footer {
-    border-top: 1px solid var(--border);
+    left: 32px;
+    right: 32px;
+    bottom: 28px;
 
-    padding: 35px 0 50px;
+    z-index: 2;
 
     display: flex;
-
     justify-content: space-between;
 
-    color: #888;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+
+    color: rgba(255,255,255,0.55);
+}
+
+
+/* =========================================
+   GENERAL
+========================================= */
+
+.section {
+    padding: 140px 32px;
+    border-top: 1px solid #202020;
+}
+
+.small-label,
+.section-heading span,
+.contact-label,
+.project-type,
+.number-item span {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.55);
+}
+
+
+/* =========================================
+   INTRO
+========================================= */
+
+.intro {
+    min-height: 700px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.intro h1 {
+    max-width: 1100px;
+
+    margin-top: 80px;
+
+    font-size: clamp(60px, 9vw, 150px);
+    line-height: 0.9;
+
+    font-weight: 400;
+    letter-spacing: -0.065em;
+}
+
+.intro h1 span {
+    color: rgba(255,255,255,0.4);
+}
+
+.intro-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    margin-top: 100px;
+}
+
+.intro-bottom p {
+    max-width: 420px;
+
+    font-size: 17px;
+    line-height: 1.45;
+
+    color: rgba(255,255,255,0.7);
+}
+
+.scroll-indicator {
+    font-size: 28px;
+}
+
+
+/* =========================================
+   SECTION HEADING
+========================================= */
+
+.section-heading {
+    display: flex;
+    gap: 30px;
+    align-items: baseline;
+
+    margin-bottom: 80px;
+}
+
+.section-heading h2 {
+    font-size: clamp(40px, 5vw, 76px);
+
+    font-weight: 400;
+    letter-spacing: -0.05em;
+}
+
+
+/* =========================================
+   PROJECTS
+========================================= */
+
+.projects {
+    padding-bottom: 180px;
+}
+
+.project {
+    margin-bottom: 110px;
+}
+
+.project-image {
+    width: 100%;
+    height: 620px;
+
+    background: #171717;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #555555;
 
     font-size: 12px;
+    letter-spacing: 0.1em;
+
+    transition: background 0.3s ease;
+}
+
+.project:hover .project-image {
+    background: #202020;
+}
+
+.project-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+
+    padding-top: 24px;
+}
+
+.project-info h3 {
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+}
+
+.project-info p {
+    margin-top: 8px;
+
+    color: rgba(255,255,255,0.5);
+
+    font-size: 14px;
+}
+
+.project-type {
+    padding-top: 8px;
 }
 
 
+/* =========================================
+   NUMBERS
+========================================= */
 
-/* =========================
+.numbers-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 20px;
+}
+
+.number-item {
+    min-height: 220px;
+
+    border-top: 1px solid #303030;
+
+    padding-top: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.number-item strong {
+    font-size: clamp(60px, 7vw, 110px);
+
+    font-weight: 400;
+
+    letter-spacing: -0.07em;
+}
+
+.number-item span {
+    color: rgba(255,255,255,0.5);
+}
+
+
+/* =========================================
+   ABOUT
+========================================= */
+
+.about-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 80px;
+}
+
+.about-photo {
+    height: 620px;
+
+    background: #171717;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #555555;
+
+    font-size: 12px;
+    letter-spacing: 0.1em;
+}
+
+.about-text {
+    max-width: 600px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    padding-top: 10px;
+}
+
+.about-text p {
+    font-size: 17px;
+    line-height: 1.5;
+
+    color: rgba(255,255,255,0.6);
+}
+
+.about-text .large-text {
+    font-size: clamp(30px, 3vw, 46px);
+
+    line-height: 1.05;
+
+    color: #ffffff;
+
+    letter-spacing: -0.04em;
+}
+
+
+/* =========================================
+   CONTACT
+========================================= */
+
+/*
+   Чуть светлее основного чёрного фона.
+   Именно этот блок визуально отделяется
+   от остального сайта.
+*/
+
+.contact {
+    background: #111111;
+
+    min-height: 680px;
+
+    padding: 120px 32px 32px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.contact-content {
+    max-width: 1100px;
+}
+
+.contact-content h2 {
+    margin-top: 45px;
+
+    font-size: clamp(70px, 11vw, 170px);
+
+    line-height: 0.86;
+
+    font-weight: 400;
+
+    letter-spacing: -0.075em;
+}
+
+.contact-button {
+    display: inline-block;
+
+    margin-top: 70px;
+
+    padding: 18px 25px;
+
+    border: 1px solid #555555;
+
+    font-size: 11px;
+
+    letter-spacing: 0.08em;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease;
+}
+
+.contact-button:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+.contact-footer {
+    display: flex;
+    justify-content: space-between;
+
+    padding-top: 25px;
+
+    border-top: 1px solid #303030;
+
+    color: rgba(255,255,255,0.45);
+
+    font-size: 10px;
+
+    letter-spacing: 0.08em;
+}
+
+.contact-footer div {
+    display: flex;
+    gap: 25px;
+}
+
+.contact-footer a:hover {
+    color: #ffffff;
+}
+
+
+/* =========================================
    MOBILE
-========================= */
+========================================= */
 
-@media (max-width: 800px) {
+@media (max-width: 700px) {
 
-    .container {
-        width: calc(100% - 40px);
+    .hero-animation {
+        height: 500px;
     }
 
-
-    nav {
-        display: none;
+    .hero-label {
+        top: 20px;
+        left: 20px;
     }
 
-
-    .hero-grid {
-        grid-template-columns: 1fr;
+    .hero-bottom {
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
     }
 
-
-    .hero-photo {
-        min-height: 300px;
+    .section {
+        padding: 90px 20px;
     }
 
-
-    .info-grid {
-        grid-template-columns: 1fr;
+    .intro {
+        min-height: 600px;
     }
 
+    .intro h1 {
+        margin-top: 60px;
 
-    .projects-grid {
-        grid-template-columns: 1fr 1fr;
-
-        grid-auto-rows: auto;
+        font-size: 62px;
     }
 
-
-    .project,
-    .project-large {
-        grid-column: span 1;
-
-        grid-row: span 1;
-
-        min-height: 350px;
+    .intro-bottom {
+        align-items: flex-start;
+        gap: 40px;
     }
 
-
-    .metrics {
-        grid-template-columns: 1fr;
+    .intro-bottom p {
+        font-size: 15px;
     }
-
-
-    .about {
-        grid-template-columns: 1fr;
-    }
-
-
-    .about-intro {
-        min-height: 350px;
-    }
-
-}
-
-
-@media (max-width: 550px) {
-
-    .hero-main {
-        padding: 28px;
-    }
-
-
-    .hero h1 {
-        font-size: 55px;
-    }
-
-
-    .projects-grid,
-    .hobbies {
-        grid-template-columns: 1fr;
-    }
-
-
-    .project,
-    .project-large {
-        grid-column: span 1;
-    }
-
-
-    .hobby-wide {
-        grid-column: span 1;
-    }
-
 
     .section-heading {
-        display: block;
+        gap: 15px;
+        margin-bottom: 50px;
     }
 
-
-    .section-heading p {
-        margin-top: 10px;
+    .section-heading h2 {
+        font-size: 38px;
     }
 
-
-    .particle-content h2 {
-        font-size: 35px;
+    .project-image {
+        height: 380px;
     }
 
+    .project-info {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .numbers-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .number-item {
+        min-height: 180px;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .about-photo {
+        height: 420px;
+    }
+
+    .contact {
+        min-height: 600px;
+
+        padding:
+            90px
+            20px
+            20px;
+    }
+
+    .contact-content h2 {
+        font-size: 70px;
+    }
+
+    .contact-footer {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .contact-footer div {
+        flex-wrap: wrap;
+    }
 }
