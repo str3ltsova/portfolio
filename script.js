@@ -1054,7 +1054,7 @@
      * начинает двигать точки
      */
 
-    const MOUSE_RADIUS = 95;
+    const MOUSE_RADIUS = 55;
 
     /*
      * Сила разлёта
