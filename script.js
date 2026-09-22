@@ -14,18 +14,24 @@ const mouse = {
 // НАСТРОЙКИ
 // =========================
 
-const PARTICLE_SIZE = 2.4;
+const PARTICLE_SIZE = 2.7;
 const PARTICLE_COLOR = "#333333";
 
 const LIME_COLOR = "#F36D07";
 
-const CURSOR_SIZE = 5;
+const CURSOR_SIZE = 4.05;
 
-// Насколько далеко курсор окрашивает точки
-const COLOR_RADIUS = 38;
+// Радиус, в котором курсор ищет ближайшую точку
+const COLOR_RADIUS = 22;
 
 // Расстояние между точками
-const SPACING = 18;
+const SPACING = 14;
+
+// Сила отталкивания точек
+const REPULSION_RADIUS = 70;
+
+// Сила bounce/jiggle
+const JIGGLE_STRENGTH = 1.8;
 
 
 // =========================
