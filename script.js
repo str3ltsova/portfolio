@@ -14,7 +14,7 @@ const mouse = {
 // НАСТРОЙКИ
 // =========================
 
-const PARTICLE_SIZE = 1.4;
+const PARTICLE_SIZE = 2.4;
 const PARTICLE_COLOR = "#333333";
 
 const LIME_COLOR = "#F36D07";
