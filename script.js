@@ -1,506 +1,268 @@
-const canvas = document.getElementById("arcCanvas");
-const gl = canvas.getContext("webgl", {
-    alpha: false,
-    antialias: false,
-    depth: false
-});
+/* =========================================================
+   PREDICTIVE ARC
+========================================================= */
+
+(() => {
+
+    const canvas = document.getElementById("arcCanvas");
+
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    let width = 0;
+    let height = 0;
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    const mouse = {
+        x: 0,
+        y: 0,
+        active: false
+    };
+
+    function resize() {
+
+        const rect = canvas.getBoundingClientRect();
+
+        width = rect.width;
+        height = rect.height;
+
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    resize();
+
+    window.addEventListener("resize", resize);
+
+    canvas.addEventListener("pointermove", (event) => {
+
+        const rect = canvas.getBoundingClientRect();
+
+        mouse.x = event.clientX - rect.left;
+        mouse.y = event.clientY - rect.top;
+
+        mouse.active = true;
+    });
+
+    canvas.addEventListener("pointerleave", () => {
+        mouse.active = false;
+    });
 
 
-// =========================================
-// WEBGL
-// =========================================
+    function draw(time) {
 
-if (!gl) {
+        ctx.clearRect(0, 0, width, height);
 
-    console.error("WebGL is not supported");
+        const centerX = width * 0.5;
 
-} else {
+        /*
+         * Основная дуга
+         */
 
-    const vertexShaderSource = `
+        const points = 110;
 
-        attribute vec2 a_position;
+        for (let i = 0; i < points; i++) {
 
-        void main() {
+            const t = i / (points - 1);
 
-            gl_Position =
-                vec4(a_position, 0.0, 1.0);
+            const x = width * t;
 
-        }
+            const distanceFromCenter = Math.abs(t - 0.5) * 2;
 
-    `;
+            const arch =
+                Math.pow(1 - distanceFromCenter, 1.65);
 
+            const baseY =
+                height * 0.72 -
+                arch * height * 0.46;
 
-    const fragmentShaderSource = `
+            const wave =
+                Math.sin(
+                    t * 18 -
+                    time * 0.0015
+                ) * 2;
 
-        precision highp float;
+            let y = baseY + wave;
 
-        uniform vec2 u_resolution;
+            /*
+             * Влияние мыши
+             */
 
-        uniform float u_time;
+            if (mouse.active) {
 
-        uniform vec2 u_mouse;
+                const dx = x - mouse.x;
+                const dy = y - mouse.y;
 
-        uniform float u_mouseActive;
-
-
-        void main() {
-
-            vec2 pixel = gl_FragCoord.xy;
-
-
-            // ---------------------------------
-            // GRID
-            // ---------------------------------
-
-            float spacing = 14.0;
-
-            vec2 grid =
-                floor(pixel / spacing) *
-                spacing +
-                spacing * 0.5;
-
-
-            float x = grid.x;
-
-            float y =
-                u_resolution.y -
-                grid.y;
-
-
-            float width =
-                u_resolution.x;
-
-            float height =
-                u_resolution.y;
-
-
-            // ---------------------------------
-            // NORMALIZED X
-            // ---------------------------------
-
-            float normX =
-                (x - width * 0.5) /
-                (width * 0.75);
-
-
-            // ---------------------------------
-            // ARCH
-            // ---------------------------------
-
-            float centerY =
-                height * 0.58;
-
-
-            float curve =
-                normX *
-                normX *
-                height *
-                0.30;
-
-
-            float wave =
-                sin(
-                    x * 0.012 +
-                    u_time * 0.7
-                ) * 7.0;
-
-
-            float curveY =
-                centerY +
-                curve +
-                wave;
-
-
-            // ---------------------------------
-            // MOUSE
-            // ---------------------------------
-
-            float dx =
-                x - u_mouse.x;
-
-
-            float influence =
-                exp(
-                    -(dx * dx) /
-                    (2.0 * 120.0 * 120.0)
+                const distance = Math.sqrt(
+                    dx * dx + dy * dy
                 );
 
+                const radius = 180;
 
-            curveY =
-                mix(
-                    curveY,
-                    u_mouse.y,
-                    influence *
-                    u_mouseActive *
-                    0.25
-                );
+                if (distance < radius) {
 
+                    const influence =
+                        1 - distance / radius;
 
-            // ---------------------------------
-            // DISTANCE FROM ARC
-            // ---------------------------------
-
-            float distanceFromArc =
-                abs(
-                    y - curveY
-                );
+                    y -=
+                        influence *
+                        influence *
+                        55;
+                }
+            }
 
 
-            float thickness =
-                80.0 +
-                (1.0 - abs(normX))
-                * 60.0;
+            /*
+             * Точки
+             */
 
+            const size =
+                1.5 +
+                arch * 1.5;
 
-            float intensity =
-                1.0 -
-                smoothstep(
-                    0.0,
-                    thickness,
-                    distanceFromArc
-                );
+            const alpha =
+                0.18 +
+                arch * 0.72;
 
+            ctx.beginPath();
 
-            // ---------------------------------
-            // FADE EDGES
-            // ---------------------------------
-
-            intensity *=
-                max(
-                    0.0,
-                    1.0 -
-                    pow(
-                        abs(normX),
-                        2.4
-                    )
-                );
-
-
-            // ---------------------------------
-            // DOT
-            // ---------------------------------
-
-            float dotSize = 3.0;
-
-            vec2 distanceToCell =
-                abs(
-                    pixel - grid
-                );
-
-
-            float dot =
-                1.0 -
-                smoothstep(
-                    dotSize - 1.0,
-                    dotSize + 1.0,
-                    max(
-                        distanceToCell.x,
-                        distanceToCell.y
-                    )
-                );
-
-
-            float visibility =
-                dot *
-                intensity;
-
-
-            // ---------------------------------
-            // COLOR
-            // ---------------------------------
-
-            vec3 background =
-                vec3(
-                    0.0,
-                    0.0,
-                    0.0
-                );
-
-
-            vec3 baseColor =
-                vec3(
-                    0.35,
-                    0.35,
-                    0.35
-                );
-
-
-            vec3 accentColor =
-                vec3(
-                    1.0,
-                    0.42,
-                    0.02
-                );
-
-
-            vec3 color =
-                mix(
-                    baseColor,
-                    accentColor,
-                    pow(
-                        intensity,
-                        1.3
-                    )
-                );
-
-
-            color =
-                mix(
-                    background,
-                    color,
-                    visibility
-                );
-
-
-            gl_FragColor =
-                vec4(
-                    color,
-                    1.0
-                );
-
-        }
-
-    `;
-
-
-    // =========================================
-    // SHADER
-    // =========================================
-
-    function createShader(type, source) {
-
-        const shader =
-            gl.createShader(type);
-
-        gl.shaderSource(
-            shader,
-            source
-        );
-
-        gl.compileShader(
-            shader
-        );
-
-
-        if (
-            !gl.getShaderParameter(
-                shader,
-                gl.COMPILE_STATUS
-            )
-        ) {
-
-            console.error(
-                gl.getShaderInfoLog(shader)
+            ctx.arc(
+                x,
+                y,
+                size,
+                0,
+                Math.PI * 2
             );
 
-            gl.deleteShader(shader);
+            ctx.fillStyle =
+                `rgba(255,255,255,${alpha})`;
 
-            return null;
+            ctx.fill();
         }
 
 
-        return shader;
+        /*
+         * Центральная светящаяся точка
+         */
+
+        const centerY =
+            height * 0.72 -
+            height * 0.46;
+
+        const pulse =
+            5 +
+            Math.sin(time * 0.004) * 1.5;
+
+        const gradient =
+            ctx.createRadialGradient(
+                centerX,
+                centerY,
+                0,
+                centerX,
+                centerY,
+                35
+            );
+
+        gradient.addColorStop(
+            0,
+            "rgba(255,255,255,1)"
+        );
+
+        gradient.addColorStop(
+            0.15,
+            "rgba(255,255,255,.8)"
+        );
+
+        gradient.addColorStop(
+            1,
+            "rgba(255,255,255,0)"
+        );
+
+        ctx.fillStyle = gradient;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            centerX,
+            centerY,
+            35,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+            centerX,
+            centerY,
+            pulse,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle = "#fff";
+
+        ctx.fill();
+
+
+        requestAnimationFrame(draw);
     }
 
+    requestAnimationFrame(draw);
 
-    const vertexShader =
-        createShader(
-            gl.VERTEX_SHADER,
-            vertexShaderSource
-        );
+})();
 
 
-    const fragmentShader =
-        createShader(
-            gl.FRAGMENT_SHADER,
-            fragmentShaderSource
-        );
 
+/* =========================================================
+   BOTTOM PARTICLES
+   Старый блок с точками
+========================================================= */
 
-    if (
-        !vertexShader ||
-        !fragmentShader
-    ) {
+(() => {
 
-        throw new Error(
-            "Shader compilation failed"
-        );
+    const canvas =
+        document.getElementById("particleCanvas");
 
-    }
+    if (!canvas) return;
 
+    const ctx = canvas.getContext("2d");
 
-    const program =
-        gl.createProgram();
+    const PARTICLE_SIZE = 2.4;
+    const PARTICLE_COLOR = "#333333";
+    const LIME_COLOR = "#F36D07";
 
+    const CURSOR_SIZE = 5;
+    const COLOR_RADIUS = 38;
+    const SPACING = 18;
 
-    gl.attachShader(
-        program,
-        vertexShader
-    );
+    let width;
+    let height;
 
-    gl.attachShader(
-        program,
-        fragmentShader
-    );
+    let particles = [];
 
-    gl.linkProgram(
-        program
-    );
+    const mouse = {
+        x: -1000,
+        y: -1000,
+        active: false
+    };
 
 
-    if (
-        !gl.getProgramParameter(
-            program,
-            gl.LINK_STATUS
-        )
-    ) {
+    function resize() {
 
-        console.error(
-            gl.getProgramInfoLog(program)
-        );
+        const rect =
+            canvas.getBoundingClientRect();
 
-    }
-
-
-    gl.useProgram(program);
-
-
-    // =========================================
-    // FULL SCREEN TRIANGLE
-    // =========================================
-
-    const buffer =
-        gl.createBuffer();
-
-
-    gl.bindBuffer(
-        gl.ARRAY_BUFFER,
-        buffer
-    );
-
-
-    gl.bufferData(
-        gl.ARRAY_BUFFER,
-
-        new Float32Array([
-            -1, -1,
-             3, -1,
-            -1,  3
-        ]),
-
-        gl.STATIC_DRAW
-    );
-
-
-    const position =
-        gl.getAttribLocation(
-            program,
-            "a_position"
-        );
-
-
-    gl.enableVertexAttribArray(
-        position
-    );
-
-
-    gl.vertexAttribPointer(
-        position,
-        2,
-        gl.FLOAT,
-        false,
-        0,
-        0
-    );
-
-
-    // =========================================
-    // UNIFORMS
-    // =========================================
-
-    const resolution =
-        gl.getUniformLocation(
-            program,
-            "u_resolution"
-        );
-
-
-    const time =
-        gl.getUniformLocation(
-            program,
-            "u_time"
-        );
-
-
-    const mouse =
-        gl.getUniformLocation(
-            program,
-            "u_mouse"
-        );
-
-
-    const mouseActive =
-        gl.getUniformLocation(
-            program,
-            "u_mouseActive"
-        );
-
-
-    // =========================================
-    // MOUSE
-    // =========================================
-
-    let mouseX = 0;
-    let mouseY = 0;
-
-    let targetMouseX = 0;
-    let targetMouseY = 0;
-
-    let mouseActiveValue = 0;
-
-
-    canvas.addEventListener(
-        "mousemove",
-        function(event) {
-
-            const rect =
-                canvas.getBoundingClientRect();
-
-
-            targetMouseX =
-                event.clientX -
-                rect.left;
-
-
-            targetMouseY =
-                rect.height -
-                (
-                    event.clientY -
-                    rect.top
-                );
-
-
-            mouseActiveValue = 1;
-
-        }
-    );
-
-
-    canvas.addEventListener(
-        "mouseleave",
-        function() {
-
-            mouseActiveValue = 0;
-
-        }
-    );
-
-
-    // =========================================
-    // RESIZE
-    // =========================================
-
-    function resizeCanvas() {
+        width = rect.width;
+        height = rect.height;
 
         const dpr =
             Math.min(
@@ -508,122 +270,232 @@ if (!gl) {
                 2
             );
 
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
 
-        const width =
-            canvas.clientWidth;
-
-
-        const height =
-            canvas.clientHeight;
-
-
-        canvas.width =
-            width * dpr;
-
-
-        canvas.height =
-            height * dpr;
-
-
-        gl.viewport(
+        ctx.setTransform(
+            dpr,
             0,
             0,
-            canvas.width,
-            canvas.height
+            dpr,
+            0,
+            0
         );
 
+        createParticles();
+    }
+
+
+    function createParticles() {
+
+        particles = [];
+
+        for (
+            let y = SPACING / 2;
+            y < height;
+            y += SPACING
+        ) {
+
+            for (
+                let x = SPACING / 2;
+                x < width;
+                x += SPACING
+            ) {
+
+                particles.push({
+                    x: x,
+                    y: y,
+                    ox: x,
+                    oy: y,
+                    vx: 0,
+                    vy: 0
+                });
+            }
+        }
+    }
+
+
+    canvas.addEventListener(
+        "pointermove",
+        (event) => {
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+            mouse.x =
+                event.clientX - rect.left;
+
+            mouse.y =
+                event.clientY - rect.top;
+
+            mouse.active = true;
+        }
+    );
+
+
+    canvas.addEventListener(
+        "pointerleave",
+        () => {
+
+            mouse.active = false;
+
+            mouse.x = -1000;
+            mouse.y = -1000;
+        }
+    );
+
+
+    function animate() {
+
+        ctx.clearRect(
+            0,
+            0,
+            width,
+            height
+        );
+
+
+        for (const particle of particles) {
+
+            /*
+             * Возврат точки
+             */
+
+            const springX =
+                (particle.ox - particle.x) * 0.08;
+
+            const springY =
+                (particle.oy - particle.y) * 0.08;
+
+            particle.vx += springX;
+            particle.vy += springY;
+
+
+            /*
+             * Взаимодействие с курсором
+             */
+
+            if (mouse.active) {
+
+                const dx =
+                    particle.x - mouse.x;
+
+                const dy =
+                    particle.y - mouse.y;
+
+                const distance =
+                    Math.sqrt(
+                        dx * dx +
+                        dy * dy
+                    );
+
+                if (
+                    distance < COLOR_RADIUS &&
+                    distance > 0
+                ) {
+
+                    const force =
+                        (1 - distance / COLOR_RADIUS);
+
+                    particle.vx +=
+                        (dx / distance) *
+                        force *
+                        0.8;
+
+                    particle.vy +=
+                        (dy / distance) *
+                        force *
+                        0.8;
+                }
+            }
+
+
+            particle.vx *= 0.86;
+            particle.vy *= 0.86;
+
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+
+
+            /*
+             * Цвет
+             */
+
+            let color =
+                PARTICLE_COLOR;
+
+            if (mouse.active) {
+
+                const dx =
+                    particle.x - mouse.x;
+
+                const dy =
+                    particle.y - mouse.y;
+
+                const distance =
+                    Math.sqrt(
+                        dx * dx +
+                        dy * dy
+                    );
+
+                if (distance < COLOR_RADIUS) {
+                    color = LIME_COLOR;
+                }
+            }
+
+
+            /*
+             * Рисуем точку
+             */
+
+            ctx.beginPath();
+
+            ctx.arc(
+                particle.x,
+                particle.y,
+                PARTICLE_SIZE,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fillStyle = color;
+
+            ctx.fill();
+        }
+
+
+        /*
+         * Точка под курсором
+         */
+
+        if (mouse.active) {
+
+            ctx.beginPath();
+
+            ctx.arc(
+                mouse.x,
+                mouse.y,
+                CURSOR_SIZE,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fillStyle = LIME_COLOR;
+
+            ctx.fill();
+        }
+
+
+        requestAnimationFrame(animate);
     }
 
 
     window.addEventListener(
         "resize",
-        resizeCanvas
+        resize
     );
 
-
-    resizeCanvas();
-
-
-    // =========================================
-    // ANIMATION
-    // =========================================
-
-    let startTime =
-        performance.now();
-
-
-    function animate() {
-
-        const now =
-            performance.now();
-
-
-        const elapsed =
-            (now - startTime) /
-            1000;
-
-
-        // плавное движение курсора
-
-        mouseX +=
-            (targetMouseX - mouseX)
-            * 0.08;
-
-
-        mouseY +=
-            (targetMouseY - mouseY)
-            * 0.08;
-
-
-        gl.uniform2f(
-            resolution,
-            canvas.width,
-            canvas.height
-        );
-
-
-        gl.uniform1f(
-            time,
-            elapsed
-        );
-
-
-        gl.uniform2f(
-            mouse,
-            mouseX *
-                (
-                    canvas.width /
-                    canvas.clientWidth
-                ),
-
-            mouseY *
-                (
-                    canvas.height /
-                    canvas.clientHeight
-                )
-        );
-
-
-        gl.uniform1f(
-            mouseActive,
-            mouseActiveValue
-        );
-
-
-        gl.drawArrays(
-            gl.TRIANGLES,
-            0,
-            3
-        );
-
-
-        requestAnimationFrame(
-            animate
-        );
-
-    }
-
-
+    resize();
     animate();
 
-}
+})();
