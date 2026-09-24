@@ -17,8 +17,8 @@
        СКРЫВАЕМ СИСТЕМНЫЙ КУРСОР
     ========================== */
 
-    document.documentElement.classList.add("cursor-hidden");
-
+document.documentElement.style.setProperty("cursor", "none", "important");
+document.body.style.setProperty("cursor", "none", "important");
 
     /* =========================
        ЛОГИКА
