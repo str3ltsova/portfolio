@@ -1,41 +1,59 @@
 /* =========================================================
-   PREDICTIVE ARC — ORIGINAL STYLE
-   TOP ONLY
+   PREDICTIVE ARC
+   TOP INTERACTIVE ARC
 ========================================================= */
 
 (() => {
 
-    const canvas = document.getElementById("arcCanvas");
+    const canvas =
+        document.getElementById("arcCanvas");
 
     if (!canvas) return;
 
-    const gl = canvas.getContext("webgl", {
-        alpha: false,
-        antialias: false,
-        depth: false
-    });
+
+    const gl =
+        canvas.getContext("webgl", {
+            alpha: false,
+            antialias: false,
+            depth: false
+        });
+
 
     if (!gl) {
-        console.error("Predictive Arc: WebGL unavailable");
+
+        console.error(
+            "Predictive Arc: WebGL unavailable"
+        );
+
         return;
     }
 
 
-    /* =========================
+    /* =====================================================
        SHADERS
-    ========================== */
+    ====================================================== */
 
     const vertexShaderSource = `
+
         attribute vec2 a_pos;
 
         void main() {
-            gl_Position = vec4(a_pos, 0.0, 1.0);
+
+            gl_Position =
+                vec4(
+                    a_pos,
+                    0.0,
+                    1.0
+                );
         }
+
     `;
 
 
     const fragmentShaderSource = `
+
         precision highp float;
+
 
         uniform vec2 uRes;
 
@@ -63,68 +81,93 @@
 
         void main() {
 
-            /*
-             * Создаём сетку ячеек.
-             * Каждая ячейка становится одной точкой.
-             */
 
             float cell =
-                max(uCell, 2.0);
+                max(
+                    uCell,
+                    2.0
+                );
+
 
             vec2 cellIndex =
-                floor(gl_FragCoord.xy / cell);
+                floor(
+                    gl_FragCoord.xy /
+                    cell
+                );
+
 
             vec2 cellCenter =
-                (cellIndex + 0.5) * cell;
+                (cellIndex + 0.5) *
+                cell;
 
-
-            /*
-             * Координаты в CSS-пикселях
-             */
 
             float x =
-                cellCenter.x / uDpr;
+                cellCenter.x /
+                uDpr;
+
 
             float y =
-                (uRes.y - cellCenter.y) / uDpr;
+                (
+                    uRes.y -
+                    cellCenter.y
+                ) /
+                uDpr;
+
 
             float width =
-                uRes.x / uDpr;
+                uRes.x /
+                uDpr;
+
 
             float height =
-                uRes.y / uDpr;
+                uRes.y /
+                uDpr;
 
 
-            /*
-             * Форма дуги
-             */
+            /* =========================
+               ARC
+            ========================== */
 
             float normX =
-                (x - width * 0.5) /
-                (width * 0.75);
+                (
+                    x -
+                    width * 0.5
+                ) /
+                (
+                    width * 0.75
+                );
 
 
             float curveY =
-                height * uPeak +
-                normX * normX *
-                (height * uHeight);
+                height *
+                uPeak +
+
+                normX *
+                normX *
+                (
+                    height *
+                    uHeight
+                );
 
 
-            /*
-             * Воздействие курсора
-             */
+            /* =========================
+               CURSOR
+            ========================== */
 
             float mouseDistance =
-                x - uMouse.x;
+                x -
+                uMouse.x;
 
 
             float influence =
                 uMouseStrength *
+
                 exp(
                     -(
                         mouseDistance *
                         mouseDistance
-                    ) /
+                    )
+                    /
                     (
                         2.0 *
                         uMouseRadius *
@@ -142,12 +185,15 @@
                 );
 
 
-            /*
-             * Расстояние до дуги
-             */
+            /* =========================
+               DISTANCE
+            ========================== */
 
             float distanceToCurve =
-                abs(y - curveY);
+                abs(
+                    y -
+                    curveY
+                );
 
 
             float thickness =
@@ -158,7 +204,8 @@
                         abs(normX)
                     ) *
                     80.0
-                ) *
+                )
+                *
                 uThick;
 
 
@@ -171,15 +218,16 @@
                 thickness
             ) {
 
+
                 float intensity =
                     1.0 -
                     distanceToCurve /
                     thickness;
 
 
-                /*
-                 * Живое движение
-                 */
+                /* =========================
+                   MOTION
+                ========================== */
 
                 float waveX =
                     sin(
@@ -197,15 +245,16 @@
 
                 intensity =
                     intensity * 0.7 +
+
                     waveX *
                     waveY *
                     0.3 *
                     intensity;
 
 
-                /*
-                 * Ослабление к краям
-                 */
+                /* =========================
+                   EDGE FADE
+                ========================== */
 
                 intensity *=
                     max(
@@ -218,11 +267,15 @@
                     );
 
 
-                if (intensity > 0.02) {
+                if (
+                    intensity >
+                    0.02
+                ) {
 
-                    /*
-                     * Размер точки
-                     */
+
+                    /* =========================
+                       DOT SIZE
+                    ========================== */
 
                     float dotSide =
                         uDot *
@@ -239,9 +292,11 @@
 
                     float coverage =
                         1.0 -
+
                         smoothstep(
                             dotSide * 0.5 - 1.0,
                             dotSide * 0.5 + 1.0,
+
                             max(
                                 difference.x,
                                 difference.y
@@ -249,14 +304,15 @@
                         );
 
 
-                    /*
-                     * Оранжевый градиент
-                     */
+                    /* =========================
+                       ORANGE
+                    ========================== */
 
                     vec3 ink =
                         mix(
                             uBase,
                             uAccent,
+
                             clamp(
                                 pow(
                                     intensity,
@@ -268,14 +324,15 @@
                         );
 
 
-                    /*
-                     * Яркие участки
-                     */
+                    /* =========================
+                       HIGHLIGHTS
+                    ========================== */
 
                     ink =
                         mix(
                             ink,
                             uHigh,
+
                             smoothstep(
                                 0.72,
                                 1.0,
@@ -288,6 +345,7 @@
                         mix(
                             uBg,
                             ink,
+
                             coverage *
                             clamp(
                                 intensity * 1.6,
@@ -304,13 +362,15 @@
                     color,
                     1.0
                 );
+
         }
+
     `;
 
 
-    /* =========================
+    /* =====================================================
        SHADER COMPILER
-    ========================== */
+    ====================================================== */
 
     function compileShader(
         type,
@@ -320,14 +380,17 @@
         const shader =
             gl.createShader(type);
 
+
         if (!shader) {
             return null;
         }
+
 
         gl.shaderSource(
             shader,
             source
         );
+
 
         gl.compileShader(shader);
 
@@ -344,7 +407,11 @@
                 gl.getShaderInfoLog(shader)
             );
 
-            gl.deleteShader(shader);
+
+            gl.deleteShader(
+                shader
+            );
+
 
             return null;
         }
@@ -376,14 +443,17 @@
     }
 
 
-    /* =========================
+    /* =====================================================
        PROGRAM
-    ========================== */
+    ====================================================== */
 
     const program =
         gl.createProgram();
 
-    if (!program) return;
+
+    if (!program) {
+        return;
+    }
 
 
     gl.attachShader(
@@ -391,12 +461,16 @@
         vertexShader
     );
 
+
     gl.attachShader(
         program,
         fragmentShader
     );
 
-    gl.linkProgram(program);
+
+    gl.linkProgram(
+        program
+    );
 
 
     if (
@@ -415,15 +489,18 @@
     }
 
 
-    gl.useProgram(program);
+    gl.useProgram(
+        program
+    );
 
 
-    /* =========================
-       FULL SCREEN TRIANGLE
-    ========================== */
+    /* =====================================================
+       FULLSCREEN TRIANGLE
+    ====================================================== */
 
     const buffer =
         gl.createBuffer();
+
 
     gl.bindBuffer(
         gl.ARRAY_BUFFER,
@@ -432,6 +509,7 @@
 
 
     gl.bufferData(
+
         gl.ARRAY_BUFFER,
 
         new Float32Array([
@@ -466,9 +544,9 @@
     );
 
 
-    /* =========================
+    /* =====================================================
        UNIFORMS
-    ========================== */
+    ====================================================== */
 
     const uniforms = {};
 
@@ -484,65 +562,30 @@
                 );
         }
 
+
         return uniforms[name];
     }
 
 
-    /* =========================
+    /* =====================================================
        SETTINGS
-    ========================== */
+    ====================================================== */
 
     const settings = {
 
-        /*
-         * Чёрный фон
-         */
-
         background: "#000000",
-
-        /*
-         * Главный оранжевый
-         */
 
         base: "#F36D07",
 
-        /*
-         * Более светлый оранжевый
-         */
-
         accent: "#FF9A52",
-
-        /*
-         * Самые яркие точки
-         */
 
         highlight: "#FFFFFF",
 
-
-        /*
-         * Плотность
-         */
-
         density: 78,
-
-
-        /*
-         * Размер точек
-         */
 
         dotSize: 1.02,
 
-
-        /*
-         * Скорость
-         */
-
         speed: 2,
-
-
-        /*
-         * Дуга
-         */
 
         peak: 0.01,
 
@@ -552,20 +595,16 @@
 
         falloff: 2.06,
 
-
-        /*
-         * Курсор
-         */
-
         pointerRadius: 83,
 
         pointerStrength: 0.19
+
     };
 
 
-    /* =========================
+    /* =====================================================
        COLOR
-    ========================== */
+    ====================================================== */
 
     function parseColor(
         value,
@@ -583,7 +622,9 @@
                 .trim();
 
 
-        if (hex.length === 3) {
+        if (
+            hex.length === 3
+        ) {
 
             hex =
                 hex[0] + hex[0] +
@@ -592,7 +633,9 @@
         }
 
 
-        if (hex.length >= 6) {
+        if (
+            hex.length >= 6
+        ) {
 
             const r =
                 parseInt(
@@ -600,11 +643,13 @@
                     16
                 ) / 255;
 
+
             const g =
                 parseInt(
                     hex.slice(2, 4),
                     16
                 ) / 255;
+
 
             const b =
                 parseInt(
@@ -613,7 +658,11 @@
                 ) / 255;
 
 
-            return [r, g, b];
+            return [
+                r,
+                g,
+                b
+            ];
         }
 
 
@@ -649,9 +698,9 @@
         );
 
 
-    /* =========================
+    /* =====================================================
        POINTER
-    ========================== */
+    ====================================================== */
 
     const pointer = {
 
@@ -666,6 +715,7 @@
         active: 0,
 
         targetActive: 0
+
     };
 
 
@@ -682,10 +732,6 @@
                 rect.left;
 
 
-            /*
-             * WebGL считает Y снизу вверх
-             */
-
             pointer.targetY =
                 rect.height -
                 (
@@ -695,6 +741,7 @@
 
 
             pointer.targetActive = 1;
+
         }
     );
 
@@ -704,32 +751,37 @@
         () => {
 
             pointer.targetActive = 0;
+
         }
     );
 
 
-    /* =========================
+    /* =====================================================
        RENDER
-    ========================== */
-
-    let animationFrame = 0;
+    ====================================================== */
 
     let lastTime =
         performance.now();
+
 
     let clock = 0;
 
 
     function render(now) {
 
+
         const delta =
             Math.min(
                 0.05,
-                (now - lastTime) / 1000
+                (
+                    now -
+                    lastTime
+                ) / 1000
             );
 
 
-        lastTime = now;
+        lastTime =
+            now;
 
 
         clock =
@@ -738,7 +790,8 @@
                 delta *
                 0.9 *
                 settings.speed
-            ) %
+            )
+            %
             6283;
 
 
@@ -765,7 +818,8 @@
             Math.max(
                 1,
                 Math.round(
-                    cssWidth * dpr
+                    cssWidth *
+                    dpr
                 )
             );
 
@@ -774,7 +828,8 @@
             Math.max(
                 1,
                 Math.round(
-                    cssHeight * dpr
+                    cssHeight *
+                    dpr
                 )
             );
 
@@ -803,21 +858,22 @@
         );
 
 
-        /*
-         * Плотность точек
-         */
+        /* =========================
+           DENSITY
+        ========================== */
 
         const pitch =
             Math.min(
                 bufferWidth,
                 bufferHeight
-            ) /
+            )
+            /
             settings.density;
 
 
-        /*
-         * Плавность курсора
-         */
+        /* =========================
+           POINTER SMOOTHING
+        ========================== */
 
         const positionLerp =
             Math.min(
@@ -837,7 +893,8 @@
             (
                 pointer.targetX -
                 pointer.x
-            ) *
+            )
+            *
             positionLerp;
 
 
@@ -845,7 +902,8 @@
             (
                 pointer.targetY -
                 pointer.y
-            ) *
+            )
+            *
             positionLerp;
 
 
@@ -853,12 +911,13 @@
             (
                 pointer.targetActive -
                 pointer.active
-            ) *
+            )
+            *
             activeLerp;
 
 
         /* =========================
-           SEND DATA TO SHADER
+           UNIFORMS
         ========================== */
 
         gl.uniform2f(
@@ -984,35 +1043,20 @@
         );
 
 
-        animationFrame =
-            requestAnimationFrame(
-                render
-            );
-    }
-
-
-    animationFrame =
         requestAnimationFrame(
             render
         );
 
+    }
 
-    /* =========================
-       CLEANUP
-    ========================== */
 
-    window.addEventListener(
-        "resize",
-        () => {
-
-            /*
-             * Размер обновляется
-             * внутри render
-             */
-        }
+    requestAnimationFrame(
+        render
     );
 
+
 })();
+
 
 /* =========================================================
    BOTTOM INTERACTIVE DOTS
@@ -1025,6 +1069,7 @@
             "particleCanvas"
         );
 
+
     if (!canvas) return;
 
 
@@ -1032,9 +1077,9 @@
         canvas.getContext("2d");
 
 
-    /*
-     * Настройки точек
-     */
+    /* =========================
+       SETTINGS
+    ========================== */
 
     const PARTICLE_SIZE = 2.4;
 
@@ -1049,33 +1094,17 @@
 
     const SPACING = 17;
 
-    /*
-     * Радиус, в котором курсор
-     * начинает двигать точки
-     */
-
     const MOUSE_RADIUS = 55;
-
-    /*
-     * Сила разлёта
-     */
 
     const REPULSION = 6.5;
 
-    /*
-     * Возврат на исходную позицию
-     */
-
     const SPRING = 0.075;
-
-    /*
-     * Плавность движения
-     */
 
     const FRICTION = 0.82;
 
 
     let width = 0;
+
     let height = 0;
 
     let particles = [];
@@ -1092,9 +1121,9 @@
     };
 
 
-    /* =========================
+    /* =====================================================
        RESIZE
-    ========================== */
+    ====================================================== */
 
     function resize() {
 
@@ -1104,6 +1133,7 @@
 
         width =
             rect.width;
+
 
         height =
             rect.height;
@@ -1118,6 +1148,7 @@
 
         canvas.width =
             width * dpr;
+
 
         canvas.height =
             height * dpr;
@@ -1134,12 +1165,13 @@
 
 
         createParticles();
+
     }
 
 
-    /* =========================
-       CREATE GRID
-    ========================== */
+    /* =====================================================
+       CREATE PARTICLES
+    ====================================================== */
 
     function createParticles() {
 
@@ -1175,13 +1207,15 @@
                 });
 
             }
+
         }
+
     }
 
 
-    /* =========================
-       MOUSE MOVE
-    ========================== */
+    /* =====================================================
+       MOUSE
+    ====================================================== */
 
     canvas.addEventListener(
         "pointermove",
@@ -1202,6 +1236,7 @@
 
 
             mouse.active = true;
+
         }
     );
 
@@ -1215,15 +1250,17 @@
             mouse.x = -1000;
 
             mouse.y = -1000;
+
         }
     );
 
 
-    /* =========================
+    /* =====================================================
        ANIMATION
-    ========================== */
+    ====================================================== */
 
     function animate() {
+
 
         ctx.clearRect(
             0,
@@ -1237,37 +1274,43 @@
             (particle) => {
 
 
-                /*
-                 * Возвращение
-                 * к исходному месту
-                 */
+                /* =========================
+                   RETURN
+                ========================== */
 
                 particle.vx +=
                     (
                         particle.originalX -
                         particle.x
-                    ) * SPRING;
+                    )
+                    *
+                    SPRING;
 
 
                 particle.vy +=
                     (
                         particle.originalY -
                         particle.y
-                    ) * SPRING;
+                    )
+                    *
+                    SPRING;
 
 
                 let active = false;
 
 
-                /*
-                 * Отталкивание
-                 */
+                /* =========================
+                   REPULSION
+                ========================== */
 
-                if (mouse.active) {
+                if (
+                    mouse.active
+                ) {
 
                     const dx =
                         particle.x -
                         mouse.x;
+
 
                     const dy =
                         particle.y -
@@ -1296,13 +1339,6 @@
                             MOUSE_RADIUS;
 
 
-                        /*
-                         * Квадратичная сила:
-                         * возле курсора
-                         * точки разлетаются
-                         * намного сильнее
-                         */
-
                         const strength =
                             force *
                             force *
@@ -1313,7 +1349,8 @@
                             (
                                 dx /
                                 distance
-                            ) *
+                            )
+                            *
                             strength;
 
 
@@ -1321,18 +1358,22 @@
                             (
                                 dy /
                                 distance
-                            ) *
+                            )
+                            *
                             strength;
+
                     }
+
                 }
 
 
-                /*
-                 * Движение
-                 */
+                /* =========================
+                   MOVEMENT
+                ========================== */
 
                 particle.vx *=
                     FRICTION;
+
 
                 particle.vy *=
                     FRICTION;
@@ -1341,13 +1382,14 @@
                 particle.x +=
                     particle.vx;
 
+
                 particle.y +=
                     particle.vy;
 
 
-                /*
-                 * Рисуем точку
-                 */
+                /* =========================
+                   DRAW
+                ========================== */
 
                 ctx.beginPath();
 
@@ -1376,6 +1418,7 @@
         requestAnimationFrame(
             animate
         );
+
     }
 
 
