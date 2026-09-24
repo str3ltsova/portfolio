@@ -584,18 +584,14 @@ section:not(.arc-section):not(.particle-section) {
 ========================= */
 
 .contact {
-
     background: #111;
-
     min-height: 650px;
 
     display: flex;
-
     flex-direction: column;
-
     justify-content: space-between;
+    gap: 60px;
 }
-
 
 .contact-number {
 
