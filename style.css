@@ -380,63 +380,41 @@ section:not(.arc-section):not(.particle-section) {
 }
 
 .skills-list {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 60px 40px;
+    align-items: start;
 }
 
 .skills-item {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 40px;
-    align-items: start;
-
-    padding: 40px 0;
-    border-top: 1px solid #222;
-}
-
-.skills-item:first-child {
-    border-top: none;
-    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .skills-label {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    color: #777;
-    padding-top: 4px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fff;
+
+    padding-bottom: 16px;
+    border-bottom: 1px solid #222;
 }
 
-.skills-item p {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #bbb;
-    max-width: 900px;
-}
-
-.courses-list {
+.skills-item ul {
     list-style: none;
 
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
 }
 
-.courses-list li {
-    font-size: 15px;
-    color: #bbb;
-
-    display: grid;
-    grid-template-columns: 50px 1fr;
-    gap: 20px;
-    align-items: baseline;
+.skills-item li {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #888;
 }
-
-.courses-list span {
-    color: #666;
-    font-size: 12px;
-    letter-spacing: 0.05em;
-}
-
 
 /* =========================
    PROJECTS
@@ -1085,14 +1063,9 @@ section:not(.arc-section):not(.particle-section) {
 
 @media (max-width: 900px) {
 
-    .skills-item {
-        grid-template-columns: 1fr;
-        gap: 16px;
-        padding: 30px 0;
-    }
-
-    .skills-label {
-        padding-top: 0;
+    .skills-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 50px 30px;
     }
 
 
@@ -1234,19 +1207,13 @@ section:not(.arc-section):not(.particle-section) {
        SKILLS
     ========================== */
 
-    .skills-item {
-        padding: 26px 0;
+    .skills-list {
+        grid-template-columns: 1fr;
+        gap: 40px;
     }
 
-    .skills-item p {
+    .skills-item li {
         font-size: 15px;
-        line-height: 1.55;
-    }
-
-    .courses-list li {
-        font-size: 14px;
-        grid-template-columns: 40px 1fr;
-        gap: 14px;
     }
 
 
