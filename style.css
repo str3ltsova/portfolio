@@ -85,6 +85,7 @@ canvas {
 
 .arc-section {
     position: relative;
+
     width: 100%;
     height: 100vh;
     min-height: 700px;
@@ -101,6 +102,7 @@ canvas {
 
 #arcCanvas {
     position: absolute;
+
     inset: 0;
 
     width: 100%;
@@ -118,132 +120,139 @@ canvas {
 
 .arc-content {
     position: absolute;
+
     inset: 0;
 
     z-index: 2;
-
-    padding: 52px 55px 34px;
-
-    display: flex;
-    flex-direction: column;
 
     pointer-events: none;
 }
 
 
 /* =========================
-   TOP LINE
+   MAIN LAYOUT
 ========================= */
 
-.intro-top {
-    width: 100%;
+.arc-layout {
+    position: absolute;
 
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+    left: 50%;
+    top: 50%;
 
-    border-bottom: 1px solid rgba(255,255,255,0.14);
+    transform: translate(-50%, -41%);
 
-    padding-bottom: 14px;
-}
-
-
-.intro-name,
-.intro-role {
-    font-size: 10px;
-
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-
-    color: #fff;
-}
-
-
-.intro-role {
-    color: #777;
-}
-
-
-/* =========================
-   MAIN
-========================= */
-
-.intro-main {
-    flex: 1;
-
-    width: 100%;
+    width: 1008px;
 
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 280px;
 
-    gap: 80px;
+    grid-template-columns: 760px 170px;
 
-    align-items: center;
+    column-gap: 90px;
 
-    padding: 90px 8% 50px 5%;
+    align-items: start;
 }
 
 
 /* =========================
-   TEXT
+   INTRO TEXT
 ========================= */
 
-.intro-text {
-    max-width: 680px;
+.arc-intro {
+    width: 760px;
+
+    text-align: left;
 }
 
 
-.intro-text h1 {
-    margin-bottom: 30px;
+/* =========================
+   FIRST TWO LINES
+========================= */
 
-    font-size: clamp(42px, 5.2vw, 76px);
+.intro-top-text {
+    margin-bottom: 20px;
+}
 
-    line-height: 0.95;
+
+.intro-top-text p {
+    margin: 0 0 12px;
+
+    color: #fff;
+
+    font-size: 26px;
+
+    line-height: 1.2;
 
     font-weight: 400;
 
-    letter-spacing: -0.055em;
-
-    color: #fff;
+    letter-spacing: -0.02em;
 }
 
 
-.intro-text p {
-    max-width: 620px;
-
-    margin-bottom: 15px;
-
-    font-size: clamp(16px, 1.45vw, 21px);
-
-    line-height: 1.45;
-
-    letter-spacing: -0.015em;
-
-    color: #777;
+.intro-top-text em {
+    font-style: italic;
 }
 
 
-.intro-text .intro-lead {
-    max-width: 700px;
+/* =========================
+   MAIN DESCRIPTION
+========================= */
 
-    margin-bottom: 25px;
+.intro-description {
+    width: 700px;
 
-    font-size: clamp(22px, 2.2vw, 32px);
+    margin-left: 0;
 
-    line-height: 1.15;
-
-    color: #fff;
+    text-align: center;
 }
 
 
-.intro-text .intro-personal {
-    margin-top: 35px;
+.intro-description p {
+    margin: 0;
 
-    color: #F36D07;
+    color: #666;
 
-    font-size: 14px;
+    font-size: 25px;
 
-    line-height: 1.4;
+    line-height: 1.42;
+
+    font-weight: 400;
+
+    letter-spacing: -0.025em;
+}
+
+
+.intro-description em {
+    font-style: italic;
+
+    color: #666;
+}
+
+
+/* =========================
+   PERSONAL TEXT
+========================= */
+
+.intro-personal {
+    width: 700px;
+
+    margin-top: 22px;
+
+    text-align: center;
+}
+
+
+.intro-personal p {
+    margin: 0;
+
+    color: #666;
+
+    font-size: 25px;
+
+    line-height: 1.35;
+
+    font-weight: 400;
+
+    letter-spacing: -0.025em;
 }
 
 
@@ -251,36 +260,36 @@ canvas {
    PHOTO + LINKS
 ========================= */
 
-.intro-side {
+.arc-side {
+    width: 170px;
+
     display: flex;
+
     flex-direction: column;
 
-    align-items: flex-start;
+    align-items: center;
+}
 
-    gap: 24px;
+
+/* =========================
+   PHOTO
+========================= */
+
+.arc-photo {
+    width: 170px;
+    height: 170px;
+
+    overflow: hidden;
 }
 
 
 .arc-photo img {
-    width: 190px;
-    height: 230px;
+    width: 170px;
+    height: 170px;
 
     object-fit: cover;
 
     display: block;
-
-    filter: grayscale(12%);
-
-    transition:
-        transform .35s ease,
-        filter .35s ease;
-}
-
-
-.arc-photo img:hover {
-    transform: scale(1.02);
-
-    filter: grayscale(0%);
 }
 
 
@@ -289,36 +298,44 @@ canvas {
 ========================= */
 
 .arc-links {
-    display: flex;
-    flex-direction: column;
+    width: 220px;
 
-    align-items: flex-start;
+    margin-top: 20px;
 
-    gap: 9px;
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    column-gap: 18px;
+
+    row-gap: 12px;
+
+    justify-items: center;
 }
 
 
 .arc-links a {
     pointer-events: auto;
 
-    width: fit-content;
+    color: #666;
 
-    padding-bottom: 3px;
+    font-size: 12px;
 
-    border-bottom: 1px dashed rgba(255,255,255,0.3);
+    line-height: 1;
 
-    color: #aaa;
+    letter-spacing: 0.03em;
 
-    font-size: 11px;
+    white-space: nowrap;
 
-    letter-spacing: 0.12em;
+    text-decoration: none;
 
-    text-transform: uppercase;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.25);
+
+    padding-bottom: 4px;
 
     transition:
-        color .2s ease,
-        border-color .2s ease,
-        transform .2s ease;
+        color 0.2s ease,
+        border-color 0.2s ease;
 }
 
 
@@ -326,43 +343,120 @@ canvas {
     color: #F36D07;
 
     border-color: #F36D07;
-
-    transform: translateX(4px);
 }
 
 
 /* =========================
-   BOTTOM NAV
+   MOBILE
 ========================= */
 
-.intro-bottom {
-    pointer-events: auto;
+@media (max-width: 700px) {
 
-    width: 100%;
+    .arc-section {
+        height: auto;
+        min-height: 100vh;
+    }
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
-    padding-top: 16px;
+    .arc-content {
+        position: relative;
 
-    border-top: 1px solid rgba(255,255,255,0.14);
+        min-height: 100vh;
+    }
 
-    color: #777;
 
-    font-size: 10px;
+    .arc-layout {
+        position: relative;
 
-    letter-spacing: 0.15em;
+        left: auto;
+        top: auto;
 
-    text-transform: uppercase;
+        transform: none;
 
-    transition: color .2s ease;
+        width: 100%;
+
+        padding: 280px 20px 70px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 45px;
+    }
+
+
+    .arc-intro {
+        width: 100%;
+
+        text-align: left;
+    }
+
+
+    .intro-top-text {
+        margin-bottom: 25px;
+    }
+
+
+    .intro-top-text p {
+        font-size: 22px;
+
+        margin-bottom: 10px;
+    }
+
+
+    .intro-description {
+        width: 100%;
+
+        text-align: center;
+    }
+
+
+    .intro-description p {
+        font-size: 17px;
+
+        line-height: 1.45;
+    }
+
+
+    .intro-personal {
+        width: 100%;
+
+        margin-top: 25px;
+    }
+
+
+    .intro-personal p {
+        font-size: 17px;
+    }
+
+
+    .arc-side {
+        width: 100%;
+    }
+
+
+    .arc-photo,
+    .arc-photo img {
+        width: 150px;
+        height: 150px;
+    }
+
+
+    .arc-links {
+        margin-top: 18px;
+
+        width: 210px;
+    }
+
+
+    .arc-links a {
+        font-size: 10px;
+    }
+
 }
 
-
-.intro-bottom:hover {
-    color: #F36D07;
-}
 /* =========================
    GENERAL SECTIONS
 ========================= */
