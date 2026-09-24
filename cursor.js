@@ -1,48 +1,87 @@
-/* =========================================================
+/* 
+   cursor.js
+=========================================================
    CUSTOM CURSOR DOT
 ========================================================= */
 
 (() => {
 
     const dot = document.querySelector(".cursor-dot");
+
     if (!dot) return;
 
-    if (window.matchMedia("(hover: none)").matches) return;
-
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let dotX = mouseX;
-    let dotY = mouseY;
-
-    document.addEventListener("mousemove", (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        dot.classList.add("visible");
-    });
-
-    document.addEventListener("mouseleave", () => {
-        dot.classList.remove("visible");
-    });
-
-    function animate() {
-        dotX += (mouseX - dotX) * 0.25;
-        dotY += (mouseY - dotY) * 0.25;
-
-        dot.style.left = dotX + "px";
-        dot.style.top  = dotY + "px";
-
-        requestAnimationFrame(animate);
+    if (window.matchMedia("(hover: none)").matches) {
+        return;
     }
 
-    animate();
+
+    /* =========================
+       HIDE SYSTEM CURSOR
+    ========================== */
+
+    const hideCursor = () => {
+        document.documentElement.style.cursor = "none";
+        document.body.style.cursor = "none";
+    };
+
+    hideCursor();
+
+
+    /* =========================
+       CUSTOM DOT
+    ========================== */
+
+    let visible = false;
+
+
+    document.addEventListener("mousemove", (event) => {
+
+        // На каждом движении снова запрещаем системный курсор
+        hideCursor();
+
+        dot.style.left = event.clientX + "px";
+        dot.style.top = event.clientY + "px";
+
+        if (!visible) {
+            dot.classList.add("visible");
+            visible = true;
+        }
+
+    }, true);
+
+
+    /* =========================
+       HOVER
+    ========================== */
 
     const hoverables = document.querySelectorAll(
-        "a, button, .project, .number-card, .hobby-list span"
+        "a, button, .project-card, .project, .arc-links a"
     );
 
-    hoverables.forEach((el) => {
-        el.addEventListener("mouseenter", () => dot.classList.add("hover"));
-        el.addEventListener("mouseleave", () => dot.classList.remove("hover"));
+
+    hoverables.forEach((element) => {
+
+        element.addEventListener("mouseenter", () => {
+            dot.classList.add("hover");
+            hideCursor();
+        });
+
+        element.addEventListener("mouseleave", () => {
+            dot.classList.remove("hover");
+            hideCursor();
+        });
+
     });
+
+
+    /* =========================
+       KEEP CURSOR HIDDEN
+    ========================== */
+
+    document.addEventListener("mouseover", hideCursor, true);
+    document.addEventListener("mouseenter", hideCursor, true);
+    document.addEventListener("pointermove", hideCursor, true);
+    document.addEventListener("pointerover", hideCursor, true);
+
 
 })();
