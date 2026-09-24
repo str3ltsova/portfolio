@@ -128,7 +128,7 @@ body * {
 
     column-gap: 90px;
 
-    align-items: center;
+    align-items: start;
 
     pointer-events: none;
 }
