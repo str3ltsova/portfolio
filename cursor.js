@@ -1,146 +1,48 @@
 /* =========================================================
-   CUSTOM CURSOR
+   CUSTOM CURSOR DOT
 ========================================================= */
 
 (() => {
 
-    const dot =
-        document.querySelector(".cursor-dot");
-
+    const dot = document.querySelector(".cursor-dot");
     if (!dot) return;
 
+    if (window.matchMedia("(hover: none)").matches) return;
 
-    /* =========================
-       TOUCH DEVICES
-    ========================== */
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let dotX = mouseX;
+    let dotY = mouseY;
 
-    if (
-        window.matchMedia("(hover: none)").matches
-    ) {
-        return;
+    document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.classList.add("visible");
+    });
+
+    document.addEventListener("mouseleave", () => {
+        dot.classList.remove("visible");
+    });
+
+    function animate() {
+        dotX += (mouseX - dotX) * 0.25;
+        dotY += (mouseY - dotY) * 0.25;
+
+        dot.style.left = dotX + "px";
+        dot.style.top  = dotY + "px";
+
+        requestAnimationFrame(animate);
     }
 
+    animate();
 
-    /* =========================
-       FORCE HIDE SYSTEM CURSOR
-    ========================== */
-
-    const cursorStyle =
-        document.createElement("style");
-
-    cursorStyle.id =
-        "custom-cursor-force-style";
-
-    cursorStyle.textContent = `
-        html,
-        html *,
-        body,
-        body * {
-            cursor: none !important;
-        }
-    `;
-
-    document.head.appendChild(
-        cursorStyle
+    const hoverables = document.querySelectorAll(
+        "a, button, .project, .number-card, .hobby-list span"
     );
 
-
-    /* =========================
-       MOUSE POSITION
-    ========================== */
-
-    let visible = false;
-
-
-    document.addEventListener(
-        "mousemove",
-        (event) => {
-
-            dot.style.left =
-                event.clientX + "px";
-
-            dot.style.top =
-                event.clientY + "px";
-
-
-            if (!visible) {
-
-                dot.classList.add(
-                    "visible"
-                );
-
-                visible = true;
-            }
-
-        },
-        true
-    );
-
-
-    /* =========================
-       HOVER ELEMENTS
-    ========================== */
-
-    const hoverables =
-        document.querySelectorAll(
-            "a, button, input, textarea, select, " +
-            ".project-card, .project, " +
-            ".arc-links a"
-        );
-
-
-    hoverables.forEach(
-        (element) => {
-
-            element.addEventListener(
-                "mouseenter",
-                () => {
-
-                    dot.classList.add(
-                        "hover"
-                    );
-
-                }
-            );
-
-
-            element.addEventListener(
-                "mouseleave",
-                () => {
-
-                    dot.classList.remove(
-                        "hover"
-                    );
-
-                }
-            );
-
-        }
-    );
-
-
-    /* =========================
-       KEEP SYSTEM CURSOR HIDDEN
-    ========================== */
-
-    document.addEventListener(
-        "mouseover",
-        () => {
-            document.documentElement.style.cursor =
-                "none";
-        },
-        true
-    );
-
-
-    document.addEventListener(
-        "pointerover",
-        () => {
-            document.documentElement.style.cursor =
-                "none";
-        },
-        true
-    );
-
+    hoverables.forEach((el) => {
+        el.addEventListener("mouseenter", () => dot.classList.add("hover"));
+        el.addEventListener("mouseleave", () => dot.classList.remove("hover"));
+    });
 
 })();
