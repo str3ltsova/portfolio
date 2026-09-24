@@ -63,6 +63,11 @@
 
         void main() {
 
+            /*
+             * Создаём сетку ячеек.
+             * Каждая ячейка становится одной точкой.
+             */
+
             float cell =
                 max(uCell, 2.0);
 
@@ -72,6 +77,10 @@
             vec2 cellCenter =
                 (cellIndex + 0.5) * cell;
 
+
+            /*
+             * Координаты в CSS-пикселях
+             */
 
             float x =
                 cellCenter.x / uDpr;
@@ -86,6 +95,10 @@
                 uRes.y / uDpr;
 
 
+            /*
+             * Форма дуги
+             */
+
             float normX =
                 (x - width * 0.5) /
                 (width * 0.75);
@@ -96,6 +109,10 @@
                 normX * normX *
                 (height * uHeight);
 
+
+            /*
+             * Воздействие курсора
+             */
 
             float mouseDistance =
                 x - uMouse.x;
@@ -124,6 +141,10 @@
                     influence
                 );
 
+
+            /*
+             * Расстояние до дуги
+             */
 
             float distanceToCurve =
                 abs(y - curveY);
@@ -156,6 +177,10 @@
                     thickness;
 
 
+                /*
+                 * Живое движение
+                 */
+
                 float waveX =
                     sin(
                         x * 0.015 +
@@ -178,6 +203,10 @@
                     intensity;
 
 
+                /*
+                 * Ослабление к краям
+                 */
+
                 intensity *=
                     max(
                         0.0,
@@ -190,6 +219,10 @@
 
 
                 if (intensity > 0.02) {
+
+                    /*
+                     * Размер точки
+                     */
 
                     float dotSide =
                         uDot *
@@ -216,6 +249,10 @@
                         );
 
 
+                    /*
+                     * Оранжевый градиент
+                     */
+
                     vec3 ink =
                         mix(
                             uBase,
@@ -230,6 +267,10 @@
                             )
                         );
 
+
+                    /*
+                     * Яркие участки
+                     */
 
                     ink =
                         mix(
@@ -453,19 +494,55 @@
 
     const settings = {
 
+        /*
+         * Чёрный фон
+         */
+
         background: "#000000",
+
+        /*
+         * Главный оранжевый
+         */
 
         base: "#F36D07",
 
+        /*
+         * Более светлый оранжевый
+         */
+
         accent: "#FF9A52",
+
+        /*
+         * Самые яркие точки
+         */
 
         highlight: "#FFFFFF",
 
+
+        /*
+         * Плотность
+         */
+
         density: 78,
+
+
+        /*
+         * Размер точек
+         */
 
         dotSize: 1.02,
 
+
+        /*
+         * Скорость
+         */
+
         speed: 2,
+
+
+        /*
+         * Дуга
+         */
 
         peak: 0.01,
 
@@ -474,6 +551,11 @@
         thickness: 1.11,
 
         falloff: 2.06,
+
+
+        /*
+         * Курсор
+         */
 
         pointerRadius: 83,
 
@@ -600,6 +682,10 @@
                 rect.left;
 
 
+            /*
+             * WebGL считает Y снизу вверх
+             */
+
             pointer.targetY =
                 rect.height -
                 (
@@ -670,6 +756,7 @@
         const cssWidth =
             rect.width;
 
+
         const cssHeight =
             rect.height;
 
@@ -716,6 +803,10 @@
         );
 
 
+        /*
+         * Плотность точек
+         */
+
         const pitch =
             Math.min(
                 bufferWidth,
@@ -723,6 +814,10 @@
             ) /
             settings.density;
 
+
+        /*
+         * Плавность курсора
+         */
 
         const positionLerp =
             Math.min(
@@ -919,7 +1014,6 @@
 
 })();
 
-
 /* =========================================================
    BOTTOM INTERACTIVE DOTS
 ========================================================= */
@@ -938,6 +1032,10 @@
         canvas.getContext("2d");
 
 
+    /*
+     * Настройки точек
+     */
+
     const PARTICLE_SIZE = 2.4;
 
     const PARTICLE_COLOR =
@@ -951,11 +1049,28 @@
 
     const SPACING = 17;
 
+    /*
+     * Радиус, в котором курсор
+     * начинает двигать точки
+     */
+
     const MOUSE_RADIUS = 55;
+
+    /*
+     * Сила разлёта
+     */
 
     const REPULSION = 6.5;
 
+    /*
+     * Возврат на исходную позицию
+     */
+
     const SPRING = 0.075;
+
+    /*
+     * Плавность движения
+     */
 
     const FRICTION = 0.82;
 
@@ -1122,6 +1237,11 @@
             (particle) => {
 
 
+                /*
+                 * Возвращение
+                 * к исходному месту
+                 */
+
                 particle.vx +=
                     (
                         particle.originalX -
@@ -1138,6 +1258,10 @@
 
                 let active = false;
 
+
+                /*
+                 * Отталкивание
+                 */
 
                 if (mouse.active) {
 
@@ -1172,6 +1296,13 @@
                             MOUSE_RADIUS;
 
 
+                        /*
+                         * Квадратичная сила:
+                         * возле курсора
+                         * точки разлетаются
+                         * намного сильнее
+                         */
+
                         const strength =
                             force *
                             force *
@@ -1196,6 +1327,10 @@
                 }
 
 
+                /*
+                 * Движение
+                 */
+
                 particle.vx *=
                     FRICTION;
 
@@ -1209,6 +1344,10 @@
                 particle.y +=
                     particle.vy;
 
+
+                /*
+                 * Рисуем точку
+                 */
 
                 ctx.beginPath();
 
