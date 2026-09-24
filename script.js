@@ -1373,30 +1373,6 @@
         );
 
 
-        /*
-         * Центральная точка
-         * прямо под курсором
-         */
-
-        if (mouse.active) {
-
-            ctx.beginPath();
-
-            ctx.arc(
-                mouse.x,
-                mouse.y,
-                4.5,
-                0,
-                Math.PI * 2
-            );
-
-            ctx.fillStyle =
-                CURSOR_COLOR;
-
-            ctx.fill();
-        }
-
-
         requestAnimationFrame(
             animate
         );
