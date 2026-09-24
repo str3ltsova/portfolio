@@ -1,4 +1,4 @@
-/* =========================================================
+/*=========================================================
    CUSTOM CURSOR DOT
 ========================================================= */
 
@@ -7,27 +7,15 @@
     const dot = document.querySelector(".cursor-dot");
     if (!dot) return;
 
-    // на тач-устройствах не запускаем
+    // На тач-устройствах не запускаем
     if (window.matchMedia("(hover: none)").matches) return;
 
-    // Принудительно скрываем системный курсор через JS
+
+    /* =========================
+       СКРЫВАЕМ СИСТЕМНЫЙ КУРСОР
+    ========================== */
+
     document.documentElement.classList.add("cursor-hidden");
-
-    // На всякий случай вешаем inline-стиль
-    document.documentElement.style.setProperty("cursor", "none", "important");
-    document.body.style.setProperty("cursor", "none", "important");
-
-    // И на каждый элемент тоже, чтобы нигде не просвечивал
-    const killCursor = () => {
-        document.querySelectorAll("*").forEach((el) => {
-            el.style.setProperty("cursor", "none", "important");
-        });
-    };
-    killCursor();
-
-    // Если DOM поменяется (например, откроются новые элементы) — повторим
-    const observer = new MutationObserver(killCursor);
-    observer.observe(document.body, { childList: true, subtree: true });
 
 
     /* =========================
@@ -36,32 +24,43 @@
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
+
     let dotX = mouseX;
     let dotY = mouseY;
+
     let visible = false;
 
+
     document.addEventListener("mousemove", (e) => {
+
         mouseX = e.clientX;
         mouseY = e.clientY;
 
         if (!visible) {
+
             dot.classList.add("visible");
             visible = true;
+
+            // Сразу ставим точку под курсор,
+            // чтобы при первом появлении она не догоняла его
+            dotX = mouseX;
+            dotY = mouseY;
         }
     });
 
-    // Точку НЕ скрываем при mouseleave — из-за этого мигало
-    // document.addEventListener("mouseleave", () => {
-    //     dot.classList.remove("visible");
-    //     visible = false;
-    // });
+
+    /* =========================
+       ДВИЖЕНИЕ ТОЧКИ
+    ========================== */
 
     function animate() {
-        dotX += (mouseX - dotX) * 0.25;
-        dotY += (mouseY - dotY) * 0.25;
+
+        // Небольшая плавность, но без сильного лага
+        dotX += (mouseX - dotX) * 0.55;
+        dotY += (mouseY - dotY) * 0.55;
 
         dot.style.left = dotX + "px";
-        dot.style.top  = dotY + "px";
+        dot.style.top = dotY + "px";
 
         requestAnimationFrame(animate);
     }
@@ -77,9 +76,17 @@
         "a, button, .project-card, .project, .arc-links a"
     );
 
+
     hoverables.forEach((el) => {
-        el.addEventListener("mouseenter", () => dot.classList.add("hover"));
-        el.addEventListener("mouseleave", () => dot.classList.remove("hover"));
+
+        el.addEventListener("mouseenter", () => {
+            dot.classList.add("hover");
+        });
+
+        el.addEventListener("mouseleave", () => {
+            dot.classList.remove("hover");
+        });
+
     });
 
 })();
