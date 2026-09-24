@@ -35,11 +35,10 @@ img {
    CUSTOM CURSOR
 ========================= */
 
+html,
 body,
-a,
-button,
-canvas {
-    cursor: none;
+* {
+    cursor: none !important;
 }
 
 .cursor-dot {
@@ -68,11 +67,10 @@ canvas {
 }
 
 @media (hover: none) {
+        html,
     body,
-    a,
-    button,
-    canvas {
-        cursor: auto;
+    * {
+        cursor: auto !important;
     }
     .cursor-dot {
         display: none;
