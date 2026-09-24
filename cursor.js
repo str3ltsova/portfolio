@@ -20,9 +20,6 @@
         dot.classList.add("visible");
     });
 
-    document.addEventListener("mouseleave", () => {
-        dot.classList.remove("visible");
-    });
 
     function animate() {
         dotX += (mouseX - dotX) * 0.25;
