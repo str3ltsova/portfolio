@@ -35,8 +35,10 @@ img {
    CUSTOM CURSOR
 ========================= */
 
-html.cursor-hidden,
-html.cursor-hidden * {
+html,
+html *,
+body,
+body * {
     cursor: none !important;
 }
 
