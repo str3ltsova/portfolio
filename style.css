@@ -39,18 +39,20 @@ html {
     cursor: none !important;
 }
 
-html *,
-body,
+body {
+    cursor: none !important;
+}
+
 body * {
     cursor: none !important;
 }
 
 a,
 button,
+canvas,
 input,
 textarea,
-select,
-[role="button"] {
+select {
     cursor: none !important;
 }
 
