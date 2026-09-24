@@ -80,7 +80,7 @@ canvas {
 }
 
 /* =========================
-   PREDICTIVE ARC — TOP
+   PREDICTIVE ARC
 ========================= */
 
 .arc-section {
@@ -101,14 +101,18 @@ canvas {
     cursor: none;
 }
 
-/* Центр — фото */
+/* Центр — фото + соцсети */
 .arc-center {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
-    pointer-events: none;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
 }
 
 .arc-center img {
@@ -116,6 +120,27 @@ canvas {
     height: 190px;
     object-fit: cover;
     display: block;
+}
+
+.arc-socials {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.arc-socials a {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fff;
+    opacity: 0.7;
+    transition: color .2s ease, opacity .2s ease;
+}
+
+.arc-socials a:hover {
+    color: #F36D07;
+    opacity: 1;
 }
 
 /* Нижние подписи */
@@ -182,17 +207,24 @@ section:not(.arc-section):not(.particle-section) {
 }
 
 /* =========================
-   HERO
+   HERO — INTRO
 ========================= */
 
 .hero {
-    min-height: 90vh;
+    min-height: 100vh;
+    padding: 90px 32px 80px;
+    border-top: 1px solid #222;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 80px;
+}
 
-    border-top: 1px solid #222;
+.hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
 }
 
 .eyebrow {
@@ -201,36 +233,157 @@ section:not(.arc-section):not(.particle-section) {
     color: #999;
 }
 
-.hero h1 {
-    font-size: clamp(56px, 11vw, 170px);
-    line-height: 0.85;
-    font-weight: 400;
-    letter-spacing: -0.04em;
-    margin-bottom: 0.15em;
-}
+.hero-intro {
+    max-width: 900px;
 
-.hero-bottom {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 40px;
+    flex-direction: column;
+    gap: 16px;
 }
 
-.hero-bottom p {
-    max-width: 430px;
-    font-size: 18px;
-    line-height: 1.4;
-    color: #aaa;
+.hero-intro p {
+    font-size: clamp(22px, 2.4vw, 34px);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+
+    color: #666;
 }
 
-.hero-bottom span {
-    font-size: 10px;
-    color: #777;
-    letter-spacing: 0.1em;
+.hero-intro p:first-child {
+    color: #fff;
+}
+
+.hero-intro em {
+    font-style: italic;
+    color: #fff;
 }
 
 /* =========================
-   PROJECTS — CARDS (главная)
+   SKILLS
+========================= */
+
+.skills {
+    border-top: 1px solid #222;
+}
+
+.skills-block {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    border-top: 1px solid #222;
+
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.skills-block:first-of-type {
+    border-top: none;
+    padding-top: 0;
+}
+
+.skills-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: #777;
+    padding-top: 6px;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.skills-col h4 {
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 18px;
+    letter-spacing: -0.01em;
+}
+
+.skills-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.skills-col li {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #888;
+}
+
+.soft-list {
+    list-style: none;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+}
+
+.soft-list li {
+    font-size: 14px;
+    color: #bbb;
+    position: relative;
+    padding-left: 14px;
+}
+
+.soft-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 5px;
+    background: #F36D07;
+    border-radius: 50%;
+}
+
+.skills-row {
+    padding: 30px 0;
+    border-top: 1px solid #222;
+
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.skills-row p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #bbb;
+}
+
+.courses-list {
+    list-style: none;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.courses-list li {
+    font-size: 14px;
+    color: #bbb;
+    display: flex;
+    gap: 20px;
+    align-items: baseline;
+}
+
+.courses-list span {
+    color: #666;
+    font-size: 12px;
+    min-width: 40px;
+    letter-spacing: 0.05em;
+}
+
+/* =========================
+   PROJECTS — CARDS
 ========================= */
 
 .projects {
@@ -319,93 +472,7 @@ section:not(.arc-section):not(.particle-section) {
 }
 
 /* =========================
-   NUMBERS
-========================= */
-
-.numbers {
-    border-top: 1px solid #222;
-}
-
-.numbers-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    border-top: 1px solid #333;
-}
-
-.number-card {
-    padding: 35px 20px 35px 0;
-    border-right: 1px solid #333;
-}
-
-.number-card:not(:first-child) {
-    padding-left: 20px;
-}
-
-.number-card:last-child {
-    border-right: none;
-}
-
-.number-card strong {
-    display: block;
-    font-size: 70px;
-    font-weight: 400;
-    letter-spacing: -0.06em;
-}
-
-.number-card span {
-    display: block;
-    margin-top: 20px;
-    color: #777;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-}
-
-/* =========================
-   ABOUT
-========================= */
-
-.about {
-    border-top: 1px solid #222;
-}
-
-.about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 70px;
-}
-
-.about-text {
-    max-width: 650px;
-}
-
-.big-text {
-    font-size: 42px;
-    line-height: 1.05;
-    letter-spacing: -2px;
-    margin-bottom: 50px;
-}
-
-.about-text > p:last-child {
-    max-width: 480px;
-    color: #888;
-    line-height: 1.6;
-}
-
-.about-image {
-    min-height: 550px;
-    background: #151515;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: #555;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-}
-
-/* =========================
-   HOBBIES
+   ВНЕ ПРОФЕССИИ (hobbies)
 ========================= */
 
 .hobbies {
@@ -488,7 +555,6 @@ section:not(.arc-section):not(.particle-section) {
     padding: 60px 32px 120px;
 }
 
-/* Breadcrumbs */
 .breadcrumbs {
     display: flex;
     gap: 10px;
@@ -508,7 +574,6 @@ section:not(.arc-section):not(.particle-section) {
     color: #fff;
 }
 
-/* Title */
 .project-hero {
     margin-bottom: 70px;
 }
@@ -529,7 +594,6 @@ section:not(.arc-section):not(.particle-section) {
     text-transform: uppercase;
 }
 
-/* Intro */
 .project-intro {
     max-width: 780px;
     margin-bottom: 80px;
@@ -545,12 +609,10 @@ section:not(.arc-section):not(.particle-section) {
     line-height: 1.6;
 }
 
-/* Cover */
 .project-cover {
     margin-bottom: 100px;
 }
 
-/* Text blocks */
 .project-block {
     max-width: 720px;
     margin-bottom: 80px;
@@ -569,12 +631,10 @@ section:not(.arc-section):not(.particle-section) {
     color: #ccc;
 }
 
-/* Full image */
 .project-image-full {
     margin-bottom: 100px;
 }
 
-/* Other projects (внизу страниц проектов) */
 .other-projects {
     margin-top: 140px;
     border-top: 1px solid #222;
@@ -586,8 +646,6 @@ section:not(.arc-section):not(.particle-section) {
     gap: 18px;
 }
 
-/* Старые классы .project / .project-image / .project-info
-   остаются для страниц проектов */
 .project {
     display: block;
     color: inherit;
@@ -635,7 +693,6 @@ section:not(.arc-section):not(.particle-section) {
     font-size: 12px;
 }
 
-/* Back link */
 .back-link {
     margin-top: 100px;
     text-align: center;
@@ -680,6 +737,24 @@ section:not(.arc-section):not(.particle-section) {
    MOBILE
 ========================= */
 
+@media (max-width: 900px) {
+
+    .skills-block,
+    .skills-row {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .skills-label {
+        padding-top: 0;
+    }
+}
+
 @media (max-width: 700px) {
 
     section:not(.arc-section):not(.particle-section) {
@@ -697,6 +772,10 @@ section:not(.arc-section):not(.particle-section) {
         height: 140px;
     }
 
+    .arc-socials {
+        gap: 14px;
+    }
+
     .arc-label {
         left: 20px;
         right: 20px;
@@ -704,19 +783,25 @@ section:not(.arc-section):not(.particle-section) {
 
     /* Hero */
     .hero {
-        min-height: 75vh;
+        min-height: auto;
+        padding: 70px 20px 60px;
+        gap: 50px;
     }
 
-    .hero h1 {
-        font-size: 22vw;
+    .hero-intro p {
+        font-size: 20px;
     }
 
-    .hero-bottom {
-        flex-direction: column;
-        align-items: flex-start;
+    /* Skills */
+    .skills-row {
+        padding: 24px 0;
     }
 
-    /* Projects cards */
+    .soft-list {
+        gap: 8px 18px;
+    }
+
+    /* Projects */
     .project-grid {
         grid-template-columns: 1fr;
     }
@@ -737,33 +822,6 @@ section:not(.arc-section):not(.particle-section) {
 
     .project-body h3 {
         font-size: 20px;
-    }
-
-    /* Numbers */
-    .numbers-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .number-card:nth-child(2) {
-        border-right: none;
-    }
-
-    .number-card:nth-child(3),
-    .number-card:nth-child(4) {
-        border-top: 1px solid #333;
-    }
-
-    /* About */
-    .about-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .big-text {
-        font-size: 34px;
-    }
-
-    .about-image {
-        min-height: 400px;
     }
 
     /* Contact */
