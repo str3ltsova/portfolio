@@ -1,4 +1,6 @@
-/*=========================================================
+/* 
+   cursor.js
+=========================================================
    CUSTOM CURSOR DOT
 ========================================================= */
 
@@ -19,14 +21,11 @@
 
 
     /* =========================
-       ЛОГИКА ТОЧКИ
+       ЛОГИКА
     ========================== */
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-
-    let dotX = mouseX;
-    let dotY = mouseY;
+    let mouseX = 0;
+    let mouseY = 0;
 
     let visible = false;
 
@@ -36,36 +35,16 @@
         mouseX = e.clientX;
         mouseY = e.clientY;
 
-        if (!visible) {
+        // Кастомная точка всегда точно под реальным курсором
+        dot.style.left = mouseX + "px";
+        dot.style.top = mouseY + "px";
 
+        if (!visible) {
             dot.classList.add("visible");
             visible = true;
-
-            // Сразу ставим точку под курсор,
-            // чтобы при первом появлении она не догоняла его
-            dotX = mouseX;
-            dotY = mouseY;
         }
+
     });
-
-
-    /* =========================
-       ДВИЖЕНИЕ ТОЧКИ
-    ========================== */
-
-    function animate() {
-
-        // Небольшая плавность, но без сильного лага
-        dotX += (mouseX - dotX) * 0.55;
-        dotY += (mouseY - dotY) * 0.55;
-
-        dot.style.left = dotX + "px";
-        dot.style.top = dotY + "px";
-
-        requestAnimationFrame(animate);
-    }
-
-    animate();
 
 
     /* =========================
@@ -75,7 +54,6 @@
     const hoverables = document.querySelectorAll(
         "a, button, .project-card, .project, .arc-links a"
     );
-
 
     hoverables.forEach((el) => {
 
@@ -88,5 +66,6 @@
         });
 
     });
+
 
 })();
