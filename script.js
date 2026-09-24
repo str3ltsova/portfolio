@@ -595,7 +595,7 @@
 
         peak: 0.01,
 
-        archHeight: 0.65,
+        archHeight: 0.50,
 
         thickness: 1.11,
 
