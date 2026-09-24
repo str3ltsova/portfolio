@@ -372,51 +372,6 @@ section:not(.arc-section):not(.particle-section) {
 
 
 /* =========================
-   SKILLS
-========================= */
-
-.skills {
-    border-top: 1px solid #222;
-}
-
-.skills-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 70px 60px;
-    align-items: start;
-}
-
-.skills-item {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-}
-
-.skills-label {
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #fff;
-
-    padding-bottom: 16px;
-    border-bottom: 1px solid #222;
-}
-
-.skills-item ul {
-    list-style: none;
-
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-}
-
-.skills-item li {
-    font-size: 14px;
-    line-height: 1.45;
-    color: #888;
-}
-
-/* =========================
    PROJECTS
 ========================= */
 
@@ -1063,12 +1018,6 @@ section:not(.arc-section):not(.particle-section) {
 
 @media (max-width: 900px) {
 
-    .skills-list {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 50px 30px;
-    }
-
-
     .about-grid {
 
         grid-template-columns: 1fr;
@@ -1200,20 +1149,6 @@ section:not(.arc-section):not(.particle-section) {
     .arc-links a {
 
         font-size: 10px;
-    }
-
-
-    /* =========================
-       SKILLS
-    ========================== */
-
-    .skills-list {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-
-    .skills-item li {
-        font-size: 15px;
     }
 
 
