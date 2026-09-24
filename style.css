@@ -142,7 +142,7 @@ select {
 
     gap: 18px;
 
-    text-align: center;
+    text-align: left;
 
     pointer-events: none;
 }
@@ -176,7 +176,7 @@ select {
 
     max-width: 650px;
 
-    margin: 6px auto 0;
+    margin: 6px 0 0 48px;
 
     color: #666;
 
@@ -199,7 +199,7 @@ select {
 
     max-width: 550px;
 
-    margin: 8px auto 0;
+    margin: 8px 0 0 auto;
 
     color: #666;
 
@@ -210,8 +210,9 @@ select {
     font-weight: 400;
 
     letter-spacing: -0.035em;
-}
 
+    text-align: right;
+}
 
 /* =========================
    RIGHT SIDE
