@@ -7,65 +7,81 @@
 (() => {
 
     const dot = document.querySelector(".cursor-dot");
+
     if (!dot) return;
 
-    // На тач-устройствах не запускаем
-    if (window.matchMedia("(hover: none)").matches) return;
+    if (window.matchMedia("(hover: none)").matches) {
+        return;
+    }
 
 
     /* =========================
-       СКРЫВАЕМ СИСТЕМНЫЙ КУРСОР
+       HIDE SYSTEM CURSOR
     ========================== */
 
-document.documentElement.style.setProperty("cursor", "none", "important");
-document.body.style.setProperty("cursor", "none", "important");
+    const hideCursor = () => {
+        document.documentElement.style.cursor = "none";
+        document.body.style.cursor = "none";
+    };
+
+    hideCursor();
+
 
     /* =========================
-       ЛОГИКА
+       CUSTOM DOT
     ========================== */
-
-    let mouseX = 0;
-    let mouseY = 0;
 
     let visible = false;
 
 
-    document.addEventListener("mousemove", (e) => {
+    document.addEventListener("mousemove", (event) => {
 
-        mouseX = e.clientX;
-        mouseY = e.clientY;
+        // На каждом движении снова запрещаем системный курсор
+        hideCursor();
 
-        // Кастомная точка всегда точно под реальным курсором
-        dot.style.left = mouseX + "px";
-        dot.style.top = mouseY + "px";
+        dot.style.left = event.clientX + "px";
+        dot.style.top = event.clientY + "px";
 
         if (!visible) {
             dot.classList.add("visible");
             visible = true;
         }
 
-    });
+    }, true);
 
 
     /* =========================
-       ХОВЕР
+       HOVER
     ========================== */
 
     const hoverables = document.querySelectorAll(
         "a, button, .project-card, .project, .arc-links a"
     );
 
-    hoverables.forEach((el) => {
 
-        el.addEventListener("mouseenter", () => {
+    hoverables.forEach((element) => {
+
+        element.addEventListener("mouseenter", () => {
             dot.classList.add("hover");
+            hideCursor();
         });
 
-        el.addEventListener("mouseleave", () => {
+        element.addEventListener("mouseleave", () => {
             dot.classList.remove("hover");
+            hideCursor();
         });
 
     });
+
+
+    /* =========================
+       KEEP CURSOR HIDDEN
+    ========================== */
+
+    document.addEventListener("mouseover", hideCursor, true);
+    document.addEventListener("mouseenter", hideCursor, true);
+    document.addEventListener("pointermove", hideCursor, true);
+    document.addEventListener("pointerover", hideCursor, true);
 
 
 })();
