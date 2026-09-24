@@ -40,21 +40,27 @@ html {
     cursor: none !important;
 }
 
-body {
-    cursor: none !important;
-}
-
+html *,
+body,
 body * {
     cursor: none !important;
 }
 
-a,
-button,
-canvas,
-input,
-textarea,
-select {
-    cursor: none !important;
+.cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 5px;
+    height: 5px;
+
+    background: #F36D07;
+    border-radius: 50%;
+
+    pointer-events: none;
+    z-index: 99999;
+
+    transform: translate(-50%, -50%);
 }
 
 
