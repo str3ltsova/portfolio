@@ -1,6 +1,5 @@
 /* =========================================================
-   PREDICTIVE ARC — ORIGINAL STYLE
-   TOP ONLY
+   TOP ARC
 ========================================================= */
 
 (() => {
@@ -9,1119 +8,215 @@
 
     if (!canvas) return;
 
-    const gl = canvas.getContext("webgl", {
-        alpha: false,
-        antialias: false,
-        depth: false
+    const ctx = canvas.getContext("2d");
+
+    let width = 0;
+    let height = 0;
+
+    let mouseX = -1000;
+    let mouseY = -1000;
+
+    const particles = [];
+
+    const SPACING = 18;
+    const PARTICLE_SIZE = 2.4;
+
+    const PARTICLE_COLOR = "#333333";
+    const LIME_COLOR = "#F36D07";
+
+    const CURSOR_SIZE = 5;
+    const COLOR_RADIUS = 38;
+
+    let animationFrame;
+
+
+    function resize() {
+
+        const rect = canvas.getBoundingClientRect();
+
+        width = rect.width;
+        height = rect.height;
+
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        createParticles();
+    }
+
+
+    function createParticles() {
+
+        particles.length = 0;
+
+        const rows = Math.ceil(height / SPACING);
+        const cols = Math.ceil(width / SPACING);
+
+        for (let y = 0; y <= rows; y++) {
+
+            for (let x = 0; x <= cols; x++) {
+
+                const px = x * SPACING;
+                const py = y * SPACING;
+
+                particles.push({
+                    x: px,
+                    y: py,
+                    baseX: px,
+                    baseY: py,
+                    offsetX: 0,
+                    offsetY: 0,
+                    phase: Math.random() * Math.PI * 2
+                });
+
+            }
+        }
+    }
+
+
+    canvas.addEventListener("pointermove", (event) => {
+
+        const rect = canvas.getBoundingClientRect();
+
+        mouseX = event.clientX - rect.left;
+        mouseY = event.clientY - rect.top;
+
     });
 
-    if (!gl) {
-        console.error("Predictive Arc: WebGL unavailable");
-        return;
-    }
 
+    canvas.addEventListener("pointerleave", () => {
 
-    /* =========================
-       SHADERS
-    ========================== */
+        mouseX = -1000;
+        mouseY = -1000;
 
-    const vertexShaderSource = `
-        attribute vec2 a_pos;
+    });
 
-        void main() {
-            gl_Position = vec4(a_pos, 0.0, 1.0);
-        }
-    `;
 
+    function draw() {
 
-    const fragmentShaderSource = `
-        precision highp float;
+        ctx.clearRect(0, 0, width, height);
 
-        uniform vec2 uRes;
+        for (const particle of particles) {
 
-        uniform float uTime;
-        uniform float uDpr;
+            const dx = particle.baseX - mouseX;
+            const dy = particle.baseY - mouseY;
 
-        uniform float uCell;
-        uniform float uDot;
+            const distance = Math.sqrt(dx * dx + dy * dy);
 
-        uniform float uPeak;
-        uniform float uHeight;
-        uniform float uThick;
-        uniform float uFall;
+            let color = PARTICLE_COLOR;
 
-        uniform vec3 uBg;
-        uniform vec3 uBase;
-        uniform vec3 uAccent;
-        uniform vec3 uHigh;
-
-        uniform vec2 uMouse;
-
-        uniform float uMouseRadius;
-        uniform float uMouseStrength;
-
-
-        void main() {
-
-            /*
-             * Создаём сетку ячеек.
-             * Каждая ячейка становится одной точкой.
-             */
-
-            float cell =
-                max(uCell, 2.0);
-
-            vec2 cellIndex =
-                floor(gl_FragCoord.xy / cell);
-
-            vec2 cellCenter =
-                (cellIndex + 0.5) * cell;
-
-
-            /*
-             * Координаты в CSS-пикселях
-             */
-
-            float x =
-                cellCenter.x / uDpr;
-
-            float y =
-                (uRes.y - cellCenter.y) / uDpr;
-
-            float width =
-                uRes.x / uDpr;
-
-            float height =
-                uRes.y / uDpr;
-
-
-            /*
-             * Форма дуги
-             */
-
-            float normX =
-                (x - width * 0.5) /
-                (width * 0.75);
-
-
-            float curveY =
-                height * uPeak +
-                normX * normX *
-                (height * uHeight);
-
-
-            /*
-             * Воздействие курсора
-             */
-
-            float mouseDistance =
-                x - uMouse.x;
-
-
-            float influence =
-                uMouseStrength *
-                exp(
-                    -(
-                        mouseDistance *
-                        mouseDistance
-                    ) /
-                    (
-                        2.0 *
-                        uMouseRadius *
-                        uMouseRadius +
-                        1.0
-                    )
-                );
-
-
-            curveY =
-                mix(
-                    curveY,
-                    uMouse.y,
-                    influence
-                );
-
-
-            /*
-             * Расстояние до дуги
-             */
-
-            float distanceToCurve =
-                abs(y - curveY);
-
-
-            float thickness =
-                (
-                    140.0 +
-                    (
-                        1.0 -
-                        abs(normX)
-                    ) *
-                    80.0
-                ) *
-                uThick;
-
-
-            vec3 color =
-                uBg;
-
-
-            if (
-                distanceToCurve <
-                thickness
-            ) {
-
-                float intensity =
-                    1.0 -
-                    distanceToCurve /
-                    thickness;
-
-
-                /*
-                 * Живое движение
-                 */
-
-                float waveX =
-                    sin(
-                        x * 0.015 +
-                        uTime
-                    );
-
-
-                float waveY =
-                    cos(
-                        y * 0.02 +
-                        uTime
-                    );
-
-
-                intensity =
-                    intensity * 0.7 +
-                    waveX *
-                    waveY *
-                    0.3 *
-                    intensity;
-
-
-                /*
-                 * Ослабление к краям
-                 */
-
-                intensity *=
-                    max(
-                        0.0,
-                        1.0 -
-                        pow(
-                            abs(normX),
-                            uFall
-                        )
-                    );
-
-
-                if (intensity > 0.02) {
-
-                    /*
-                     * Размер точки
-                     */
-
-                    float dotSide =
-                        uDot *
-                        intensity *
-                        uDpr;
-
-
-                    vec2 difference =
-                        abs(
-                            gl_FragCoord.xy -
-                            cellCenter
-                        );
-
-
-                    float coverage =
-                        1.0 -
-                        smoothstep(
-                            dotSide * 0.5 - 1.0,
-                            dotSide * 0.5 + 1.0,
-                            max(
-                                difference.x,
-                                difference.y
-                            )
-                        );
-
-
-                    /*
-                     * Оранжевый градиент
-                     */
-
-                    vec3 ink =
-                        mix(
-                            uBase,
-                            uAccent,
-                            clamp(
-                                pow(
-                                    intensity,
-                                    1.1
-                                ),
-                                0.0,
-                                1.0
-                            )
-                        );
-
-
-                    /*
-                     * Яркие участки
-                     */
-
-                    ink =
-                        mix(
-                            ink,
-                            uHigh,
-                            smoothstep(
-                                0.72,
-                                1.0,
-                                intensity
-                            )
-                        );
-
-
-                    color =
-                        mix(
-                            uBg,
-                            ink,
-                            coverage *
-                            clamp(
-                                intensity * 1.6,
-                                0.0,
-                                1.0
-                            )
-                        );
-                }
+            if (distance < COLOR_RADIUS) {
+                color = LIME_COLOR;
             }
 
+            if (distance < 100) {
 
-            gl_FragColor =
-                vec4(
-                    color,
-                    1.0
-                );
-        }
-    `;
+                const force =
+                    Math.max(0, 1 - distance / 100);
 
+                const angle =
+                    Math.atan2(dy, dx);
 
-    /* =========================
-       SHADER COMPILER
-    ========================== */
+                particle.offsetX +=
+                    Math.cos(angle) * force * 0.8;
 
-    function compileShader(
-        type,
-        source
-    ) {
+                particle.offsetY +=
+                    Math.sin(angle) * force * 0.8;
 
-        const shader =
-            gl.createShader(type);
+            }
 
-        if (!shader) {
-            return null;
-        }
+            particle.offsetX *= 0.9;
+            particle.offsetY *= 0.9;
 
-        gl.shaderSource(
-            shader,
-            source
-        );
+            const x =
+                particle.baseX + particle.offsetX;
 
-        gl.compileShader(shader);
+            const y =
+                particle.baseY + particle.offsetY;
 
+            ctx.beginPath();
 
-        if (
-            !gl.getShaderParameter(
-                shader,
-                gl.COMPILE_STATUS
-            )
-        ) {
+            const size =
+                distance < CURSOR_SIZE * 4
+                    ? PARTICLE_SIZE * 1.2
+                    : PARTICLE_SIZE;
 
-            console.error(
-                "Predictive Arc shader:",
-                gl.getShaderInfoLog(shader)
+            ctx.arc(
+                x,
+                y,
+                size,
+                0,
+                Math.PI * 2
             );
 
-            gl.deleteShader(shader);
+            ctx.fillStyle = color;
 
-            return null;
+            ctx.fill();
         }
-
-
-        return shader;
-    }
-
-
-    const vertexShader =
-        compileShader(
-            gl.VERTEX_SHADER,
-            vertexShaderSource
-        );
-
-
-    const fragmentShader =
-        compileShader(
-            gl.FRAGMENT_SHADER,
-            fragmentShaderSource
-        );
-
-
-    if (
-        !vertexShader ||
-        !fragmentShader
-    ) {
-        return;
-    }
-
-
-    /* =========================
-       PROGRAM
-    ========================== */
-
-    const program =
-        gl.createProgram();
-
-    if (!program) return;
-
-
-    gl.attachShader(
-        program,
-        vertexShader
-    );
-
-    gl.attachShader(
-        program,
-        fragmentShader
-    );
-
-    gl.linkProgram(program);
-
-
-    if (
-        !gl.getProgramParameter(
-            program,
-            gl.LINK_STATUS
-        )
-    ) {
-
-        console.error(
-            "Predictive Arc:",
-            gl.getProgramInfoLog(program)
-        );
-
-        return;
-    }
-
-
-    gl.useProgram(program);
-
-
-    /* =========================
-       FULL SCREEN TRIANGLE
-    ========================== */
-
-    const buffer =
-        gl.createBuffer();
-
-    gl.bindBuffer(
-        gl.ARRAY_BUFFER,
-        buffer
-    );
-
-
-    gl.bufferData(
-        gl.ARRAY_BUFFER,
-
-        new Float32Array([
-            -1, -1,
-             3, -1,
-            -1,  3
-        ]),
-
-        gl.STATIC_DRAW
-    );
-
-
-    const position =
-        gl.getAttribLocation(
-            program,
-            "a_pos"
-        );
-
-
-    gl.enableVertexAttribArray(
-        position
-    );
-
-
-    gl.vertexAttribPointer(
-        position,
-        2,
-        gl.FLOAT,
-        false,
-        0,
-        0
-    );
-
-
-    /* =========================
-       UNIFORMS
-    ========================== */
-
-    const uniforms = {};
-
-
-    function uniform(name) {
-
-        if (!(name in uniforms)) {
-
-            uniforms[name] =
-                gl.getUniformLocation(
-                    program,
-                    name
-                );
-        }
-
-        return uniforms[name];
-    }
-
-
-    /* =========================
-       SETTINGS
-    ========================== */
-
-    const settings = {
-
-        /*
-         * Чёрный фон
-         */
-
-        background: "#000000",
-
-        /*
-         * Главный оранжевый
-         */
-
-        base: "#F36D07",
-
-        /*
-         * Более светлый оранжевый
-         */
-
-        accent: "#FF9A52",
-
-        /*
-         * Самые яркие точки
-         */
-
-        highlight: "#FFFFFF",
-
-
-        /*
-         * Плотность
-         */
-
-        density: 78,
-
-
-        /*
-         * Размер точек
-         */
-
-        dotSize: 1.02,
-
-
-        /*
-         * Скорость
-         */
-
-        speed: 2,
-
-
-        /*
-         * Дуга
-         */
-
-        peak: 0.01,
-
-        archHeight: 0.79,
-
-        thickness: 1.11,
-
-        falloff: 2.06,
-
-
-        /*
-         * Курсор
-         */
-
-        pointerRadius: 83,
-
-        pointerStrength: 0.19
-    };
-
-
-    /* =========================
-       COLOR
-    ========================== */
-
-    function parseColor(
-        value,
-        fallback
-    ) {
-
-        if (!value) {
-            return fallback;
-        }
-
-
-        let hex =
-            value
-                .replace("#", "")
-                .trim();
-
-
-        if (hex.length === 3) {
-
-            hex =
-                hex[0] + hex[0] +
-                hex[1] + hex[1] +
-                hex[2] + hex[2];
-        }
-
-
-        if (hex.length >= 6) {
-
-            const r =
-                parseInt(
-                    hex.slice(0, 2),
-                    16
-                ) / 255;
-
-            const g =
-                parseInt(
-                    hex.slice(2, 4),
-                    16
-                ) / 255;
-
-            const b =
-                parseInt(
-                    hex.slice(4, 6),
-                    16
-                ) / 255;
-
-
-            return [r, g, b];
-        }
-
-
-        return fallback;
-    }
-
-
-    const bgColor =
-        parseColor(
-            settings.background,
-            [0, 0, 0]
-        );
-
-
-    const baseColor =
-        parseColor(
-            settings.base,
-            [1, 0.25, 0]
-        );
-
-
-    const accentColor =
-        parseColor(
-            settings.accent,
-            [1, 0.5, 0.2]
-        );
-
-
-    const highlightColor =
-        parseColor(
-            settings.highlight,
-            [1, 1, 1]
-        );
-
-
-    /* =========================
-       POINTER
-    ========================== */
-
-    const pointer = {
-
-        x: 0,
-
-        y: 0,
-
-        targetX: 0,
-
-        targetY: 0,
-
-        active: 0,
-
-        targetActive: 0
-    };
-
-
-    canvas.addEventListener(
-        "pointermove",
-        (event) => {
-
-            const rect =
-                canvas.getBoundingClientRect();
-
-
-            pointer.targetX =
-                event.clientX -
-                rect.left;
-
-
-            /*
-             * WebGL считает Y снизу вверх
-             */
-
-            pointer.targetY =
-                rect.height -
-                (
-                    event.clientY -
-                    rect.top
-                );
-
-
-            pointer.targetActive = 1;
-        }
-    );
-
-
-    canvas.addEventListener(
-        "pointerleave",
-        () => {
-
-            pointer.targetActive = 0;
-        }
-    );
-
-
-    /* =========================
-       RENDER
-    ========================== */
-
-    let animationFrame = 0;
-
-    let lastTime =
-        performance.now();
-
-    let clock = 0;
-
-
-    function render(now) {
-
-        const delta =
-            Math.min(
-                0.05,
-                (now - lastTime) / 1000
-            );
-
-
-        lastTime = now;
-
-
-        clock =
-            (
-                clock +
-                delta *
-                0.9 *
-                settings.speed
-            ) %
-            6283;
-
-
-        const dpr =
-            Math.min(
-                window.devicePixelRatio || 1,
-                2
-            );
-
-
-        const rect =
-            canvas.getBoundingClientRect();
-
-
-        const cssWidth =
-            rect.width;
-
-
-        const cssHeight =
-            rect.height;
-
-
-        const bufferWidth =
-            Math.max(
-                1,
-                Math.round(
-                    cssWidth * dpr
-                )
-            );
-
-
-        const bufferHeight =
-            Math.max(
-                1,
-                Math.round(
-                    cssHeight * dpr
-                )
-            );
-
-
-        if (
-            canvas.width !==
-            bufferWidth ||
-
-            canvas.height !==
-            bufferHeight
-        ) {
-
-            canvas.width =
-                bufferWidth;
-
-            canvas.height =
-                bufferHeight;
-        }
-
-
-        gl.viewport(
-            0,
-            0,
-            bufferWidth,
-            bufferHeight
-        );
-
-
-        /*
-         * Плотность точек
-         */
-
-        const pitch =
-            Math.min(
-                bufferWidth,
-                bufferHeight
-            ) /
-            settings.density;
-
-
-        /*
-         * Плавность курсора
-         */
-
-        const positionLerp =
-            Math.min(
-                1,
-                delta * 12
-            );
-
-
-        const activeLerp =
-            Math.min(
-                1,
-                delta * 6
-            );
-
-
-        pointer.x +=
-            (
-                pointer.targetX -
-                pointer.x
-            ) *
-            positionLerp;
-
-
-        pointer.y +=
-            (
-                pointer.targetY -
-                pointer.y
-            ) *
-            positionLerp;
-
-
-        pointer.active +=
-            (
-                pointer.targetActive -
-                pointer.active
-            ) *
-            activeLerp;
-
-
-        /* =========================
-           SEND DATA TO SHADER
-        ========================== */
-
-        gl.uniform2f(
-            uniform("uRes"),
-            bufferWidth,
-            bufferHeight
-        );
-
-
-        gl.uniform1f(
-            uniform("uTime"),
-            clock
-        );
-
-
-        gl.uniform1f(
-            uniform("uDpr"),
-            dpr
-        );
-
-
-        gl.uniform1f(
-            uniform("uCell"),
-            Math.max(
-                2,
-                pitch * dpr
-            )
-        );
-
-
-        gl.uniform1f(
-            uniform("uDot"),
-            pitch *
-            1.2 *
-            settings.dotSize
-        );
-
-
-        gl.uniform1f(
-            uniform("uPeak"),
-            settings.peak
-        );
-
-
-        gl.uniform1f(
-            uniform("uHeight"),
-            settings.archHeight
-        );
-
-
-        gl.uniform1f(
-            uniform("uThick"),
-            settings.thickness
-        );
-
-
-        gl.uniform1f(
-            uniform("uFall"),
-            settings.falloff
-        );
-
-
-        gl.uniform2f(
-            uniform("uMouse"),
-            pointer.x,
-            pointer.y
-        );
-
-
-        gl.uniform1f(
-            uniform("uMouseRadius"),
-            settings.pointerRadius
-        );
-
-
-        gl.uniform1f(
-            uniform("uMouseStrength"),
-            settings.pointerStrength *
-            pointer.active
-        );
-
-
-        gl.uniform3f(
-            uniform("uBg"),
-            bgColor[0],
-            bgColor[1],
-            bgColor[2]
-        );
-
-
-        gl.uniform3f(
-            uniform("uBase"),
-            baseColor[0],
-            baseColor[1],
-            baseColor[2]
-        );
-
-
-        gl.uniform3f(
-            uniform("uAccent"),
-            accentColor[0],
-            accentColor[1],
-            accentColor[2]
-        );
-
-
-        gl.uniform3f(
-            uniform("uHigh"),
-            highlightColor[0],
-            highlightColor[1],
-            highlightColor[2]
-        );
-
-
-        /* =========================
-           DRAW
-        ========================== */
-
-        gl.drawArrays(
-            gl.TRIANGLES,
-            0,
-            3
-        );
-
 
         animationFrame =
-            requestAnimationFrame(
-                render
-            );
+            requestAnimationFrame(draw);
     }
 
 
-    animationFrame =
-        requestAnimationFrame(
-            render
-        );
+    window.addEventListener("resize", resize);
 
-
-    /* =========================
-       CLEANUP
-    ========================== */
-
-    window.addEventListener(
-        "resize",
-        () => {
-
-            /*
-             * Размер обновляется
-             * внутри render
-             */
-        }
-    );
+    resize();
+    draw();
 
 })();
 
+
 /* =========================================================
-   BOTTOM INTERACTIVE DOTS
+   BOTTOM PARTICLES
 ========================================================= */
 
 (() => {
 
     const canvas =
-        document.getElementById(
-            "particleCanvas"
-        );
+        document.getElementById("particleCanvas");
 
     if (!canvas) return;
-
 
     const ctx =
         canvas.getContext("2d");
 
-
-    /*
-     * Настройки точек
-     */
-
-    const PARTICLE_SIZE = 2.4;
-
-    const PARTICLE_COLOR =
-        "#363636";
-
-    const ACTIVE_COLOR =
-        "#F36D07";
-
-    const CURSOR_COLOR =
-        "#F36D07";
-
-    const SPACING = 17;
-
-    /*
-     * Радиус, в котором курсор
-     * начинает двигать точки
-     */
-
-    const MOUSE_RADIUS = 55;
-
-    /*
-     * Сила разлёта
-     */
-
-    const REPULSION = 6.5;
-
-    /*
-     * Возврат на исходную позицию
-     */
-
-    const SPRING = 0.075;
-
-    /*
-     * Плавность движения
-     */
-
-    const FRICTION = 0.82;
-
-
     let width = 0;
     let height = 0;
 
-    let particles = [];
+    let mouseX = -1000;
+    let mouseY = -1000;
 
+    const particles = [];
 
-    const mouse = {
+    const SPACING = 18;
+    const PARTICLE_SIZE = 2.4;
 
-        x: -1000,
+    const PARTICLE_COLOR = "#333333";
+    const LIME_COLOR = "#F36D07";
 
-        y: -1000,
+    const COLOR_RADIUS = 38;
 
-        active: false
-
-    };
-
-
-    /* =========================
-       RESIZE
-    ========================== */
 
     function resize() {
 
         const rect =
             canvas.getBoundingClientRect();
 
-
-        width =
-            rect.width;
-
-        height =
-            rect.height;
-
+        width = rect.width;
+        height = rect.height;
 
         const dpr =
-            Math.min(
-                window.devicePixelRatio || 1,
-                2
-            );
-
+            Math.min(window.devicePixelRatio || 1, 2);
 
         canvas.width =
             width * dpr;
 
         canvas.height =
             height * dpr;
-
 
         ctx.setTransform(
             dpr,
@@ -1132,56 +227,37 @@
             0
         );
 
-
         createParticles();
     }
 
 
-    /* =========================
-       CREATE GRID
-    ========================== */
-
     function createParticles() {
 
-        particles = [];
+        particles.length = 0;
 
+        const cols =
+            Math.ceil(width / SPACING);
 
-        for (
-            let y = SPACING / 2;
-            y < height;
-            y += SPACING
-        ) {
+        const rows =
+            Math.ceil(height / SPACING);
 
-            for (
-                let x = SPACING / 2;
-                x < width;
-                x += SPACING
-            ) {
+        for (let y = 0; y <= rows; y++) {
+
+            for (let x = 0; x <= cols; x++) {
 
                 particles.push({
-
-                    x: x,
-
-                    y: y,
-
-                    originalX: x,
-
-                    originalY: y,
-
+                    x: x * SPACING,
+                    y: y * SPACING,
+                    baseX: x * SPACING,
+                    baseY: y * SPACING,
                     vx: 0,
-
                     vy: 0
-
                 });
 
             }
         }
     }
 
-
-    /* =========================
-       MOUSE MOVE
-    ========================== */
 
     canvas.addEventListener(
         "pointermove",
@@ -1190,18 +266,12 @@
             const rect =
                 canvas.getBoundingClientRect();
 
+            mouseX =
+                event.clientX - rect.left;
 
-            mouse.x =
-                event.clientX -
-                rect.left;
+            mouseY =
+                event.clientY - rect.top;
 
-
-            mouse.y =
-                event.clientY -
-                rect.top;
-
-
-            mouse.active = true;
         }
     );
 
@@ -1210,18 +280,12 @@
         "pointerleave",
         () => {
 
-            mouse.active = false;
+            mouseX = -1000;
+            mouseY = -1000;
 
-            mouse.x = -1000;
-
-            mouse.y = -1000;
         }
     );
 
-
-    /* =========================
-       ANIMATION
-    ========================== */
 
     function animate() {
 
@@ -1232,150 +296,65 @@
             height
         );
 
+        for (const particle of particles) {
 
-        particles.forEach(
-            (particle) => {
+            const dx =
+                particle.baseX - mouseX;
 
+            const dy =
+                particle.baseY - mouseY;
 
-                /*
-                 * Возвращение
-                 * к исходному месту
-                 */
+            const distance =
+                Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 90) {
+
+                const force =
+                    (90 - distance) / 90;
+
+                const angle =
+                    Math.atan2(dy, dx);
 
                 particle.vx +=
-                    (
-                        particle.originalX -
-                        particle.x
-                    ) * SPRING;
-
+                    Math.cos(angle) * force * 0.7;
 
                 particle.vy +=
-                    (
-                        particle.originalY -
-                        particle.y
-                    ) * SPRING;
-
-
-                let active = false;
-
-
-                /*
-                 * Отталкивание
-                 */
-
-                if (mouse.active) {
-
-                    const dx =
-                        particle.x -
-                        mouse.x;
-
-                    const dy =
-                        particle.y -
-                        mouse.y;
-
-
-                    const distance =
-                        Math.sqrt(
-                            dx * dx +
-                            dy * dy
-                        );
-
-
-                    if (
-                        distance <
-                        MOUSE_RADIUS &&
-                        distance > 0
-                    ) {
-
-                        active = true;
-
-
-                        const force =
-                            1 -
-                            distance /
-                            MOUSE_RADIUS;
-
-
-                        /*
-                         * Квадратичная сила:
-                         * возле курсора
-                         * точки разлетаются
-                         * намного сильнее
-                         */
-
-                        const strength =
-                            force *
-                            force *
-                            REPULSION;
-
-
-                        particle.vx +=
-                            (
-                                dx /
-                                distance
-                            ) *
-                            strength;
-
-
-                        particle.vy +=
-                            (
-                                dy /
-                                distance
-                            ) *
-                            strength;
-                    }
-                }
-
-
-                /*
-                 * Движение
-                 */
-
-                particle.vx *=
-                    FRICTION;
-
-                particle.vy *=
-                    FRICTION;
-
-
-                particle.x +=
-                    particle.vx;
-
-                particle.y +=
-                    particle.vy;
-
-
-                /*
-                 * Рисуем точку
-                 */
-
-                ctx.beginPath();
-
-
-                ctx.arc(
-                    particle.x,
-                    particle.y,
-                    PARTICLE_SIZE,
-                    0,
-                    Math.PI * 2
-                );
-
-
-                ctx.fillStyle =
-                    active
-                        ? ACTIVE_COLOR
-                        : PARTICLE_COLOR;
-
-
-                ctx.fill();
+                    Math.sin(angle) * force * 0.7;
 
             }
-        );
+
+            particle.vx *= 0.9;
+            particle.vy *= 0.9;
+
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+
+            particle.x +=
+                (particle.baseX - particle.x) * 0.04;
+
+            particle.y +=
+                (particle.baseY - particle.y) * 0.04;
 
 
-        requestAnimationFrame(
-            animate
-        );
+            ctx.beginPath();
+
+            ctx.arc(
+                particle.x,
+                particle.y,
+                PARTICLE_SIZE,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fillStyle =
+                distance < COLOR_RADIUS
+                    ? LIME_COLOR
+                    : PARTICLE_COLOR;
+
+            ctx.fill();
+        }
+
+        requestAnimationFrame(animate);
     }
 
 
@@ -1384,9 +363,7 @@
         resize
     );
 
-
     resize();
-
     animate();
 
 })();
