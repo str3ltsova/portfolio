@@ -1,22 +1,29 @@
 /* =========================================================
-   PREDICTIVE ARC — ORIGINAL STYLE
-   TOP ONLY
+   PREDICTIVE ARC — TOP
 ========================================================= */
 
 (() => {
 
-    const canvas = document.getElementById("arcCanvas");
+    const canvas =
+        document.getElementById("arcCanvas");
 
     if (!canvas) return;
 
-    const gl = canvas.getContext("webgl", {
-        alpha: false,
-        antialias: false,
-        depth: false
-    });
+
+    const gl =
+        canvas.getContext("webgl", {
+            alpha: false,
+            antialias: false,
+            depth: false
+        });
+
 
     if (!gl) {
-        console.error("Predictive Arc: WebGL unavailable");
+
+        console.error(
+            "Predictive Arc: WebGL unavailable"
+        );
+
         return;
     }
 
@@ -26,15 +33,24 @@
     ========================== */
 
     const vertexShaderSource = `
+
         attribute vec2 a_pos;
 
         void main() {
-            gl_Position = vec4(a_pos, 0.0, 1.0);
+
+            gl_Position =
+                vec4(
+                    a_pos,
+                    0.0,
+                    1.0
+                );
         }
+
     `;
 
 
     const fragmentShaderSource = `
+
         precision highp float;
 
         uniform vec2 uRes;
@@ -63,59 +79,85 @@
 
         void main() {
 
-            /*
-             * Создаём сетку ячеек.
-             * Каждая ячейка становится одной точкой.
-             */
-
             float cell =
-                max(uCell, 2.0);
+                max(
+                    uCell,
+                    2.0
+                );
+
 
             vec2 cellIndex =
-                floor(gl_FragCoord.xy / cell);
+                floor(
+                    gl_FragCoord.xy /
+                    cell
+                );
+
 
             vec2 cellCenter =
-                (cellIndex + 0.5) * cell;
+                (
+                    cellIndex +
+                    0.5
+                ) * cell;
 
 
             /*
-             * Координаты в CSS-пикселях
+             * CSS coordinates
              */
 
             float x =
-                cellCenter.x / uDpr;
+                cellCenter.x /
+                uDpr;
+
 
             float y =
-                (uRes.y - cellCenter.y) / uDpr;
+                (
+                    uRes.y -
+                    cellCenter.y
+                ) /
+                uDpr;
+
 
             float width =
-                uRes.x / uDpr;
+                uRes.x /
+                uDpr;
+
 
             float height =
-                uRes.y / uDpr;
+                uRes.y /
+                uDpr;
 
 
             /*
-             * Форма дуги
+             * Arc shape
              */
 
             float normX =
-                (x - width * 0.5) /
-                (width * 0.75);
+                (
+                    x -
+                    width * 0.5
+                ) /
+                (
+                    width * 0.75
+                );
 
 
             float curveY =
                 height * uPeak +
-                normX * normX *
-                (height * uHeight);
+                normX *
+                normX *
+                (
+                    height *
+                    uHeight
+                );
 
 
             /*
-             * Воздействие курсора
+             * Mouse interaction
              */
 
             float mouseDistance =
-                x - uMouse.x;
+                x -
+                uMouse.x;
 
 
             float influence =
@@ -143,11 +185,14 @@
 
 
             /*
-             * Расстояние до дуги
+             * Distance from arc
              */
 
             float distanceToCurve =
-                abs(y - curveY);
+                abs(
+                    y -
+                    curveY
+                );
 
 
             float thickness =
@@ -178,25 +223,28 @@
 
 
                 /*
-                 * Живое движение
+                 * Motion
                  */
 
                 float waveX =
                     sin(
-                        x * 0.015 +
+                        x *
+                        0.015 +
                         uTime
                     );
 
 
                 float waveY =
                     cos(
-                        y * 0.02 +
+                        y *
+                        0.02 +
                         uTime
                     );
 
 
                 intensity =
-                    intensity * 0.7 +
+                    intensity *
+                    0.7 +
                     waveX *
                     waveY *
                     0.3 *
@@ -204,7 +252,7 @@
 
 
                 /*
-                 * Ослабление к краям
+                 * Fade edges
                  */
 
                 intensity *=
@@ -218,10 +266,13 @@
                     );
 
 
-                if (intensity > 0.02) {
+                if (
+                    intensity >
+                    0.02
+                ) {
 
                     /*
-                     * Размер точки
+                     * Dot size
                      */
 
                     float dotSide =
@@ -240,8 +291,14 @@
                     float coverage =
                         1.0 -
                         smoothstep(
-                            dotSide * 0.5 - 1.0,
-                            dotSide * 0.5 + 1.0,
+                            dotSide *
+                            0.5 -
+                            1.0,
+
+                            dotSide *
+                            0.5 +
+                            1.0,
+
                             max(
                                 difference.x,
                                 difference.y
@@ -250,18 +307,20 @@
 
 
                     /*
-                     * Оранжевый градиент
+                     * Orange gradient
                      */
 
                     vec3 ink =
                         mix(
                             uBase,
                             uAccent,
+
                             clamp(
                                 pow(
                                     intensity,
                                     1.1
                                 ),
+
                                 0.0,
                                 1.0
                             )
@@ -269,13 +328,14 @@
 
 
                     /*
-                     * Яркие участки
+                     * Highlights
                      */
 
                     ink =
                         mix(
                             ink,
                             uHigh,
+
                             smoothstep(
                                 0.72,
                                 1.0,
@@ -288,9 +348,12 @@
                         mix(
                             uBg,
                             ink,
+
                             coverage *
                             clamp(
-                                intensity * 1.6,
+                                intensity *
+                                1.6,
+
                                 0.0,
                                 1.0
                             )
@@ -304,7 +367,9 @@
                     color,
                     1.0
                 );
+
         }
+
     `;
 
 
@@ -320,14 +385,17 @@
         const shader =
             gl.createShader(type);
 
+
         if (!shader) {
             return null;
         }
+
 
         gl.shaderSource(
             shader,
             source
         );
+
 
         gl.compileShader(shader);
 
@@ -341,8 +409,11 @@
 
             console.error(
                 "Predictive Arc shader:",
-                gl.getShaderInfoLog(shader)
+                gl.getShaderInfoLog(
+                    shader
+                )
             );
+
 
             gl.deleteShader(shader);
 
@@ -383,6 +454,7 @@
     const program =
         gl.createProgram();
 
+
     if (!program) return;
 
 
@@ -391,12 +463,16 @@
         vertexShader
     );
 
+
     gl.attachShader(
         program,
         fragmentShader
     );
 
-    gl.linkProgram(program);
+
+    gl.linkProgram(
+        program
+    );
 
 
     if (
@@ -408,14 +484,18 @@
 
         console.error(
             "Predictive Arc:",
-            gl.getProgramInfoLog(program)
+            gl.getProgramInfoLog(
+                program
+            )
         );
 
         return;
     }
 
 
-    gl.useProgram(program);
+    gl.useProgram(
+        program
+    );
 
 
     /* =========================
@@ -425,6 +505,7 @@
     const buffer =
         gl.createBuffer();
 
+
     gl.bindBuffer(
         gl.ARRAY_BUFFER,
         buffer
@@ -432,12 +513,15 @@
 
 
     gl.bufferData(
+
         gl.ARRAY_BUFFER,
 
         new Float32Array([
+
             -1, -1,
              3, -1,
             -1,  3
+
         ]),
 
         gl.STATIC_DRAW
@@ -484,6 +568,7 @@
                 );
         }
 
+
         return uniforms[name];
     }
 
@@ -494,55 +579,19 @@
 
     const settings = {
 
-        /*
-         * Чёрный фон
-         */
-
         background: "#000000",
-
-        /*
-         * Главный оранжевый
-         */
 
         base: "#F36D07",
 
-        /*
-         * Более светлый оранжевый
-         */
-
         accent: "#FF9A52",
-
-        /*
-         * Самые яркие точки
-         */
 
         highlight: "#FFFFFF",
 
-
-        /*
-         * Плотность
-         */
-
         density: 78,
-
-
-        /*
-         * Размер точек
-         */
 
         dotSize: 1.02,
 
-
-        /*
-         * Скорость
-         */
-
         speed: 2,
-
-
-        /*
-         * Дуга
-         */
 
         peak: 0.01,
 
@@ -551,11 +600,6 @@
         thickness: 1.11,
 
         falloff: 2.06,
-
-
-        /*
-         * Курсор
-         */
 
         pointerRadius: 83,
 
@@ -600,11 +644,13 @@
                     16
                 ) / 255;
 
+
             const g =
                 parseInt(
                     hex.slice(2, 4),
                     16
                 ) / 255;
+
 
             const b =
                 parseInt(
@@ -613,7 +659,11 @@
                 ) / 255;
 
 
-            return [r, g, b];
+            return [
+                r,
+                g,
+                b
+            ];
         }
 
 
@@ -682,10 +732,6 @@
                 rect.left;
 
 
-            /*
-             * WebGL считает Y снизу вверх
-             */
-
             pointer.targetY =
                 rect.height -
                 (
@@ -712,10 +758,9 @@
        RENDER
     ========================== */
 
-    let animationFrame = 0;
-
     let lastTime =
         performance.now();
+
 
     let clock = 0;
 
@@ -725,7 +770,10 @@
         const delta =
             Math.min(
                 0.05,
-                (now - lastTime) / 1000
+                (
+                    now -
+                    lastTime
+                ) / 1000
             );
 
 
@@ -765,7 +813,8 @@
             Math.max(
                 1,
                 Math.round(
-                    cssWidth * dpr
+                    cssWidth *
+                    dpr
                 )
             );
 
@@ -774,7 +823,8 @@
             Math.max(
                 1,
                 Math.round(
-                    cssHeight * dpr
+                    cssHeight *
+                    dpr
                 )
             );
 
@@ -804,7 +854,7 @@
 
 
         /*
-         * Плотность точек
+         * Dot density
          */
 
         const pitch =
@@ -816,7 +866,7 @@
 
 
         /*
-         * Плавность курсора
+         * Smooth pointer
          */
 
         const positionLerp =
@@ -858,7 +908,7 @@
 
 
         /* =========================
-           SEND DATA TO SHADER
+           SEND DATA
         ========================== */
 
         gl.uniform2f(
@@ -984,35 +1034,19 @@
         );
 
 
-        animationFrame =
-            requestAnimationFrame(
-                render
-            );
-    }
-
-
-    animationFrame =
         requestAnimationFrame(
             render
         );
+    }
 
 
-    /* =========================
-       CLEANUP
-    ========================== */
-
-    window.addEventListener(
-        "resize",
-        () => {
-
-            /*
-             * Размер обновляется
-             * внутри render
-             */
-        }
+    requestAnimationFrame(
+        render
     );
 
+
 })();
+
 
 /* =========================================================
    BOTTOM INTERACTIVE DOTS
@@ -1025,6 +1059,7 @@
             "particleCanvas"
         );
 
+
     if (!canvas) return;
 
 
@@ -1032,9 +1067,9 @@
         canvas.getContext("2d");
 
 
-    /*
-     * Настройки точек
-     */
+    /* =========================
+       SETTINGS
+    ========================== */
 
     const PARTICLE_SIZE = 2.4;
 
@@ -1049,33 +1084,17 @@
 
     const SPACING = 17;
 
-    /*
-     * Радиус, в котором курсор
-     * начинает двигать точки
-     */
-
     const MOUSE_RADIUS = 55;
-
-    /*
-     * Сила разлёта
-     */
 
     const REPULSION = 6.5;
 
-    /*
-     * Возврат на исходную позицию
-     */
-
     const SPRING = 0.075;
-
-    /*
-     * Плавность движения
-     */
 
     const FRICTION = 0.82;
 
 
     let width = 0;
+
     let height = 0;
 
     let particles = [];
@@ -1105,6 +1124,7 @@
         width =
             rect.width;
 
+
         height =
             rect.height;
 
@@ -1118,6 +1138,7 @@
 
         canvas.width =
             width * dpr;
+
 
         canvas.height =
             height * dpr;
@@ -1180,7 +1201,7 @@
 
 
     /* =========================
-       MOUSE MOVE
+       MOUSE
     ========================== */
 
     canvas.addEventListener(
@@ -1236,31 +1257,31 @@
         particles.forEach(
             (particle) => {
 
-
                 /*
-                 * Возвращение
-                 * к исходному месту
+                 * Return
                  */
 
                 particle.vx +=
                     (
                         particle.originalX -
                         particle.x
-                    ) * SPRING;
+                    ) *
+                    SPRING;
 
 
                 particle.vy +=
                     (
                         particle.originalY -
                         particle.y
-                    ) * SPRING;
+                    ) *
+                    SPRING;
 
 
                 let active = false;
 
 
                 /*
-                 * Отталкивание
+                 * Repulsion
                  */
 
                 if (mouse.active) {
@@ -1268,6 +1289,7 @@
                     const dx =
                         particle.x -
                         mouse.x;
+
 
                     const dy =
                         particle.y -
@@ -1296,13 +1318,6 @@
                             MOUSE_RADIUS;
 
 
-                        /*
-                         * Квадратичная сила:
-                         * возле курсора
-                         * точки разлетаются
-                         * намного сильнее
-                         */
-
                         const strength =
                             force *
                             force *
@@ -1328,11 +1343,12 @@
 
 
                 /*
-                 * Движение
+                 * Movement
                  */
 
                 particle.vx *=
                     FRICTION;
+
 
                 particle.vy *=
                     FRICTION;
@@ -1341,12 +1357,13 @@
                 particle.x +=
                     particle.vx;
 
+
                 particle.y +=
                     particle.vy;
 
 
                 /*
-                 * Рисуем точку
+                 * Draw
                  */
 
                 ctx.beginPath();
