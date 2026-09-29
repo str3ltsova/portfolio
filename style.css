@@ -49,14 +49,22 @@ body * {
     position: fixed;
     top: 0;
     left: 0;
+
     width: 12px;
     height: 12px;
+
     background: #DC0000;
     border-radius: 50%;
+
     pointer-events: none;
     z-index: 99999;
+
     transform: translate(-50%, -50%);
-    transition: width .2s ease, height .2s ease;
+
+    transition:
+        width .2s ease,
+        height .2s ease;
+
     opacity: 0;
 }
 
@@ -69,15 +77,19 @@ body * {
     height: 42px;
 }
 
+
 @media (hover: none) {
+
     html,
     body,
     body * {
         cursor: auto !important;
     }
+
     .cursor-dot {
         display: none;
     }
+
 }
 
 
@@ -87,15 +99,22 @@ body * {
 
 .site-header {
     position: fixed;
+
     top: 0;
     left: 0;
+
     width: 100%;
+
     z-index: 1000;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: transform 0.35s ease, opacity 0.35s ease;
+
+    /* БЕЗ ПРОЗРАЧНОСТИ */
+    background: #000;
+
+    transition:
+        transform 0.35s ease,
+        opacity 0.35s ease;
 }
+
 
 .site-header.hidden {
     transform: translateY(-100%);
@@ -103,33 +122,55 @@ body * {
     pointer-events: none;
 }
 
+
 .header-inner {
     max-width: 1200px;
+
     margin: 0 auto;
-    padding: 18px 32px;
+
+    padding:
+        10px
+        32px;
+
     display: flex;
+
     justify-content: space-between;
+
     align-items: flex-start;
 }
 
+
 .logo-img {
-    height: 40px;
+    height: 34px;
+
     width: auto;
+
     display: block;
 }
 
+
 .header-nav {
     display: flex;
+
     gap: 48px;
+
+    padding-top: 8px;
 }
 
+
 .header-nav a {
-    font-size: 14px;
+    font-size: 13px;
+
     font-weight: 500;
-    letter-spacing: 0.02em;
+
+    letter-spacing: 0.01em;
+
     color: #fff;
-    transition: color 0.2s;
+
+    transition:
+        color 0.2s;
 }
+
 
 .header-nav a:hover {
     color: #DC0000;
@@ -137,162 +178,294 @@ body * {
 
 
 /* =========================
-   ГЛАВНЫЙ ЭКРАН (ГЕРОЙ)
+   ГЛАВНЫЙ ЭКРАН
 ========================= */
 
 .hero-section {
+
     position: relative;
+
     width: 100%;
+
     min-height: 100vh;
+
     background: #000;
+
     overflow: hidden;
-    padding-top: 80px;
+
+    padding-top: 54px;
 }
 
+
 #arcCanvas {
+
     position: absolute;
+
     inset: 0;
+
     width: 100%;
+
     height: 100%;
+
     display: block;
+
     pointer-events: none;
 }
 
+
 .hero-content {
+
     position: relative;
+
     z-index: 2;
+
     max-width: 1200px;
+
     margin: 0 auto;
-    padding: 60px 32px 100px;
+
+    padding:
+        42px
+        32px
+        100px;
+
     display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 80px;
+
+    grid-template-columns:
+        1fr
+        300px;
+
+    gap: 70px;
+
     align-items: start;
 }
 
-/* Левая часть */
+
+/* =========================
+   ЛЕВАЯ ЧАСТЬ
+========================= */
 
 .hero-left {
+
     display: flex;
+
     flex-direction: column;
-    gap: 32px;
+
+    gap: 27px;
 }
 
+
 .hero-photo {
-    width: 200px;
-    height: 200px;
-    border-radius: 12px;
+
+    width: 175px;
+
+    height: 175px;
+
+    border-radius: 10px;
+
     overflow: hidden;
 }
 
+
 .hero-photo img {
+
     width: 100%;
+
     height: 100%;
+
     object-fit: cover;
 }
 
+
 .hero-title-img {
+
     width: 100%;
-    max-width: 600px;
+
+    max-width: 570px;
+
     height: auto;
+
     display: block;
 }
+
 
 .hero-description {
-    font-size: 24px;
-    letter-spacing: -0.06em;
-    line-height: 1.4;
+
+    font-size: 21px;
+
+    letter-spacing: -0.055em;
+
+    line-height: 1.42;
+
     font-weight: 500;
+
     color: #fff;
-    max-width: 620px;
+
+    max-width: 570px;
 }
 
+
 .hero-links {
+
     display: flex;
+
     flex-wrap: wrap;
+
     gap: 12px;
 }
 
+
 .hero-links a {
+
     display: inline-block;
-    padding: 12px 20px;
-    border: 1px solid #333;
+
+    padding:
+        10px
+        19px;
+
+    border:
+        1px solid #555;
+
     border-radius: 100px;
-    font-size: 14px;
+
+    font-size: 13px;
+
     font-weight: 400;
-    letter-spacing: 0.02em;
+
+    letter-spacing: 0.01em;
+
     color: #fff;
-    transition: border-color 0.2s, color 0.2s;
+
+    transition:
+        border-color 0.2s,
+        color 0.2s;
 }
 
+
 .hero-links a:hover {
+
     border-color: #DC0000;
+
     color: #DC0000;
 }
 
-/* Правая часть */
+
+/* =========================
+   ПРАВАЯ ЧАСТЬ
+========================= */
 
 .hero-right {
+
     display: flex;
+
     flex-direction: column;
-    gap: 24px;
-    padding-top: 8px;
+
+    gap: 20px;
+
+    padding-top: 5px;
 }
+
 
 .star-icon {
-    width: 24px;
-    height: 24px;
+
+    width: 20px;
+
+    height: 20px;
+
+    margin-bottom: 1px;
 }
 
+
 .star-icon svg {
+
     width: 100%;
+
     height: 100%;
+
     display: block;
 }
 
+
 .info-item {
+
     display: flex;
+
     flex-direction: column;
-    gap: 12px;
+
+    gap: 9px;
 }
 
+
 .info-date {
-    font-size: 14px;
+
+    font-size: 13px;
+
     font-weight: 500;
-    letter-spacing: 0.04em;
+
+    letter-spacing: 0.02em;
+
     color: #DC0000;
 }
 
+
 .info-text {
-    font-size: 14px;
+
+    font-size: 13px;
+
     font-weight: 500;
-    line-height: 1.45;
+
+    line-height: 1.4;
+
     color: #fff;
 }
+
 
 .hard-skills-badge {
+
     display: inline-block;
+
     width: fit-content;
-    padding: 12px 20px;
-    border: 1px solid #fff;
+
+    padding:
+        10px
+        18px;
+
+    border:
+        1px solid #fff;
+
     border-radius: 4px;
-    font-size: 14px;
+
+    font-size: 13px;
+
     font-weight: 400;
-    letter-spacing: 0.02em;
+
+    letter-spacing: 0.01em;
+
     color: #fff;
+
+    margin-top: 4px;
 }
+
 
 .skills-list {
+
     display: flex;
+
     flex-wrap: wrap;
-    gap: 8px 16px;
-    font-size: 14px;
+
+    gap: 7px 15px;
+
+    font-size: 13px;
+
     font-weight: 500;
+
     color: #fff;
-    line-height: 1.5;
+
+    line-height: 1.45;
 }
 
+
 .skills-list span {
+
     white-space: nowrap;
 }
 
@@ -524,98 +697,182 @@ section:not(.hero-section):not(.particle-section) {
 @media (max-width: 900px) {
 
     .hero-content {
+
         grid-template-columns: 1fr;
+
         gap: 60px;
     }
 
+
     .hero-right {
+
         order: -1;
     }
 
+
     .header-nav {
+
         gap: 24px;
     }
 
+
     .about-grid {
+
         grid-template-columns: 1fr;
+
         gap: 40px;
     }
 
+
     .about-image {
+
         min-height: 400px;
     }
+
 }
+
 
 @media (max-width: 700px) {
 
     section:not(.hero-section):not(.particle-section) {
-        padding: 75px 20px;
+
+        padding:
+            75px
+            20px;
     }
+
 
     .header-inner {
-        padding: 14px 20px;
+
+        padding:
+            10px
+            20px;
     }
 
+
+    .logo-img {
+
+        height: 30px;
+    }
+
+
+    .header-nav {
+
+        padding-top: 5px;
+
+        gap: 24px;
+    }
+
+
     .header-nav a {
+
         font-size: 12px;
     }
 
+
     .hero-section {
-        padding-top: 60px;
+
+        padding-top: 50px;
     }
+
 
     .hero-content {
-        padding: 40px 20px 80px;
+
+        padding:
+            35px
+            20px
+            80px;
     }
 
-    .hero-description {
-        font-size: 20px;
+
+    .hero-photo {
+
+        width: 150px;
+
+        height: 150px;
     }
+
+
+    .hero-description {
+
+        font-size: 19px;
+    }
+
 
     .hero-links a,
     .contact-links a {
+
         font-size: 13px;
-        padding: 10px 16px;
+
+        padding:
+            10px
+            16px;
     }
 
+
     .project-grid {
+
         grid-template-columns: 1fr;
     }
 
+
     .project-card {
+
         padding: 24px;
+
         min-height: auto;
     }
 
+
     .project-tags {
+
         margin-bottom: 60px;
     }
 
+
     .tag {
-        padding: 8px 18px;
+
+        padding:
+            8px
+            18px;
+
         font-size: 12px;
     }
 
+
     .project-body h3 {
+
         font-size: 20px;
     }
 
+
     .big-text {
+
         font-size: 34px;
     }
 
+
     .about-image {
+
         min-height: 320px;
     }
 
+
     .contact {
+
         min-height: 500px;
     }
 
+
     .particle-section {
+
         width: calc(100% - 12px);
+
         margin-left: 6px;
+
         margin-right: 6px;
+
         height: 220px;
     }
+
 }
