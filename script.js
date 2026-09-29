@@ -1,10 +1,11 @@
 /* =========================================================
-   КУРСОР (оранжево-красная точка)
+   КУРСОР
 ========================================================= */
 
 (() => {
 
     const dot = document.querySelector(".cursor-dot");
+
     if (!dot) return;
 
     if (window.matchMedia("(hover: none)").matches) return;
@@ -15,14 +16,16 @@
     let dotX = mouseX;
     let dotY = mouseY;
 
-    document.addEventListener("mousemove", (e) => {
 
-        mouseX = e.clientX;
-        mouseY = e.clientY;
+    document.addEventListener("mousemove", (event) => {
+
+        mouseX = event.clientX;
+        mouseY = event.clientY;
 
         dot.classList.add("visible");
 
     });
+
 
     document.addEventListener("mouseleave", () => {
 
@@ -30,7 +33,8 @@
 
     });
 
-    function animate() {
+
+    function animateCursor() {
 
         dotX += (mouseX - dotX) * 0.25;
         dotY += (mouseY - dotY) * 0.25;
@@ -38,25 +42,31 @@
         dot.style.left = dotX + "px";
         dot.style.top = dotY + "px";
 
-        requestAnimationFrame(animate);
+        requestAnimationFrame(animateCursor);
 
     }
 
-    animate();
+    animateCursor();
 
 
     const hoverables = document.querySelectorAll(
         "a, button, .project-card, .contact-links a, .hero-links a"
     );
 
-    hoverables.forEach((el) => {
 
-        el.addEventListener("mouseenter", () => {
+    hoverables.forEach((element) => {
+
+        element.addEventListener("mouseenter", () => {
+
             dot.classList.add("hover");
+
         });
 
-        el.addEventListener("mouseleave", () => {
+
+        element.addEventListener("mouseleave", () => {
+
             dot.classList.remove("hover");
+
         });
 
     });
@@ -66,48 +76,79 @@
 
 
 /* =========================================================
-   ПРЕДИКТИВНАЯ ДУГА (WebGL)
+   ПРЕДИКТИВНАЯ ДУГА — WEBGL
 ========================================================= */
 
 (() => {
 
     const canvas = document.getElementById("arcCanvas");
-    const hero = document.querySelector(".hero-section");
 
-    if (!canvas || !hero) return;
+    if (!canvas) return;
 
 
     const gl = canvas.getContext("webgl", {
+
         alpha: false,
         antialias: false,
         depth: false
+
     });
 
+
     if (!gl) {
+
         console.error("Predictive Arc: WebGL недоступен");
+
         return;
+
     }
 
 
+    /* =========================
+       VERTEX SHADER
+    ========================= */
+
     const vertexShaderSource = `
+
         attribute vec2 a_pos;
 
         void main() {
+
             gl_Position = vec4(a_pos, 0.0, 1.0);
+
         }
+
     `;
 
 
+    /* =========================
+       FRAGMENT SHADER
+    ========================= */
+
     const fragmentShaderSource = `
+
         #ifdef GL_FRAGMENT_PRECISION_HIGH
+
         precision highp float;
+
         #else
+
         precision mediump float;
+
         #endif
 
+
         uniform vec2 uRes;
-        uniform float uTime, uDpr, uCell, uDot;
-        uniform float uPeak, uHeight, uThick, uFall;
+
+        uniform float uTime;
+        uniform float uDpr;
+        uniform float uCell;
+        uniform float uDot;
+
+        uniform float uPeak;
+        uniform float uHeight;
+        uniform float uThick;
+        uniform float uFall;
 
         uniform vec3 uBg;
         uniform vec3 uBase;
@@ -115,6 +156,7 @@
         uniform vec3 uHigh;
 
         uniform vec2 uMouse;
+
         uniform float uMouseRadius;
         uniform float uMouseStrength;
 
@@ -123,34 +165,37 @@
 
             float cs = max(uCell, 2.0);
 
+
             vec2 ci = floor(gl_FragCoord.xy / cs);
+
             vec2 cc = (ci + 0.5) * cs;
 
 
             float x = cc.x / uDpr;
+
             float y = (uRes.y - cc.y) / uDpr;
 
             float w = uRes.x / uDpr;
+
             float h = uRes.y / uDpr;
 
 
-            float normX = (x - w * 0.5) / (w * 0.75);
+            float normX =
+                (x - w * 0.5)
+                / (w * 0.75);
 
 
             float curveY =
                 h * uPeak
-                +
-                normX * normX * (h * uHeight);
+                + normX * normX * (h * uHeight);
 
 
-            /*
-             * АНИМАЦИЯ ОТ КУРСОРА
-             *
-             * Курсор немного притягивает
-             * центральную часть дуги.
-             */
+            /* =========================
+               ВЛИЯНИЕ КУРСОРА
+            ========================= */
 
             float mdx = x - uMouse.x;
+
 
             float influence =
                 uMouseStrength
@@ -159,20 +204,32 @@
                     -(mdx * mdx)
                     /
                     (
-                        2.0 * uMouseRadius * uMouseRadius
+                        2.0
+                        *
+                        uMouseRadius
+                        *
+                        uMouseRadius
                         +
                         1.0
                     )
                 );
 
-            curveY = mix(
-                curveY,
-                uMouse.y,
-                influence
-            );
+
+            curveY =
+                mix(
+                    curveY,
+                    uMouse.y,
+                    influence
+                );
 
 
-            float dist = abs(y - curveY);
+            /* =========================
+               ТОЛЩИНА ДУГИ
+            ========================= */
+
+            float dist =
+                abs(y - curveY);
+
 
             float th =
                 (
@@ -196,32 +253,61 @@
 
 
                 float waveX =
-                    sin(x * 0.015 + uTime);
+                    sin(
+                        x * 0.015
+                        +
+                        uTime
+                    );
+
 
                 float waveY =
-                    cos(y * 0.02 + uTime);
+                    cos(
+                        y * 0.02
+                        +
+                        uTime
+                    );
 
 
                 i =
                     i * 0.7
                     +
-                    waveX * waveY * 0.3 * i;
+                    waveX
+                    *
+                    waveY
+                    *
+                    0.3
+                    *
+                    i;
 
 
-                i *= max(
-                    0.0,
-                    1.0 - pow(abs(normX), uFall)
-                );
+                i *=
+                    max(
+                        0.0,
+                        1.0
+                        -
+                        pow(
+                            abs(normX),
+                            uFall
+                        )
+                    );
 
 
                 if (i > 0.02) {
 
                     float side =
-                        uDot * i * uDpr;
+                        uDot
+                        *
+                        i
+                        *
+                        uDpr;
 
 
                     vec2 d =
-                        abs(gl_FragCoord.xy - cc);
+                        abs(
+                            gl_FragCoord.xy
+                            -
+                            cc
+                        );
 
 
                     float cov =
@@ -238,7 +324,11 @@
                         mix(
                             uBase,
                             uAccent,
-                            clamp(pow(i, 1.1), 0.0, 1.0)
+                            clamp(
+                                pow(i, 1.1),
+                                0.0,
+                                1.0
+                            )
                         );
 
 
@@ -246,7 +336,11 @@
                         mix(
                             ink,
                             uHigh,
-                            smoothstep(0.72, 1.0, i)
+                            smoothstep(
+                                0.72,
+                                1.0,
+                                i
+                            )
                         );
 
 
@@ -254,40 +348,75 @@
                         mix(
                             uBg,
                             ink,
-                            cov * clamp(i * 1.6, 0.0, 1.0)
+                            cov
+                            *
+                            clamp(
+                                i * 1.6,
+                                0.0,
+                                1.0
+                            )
                         );
+
                 }
+
             }
 
 
             gl_FragColor =
-                vec4(col, 1.0);
+                vec4(
+                    col,
+                    1.0
+                );
+
         }
+
     `;
 
 
+    /* =========================
+       SHADER COMPILE
+    ========================= */
+
     function compileShader(type, source) {
 
-        const shader = gl.createShader(type);
+        const shader =
+            gl.createShader(type);
+
 
         if (!shader) return null;
 
-        gl.shaderSource(shader, source);
+
+        gl.shaderSource(
+            shader,
+            source
+        );
+
+
         gl.compileShader(shader);
 
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+
+        if (
+            !gl.getShaderParameter(
+                shader,
+                gl.COMPILE_STATUS
+            )
+        ) {
 
             console.error(
                 "Ошибка шейдера:",
                 gl.getShaderInfoLog(shader)
             );
 
+
             gl.deleteShader(shader);
 
             return null;
+
         }
 
+
         return shader;
+
     }
 
 
@@ -305,18 +434,45 @@
         );
 
 
-    if (!vertexShader || !fragmentShader) return;
+    if (
+        !vertexShader ||
+        !fragmentShader
+    ) {
+
+        return;
+
+    }
 
 
-    const program = gl.createProgram();
+    /* =========================
+       PROGRAM
+    ========================= */
 
-    gl.attachShader(program, vertexShader);
-    gl.attachShader(program, fragmentShader);
+    const program =
+        gl.createProgram();
+
+
+    gl.attachShader(
+        program,
+        vertexShader
+    );
+
+
+    gl.attachShader(
+        program,
+        fragmentShader
+    );
+
 
     gl.linkProgram(program);
 
 
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    if (
+        !gl.getProgramParameter(
+            program,
+            gl.LINK_STATUS
+        )
+    ) {
 
         console.error(
             "Ошибка линковки:",
@@ -324,13 +480,20 @@
         );
 
         return;
+
     }
 
 
     gl.useProgram(program);
 
 
-    const buffer = gl.createBuffer();
+    /* =========================
+       FULLSCREEN TRIANGLE
+    ========================= */
+
+    const buffer =
+        gl.createBuffer();
+
 
     gl.bindBuffer(
         gl.ARRAY_BUFFER,
@@ -341,9 +504,11 @@
     gl.bufferData(
         gl.ARRAY_BUFFER,
         new Float32Array([
+
             -1, -1,
              3, -1,
             -1,  3
+
         ]),
         gl.STATIC_DRAW
     );
@@ -356,7 +521,10 @@
         );
 
 
-    gl.enableVertexAttribArray(aPos);
+    gl.enableVertexAttribArray(
+        aPos
+    );
+
 
     gl.vertexAttribPointer(
         aPos,
@@ -367,6 +535,10 @@
         0
     );
 
+
+    /* =========================
+       UNIFORMS
+    ========================= */
 
     const uniforms = {};
 
@@ -380,28 +552,41 @@
                     program,
                     name
                 );
+
         }
 
         return uniforms[name];
+
     }
 
 
-    function parseColor(value, fallback) {
+    /* =========================
+       COLORS
+    ========================= */
+
+    function parseColor(
+        value,
+        fallback
+    ) {
 
         if (!value) return fallback;
 
+
         let hex =
             String(value)
-                .replace("#", "")
-                .trim();
+            .replace("#", "")
+            .trim();
 
 
         if (hex.length === 3) {
 
             hex =
-                hex[0] + hex[0] +
-                hex[1] + hex[1] +
+                hex[0] + hex[0]
+                +
+                hex[1] + hex[1]
+                +
                 hex[2] + hex[2];
+
         }
 
 
@@ -429,12 +614,18 @@
 
 
             return [r, g, b];
+
         }
 
 
         return fallback;
+
     }
 
+
+    /* =========================
+       SETTINGS
+    ========================= */
 
     const settings = {
 
@@ -452,7 +643,6 @@
 
         speed: 1.06,
 
-
         arch: {
 
             peak: 0,
@@ -464,7 +654,6 @@
             archHeight: 0.78
 
         },
-
 
         pointer: {
 
@@ -507,6 +696,10 @@
         );
 
 
+    /* =========================
+       POINTER
+    ========================= */
+
     const pointer = {
 
         x: 0,
@@ -525,41 +718,67 @@
 
 
     /*
-     * ВАЖНО:
-     *
-     * Раньше canvas имел pointer-events:none,
-     * поэтому pointermove на canvas не срабатывал.
-     *
-     * Теперь отслеживаем курсор на hero-section.
-     */
+       ВАЖНО:
 
-    hero.addEventListener("pointermove", (event) => {
+       Раньше события слушал canvas,
+       но у canvas стоит pointer-events: none.
 
-        const rect =
-            canvas.getBoundingClientRect();
+       Поэтому теперь слушаем весь hero-section.
+    */
 
-
-        pointer.targetX =
-            event.clientX - rect.left;
+    const heroSection =
+        document.querySelector(
+            ".hero-section"
+        );
 
 
-        pointer.targetY =
-            rect.height
-            -
-            (event.clientY - rect.top);
+    if (heroSection) {
+
+        heroSection.addEventListener(
+            "pointermove",
+            (event) => {
+
+                const rect =
+                    heroSection.getBoundingClientRect();
 
 
-        pointer.targetActive = 1;
+                pointer.targetX =
+                    event.clientX
+                    -
+                    rect.left;
 
-    });
+
+                pointer.targetY =
+                    rect.height
+                    -
+                    (
+                        event.clientY
+                        -
+                        rect.top
+                    );
 
 
-    hero.addEventListener("pointerleave", () => {
+                pointer.targetActive = 1;
 
-        pointer.targetActive = 0;
+            }
+        );
 
-    });
 
+        heroSection.addEventListener(
+            "pointerleave",
+            () => {
+
+                pointer.targetActive = 0;
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       RENDER
+    ========================= */
 
     let lastTime =
         performance.now();
@@ -584,7 +803,11 @@
             (
                 clock
                 +
-                delta * 0.9 * settings.speed
+                delta
+                *
+                0.9
+                *
+                settings.speed
             )
             %
             6283;
@@ -604,19 +827,24 @@
         const bufferWidth =
             Math.max(
                 1,
-                Math.round(rect.width * dpr)
+                Math.round(
+                    rect.width * dpr
+                )
             );
 
 
         const bufferHeight =
             Math.max(
                 1,
-                Math.round(rect.height * dpr)
+                Math.round(
+                    rect.height * dpr
+                )
             );
 
 
         if (
-            canvas.width !== bufferWidth ||
+            canvas.width !== bufferWidth
+            ||
             canvas.height !== bufferHeight
         ) {
 
@@ -625,6 +853,7 @@
 
             canvas.height =
                 bufferHeight;
+
         }
 
 
@@ -689,6 +918,10 @@
             activeLerp;
 
 
+        /* =========================
+           UNIFORMS
+        ========================= */
+
         gl.uniform2f(
             uniform("uRes"),
             bufferWidth,
@@ -719,7 +952,11 @@
 
         gl.uniform1f(
             uniform("uDot"),
-            pitch * 1.2 * settings.dotSize
+            pitch
+            *
+            1.2
+            *
+            settings.dotSize
         );
 
 
@@ -764,7 +1001,9 @@
             uniform("uMouseStrength"),
             settings.pointer.enabled
                 ?
-                settings.pointer.strength * pointer.active
+                settings.pointer.strength
+                *
+                pointer.active
                 :
                 0
         );
@@ -809,11 +1048,16 @@
         );
 
 
-        requestAnimationFrame(render);
+        requestAnimationFrame(
+            render
+        );
+
     }
 
 
-    requestAnimationFrame(render);
+    requestAnimationFrame(
+        render
+    );
 
 })();
 
@@ -826,7 +1070,10 @@
 (() => {
 
     const canvas =
-        document.getElementById("particleCanvas");
+        document.getElementById(
+            "particleCanvas"
+        );
+
 
     if (!canvas) return;
 
@@ -960,11 +1207,15 @@
 
 
             mouse.x =
-                event.clientX - rect.left;
+                event.clientX
+                -
+                rect.left;
 
 
             mouse.y =
-                event.clientY - rect.top;
+                event.clientY
+                -
+                rect.top;
 
 
             mouse.active = true;
@@ -997,130 +1248,144 @@
         );
 
 
-        particles.forEach((particle) => {
+        particles.forEach(
+            (particle) => {
 
-            particle.vx +=
-                (
-                    particle.originalX
-                    -
-                    particle.x
-                )
-                *
-                SPRING;
-
-
-            particle.vy +=
-                (
-                    particle.originalY
-                    -
-                    particle.y
-                )
-                *
-                SPRING;
+                particle.vx +=
+                    (
+                        particle.originalX
+                        -
+                        particle.x
+                    )
+                    *
+                    SPRING;
 
 
-            let active = false;
+                particle.vy +=
+                    (
+                        particle.originalY
+                        -
+                        particle.y
+                    )
+                    *
+                    SPRING;
 
 
-            if (mouse.active) {
-
-                const dx =
-                    particle.x
-                    -
-                    mouse.x;
+                let active = false;
 
 
-                const dy =
-                    particle.y
-                    -
-                    mouse.y;
+                if (mouse.active) {
+
+                    const dx =
+                        particle.x
+                        -
+                        mouse.x;
 
 
-                const distance =
-                    Math.sqrt(
-                        dx * dx +
-                        dy * dy
-                    );
+                    const dy =
+                        particle.y
+                        -
+                        mouse.y;
 
 
-                if (
-                    distance < MOUSE_RADIUS &&
-                    distance > 0
-                ) {
-
-                    active = true;
-
-
-                    const force =
-                        1 -
-                        distance /
-                        MOUSE_RADIUS;
+                    const distance =
+                        Math.sqrt(
+                            dx * dx
+                            +
+                            dy * dy
+                        );
 
 
-                    const strength =
-                        force *
-                        force *
-                        REPULSION;
+                    if (
+                        distance < MOUSE_RADIUS
+                        &&
+                        distance > 0
+                    ) {
+
+                        active = true;
 
 
-                    particle.vx +=
-                        (
-                            dx /
+                        const force =
+                            1
+                            -
                             distance
-                        )
-                        *
-                        strength;
+                            /
+                            MOUSE_RADIUS;
 
 
-                    particle.vy +=
-                        (
-                            dy /
-                            distance
-                        )
-                        *
-                        strength;
+                        const strength =
+                            force
+                            *
+                            force
+                            *
+                            REPULSION;
+
+
+                        particle.vx +=
+                            (
+                                dx / distance
+                            )
+                            *
+                            strength;
+
+
+                        particle.vy +=
+                            (
+                                dy / distance
+                            )
+                            *
+                            strength;
+
+                    }
 
                 }
 
+
+                particle.vx *=
+                    FRICTION;
+
+
+                particle.vy *=
+                    FRICTION;
+
+
+                particle.x +=
+                    particle.vx;
+
+
+                particle.y +=
+                    particle.vy;
+
+
+                ctx.beginPath();
+
+
+                ctx.arc(
+                    particle.x,
+                    particle.y,
+                    PARTICLE_SIZE,
+                    0,
+                    Math.PI * 2
+                );
+
+
+                ctx.fillStyle =
+                    active
+                        ?
+                        ACTIVE_COLOR
+                        :
+                        PARTICLE_COLOR;
+
+
+                ctx.fill();
+
             }
+        );
 
 
-            particle.vx *= FRICTION;
-
-            particle.vy *= FRICTION;
-
-
-            particle.x += particle.vx;
-
-            particle.y += particle.vy;
-
-
-            ctx.beginPath();
-
-
-            ctx.arc(
-                particle.x,
-                particle.y,
-                PARTICLE_SIZE,
-                0,
-                Math.PI * 2
-            );
-
-
-            ctx.fillStyle =
-                active
-                    ?
-                    ACTIVE_COLOR
-                    :
-                    PARTICLE_COLOR;
-
-
-            ctx.fill();
-
-        });
-
-
-        requestAnimationFrame(animate);
+        requestAnimationFrame(
+            animate
+        );
 
     }
 
@@ -1146,7 +1411,10 @@
 (() => {
 
     const header =
-        document.getElementById("siteHeader");
+        document.getElementById(
+            "siteHeader"
+        );
+
 
     if (!header) return;
 
@@ -1165,15 +1433,20 @@
 
 
         if (
-            currentScrollY > lastScrollY &&
+            currentScrollY > lastScrollY
+            &&
             currentScrollY > 100
         ) {
 
-            header.classList.add("hidden");
+            header.classList.add(
+                "hidden"
+            );
 
         } else {
 
-            header.classList.remove("hidden");
+            header.classList.remove(
+                "hidden"
+            );
 
         }
 
@@ -1202,7 +1475,9 @@
             }
 
         },
-        { passive: true }
+        {
+            passive: true
+        }
     );
 
 })();
