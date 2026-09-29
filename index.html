@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Стрельцова Екатерина — Продуктовый дизайнер</title>
+
+    <!-- Подключение шрифта Onest -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500&display=swap" rel="stylesheet">
 
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="style.css">
@@ -12,401 +16,147 @@
 
 <body>
 
-    <div class="cursor-dot"></div>
+    <!-- =========================
+         ХЕДЕР (исчезающий)
+    ========================== -->
+    <header class="site-header" id="siteHeader">
+        <div class="header-inner">
+            <a href="#" class="logo-link" aria-label="Главная">
+                <!-- ЗАМЕНИТЕ ЭТОТ SVG НА СВОЙ ЛОГОТИП -->
+                <svg class="logo-svg" viewBox="0 0 140 24" xmlns="http://www.w3.org/2000/svg">
+                    <text x="0" y="17" font-family="Onest, sans-serif" font-size="14" font-weight="500" fill="#fff">
+                        Стрельцова
+                    </text>
+                    <text x="0" y="32" font-family="Onest, sans-serif" font-size="14" font-weight="500" fill="#fff">
+                        Екатерина
+                    </text>
+                    <circle cx="124" cy="12" r="4" fill="#DC0000"/>
+                </svg>
+            </a>
+
+            <nav class="header-nav">
+                <a href="#about">Обо мне</a>
+                <a href="#projects">Работы</a>
+            </nav>
+        </div>
+    </header>
 
     <!-- =========================
-         TOP / INTRO
+         ГЛАВНЫЙ ЭКРАН (Арка + Знакомство)
     ========================== -->
-
-    <section class="arc-section">
+    <section class="hero-section">
 
         <canvas id="arcCanvas"></canvas>
 
-        <div class="arc-content">
+        <div class="hero-content">
 
-            <div class="arc-layout">
+            <!-- ЛЕВАЯ ЧАСТЬ: Фото + Заголовок + Текст + Ссылки -->
+            <div class="hero-left">
 
-                <!-- LEFT: TEXT -->
-
-                <div class="arc-intro">
-
-                    <p class="intro-main">
-                        Привет, я <em>Катя.</em>
-                    </p>
-
-                    <p class="intro-main">
-                        Родилась и живу в <em>Москве.</em>
-                    </p>
-
-                    <p class="intro-description">
-                        Продуктовый дизайнер, UX/UI цифровых продуктов.
-                        Проектирую интерфейсы и&nbsp;digital-продукты.
-                        Бакалавр <em>МГУУ ПМ,</em> &laquo;Управление цифровыми проектами города&raquo;.
-                        Учусь в&nbsp;магистратуре <em>ИТМО</em> на&nbsp;&laquo;Дизайне и&nbsp;развитии цифровых продуктов&raquo;.
-                    </p>
-
-                    <p class="intro-hobbies">
-                        Также люблю сериал Офис,<br>
-                        Человека Бензопилу и Балдурс Гейт.
-                    </p>
-
+                <div class="hero-photo">
+                    <img
+                        src="images/portrait-x7k2.jpg"
+                        alt="Екатерина Стрельцова"
+                    >
                 </div>
 
+                <div class="hero-title-block">
+                    <!-- SVG-ЗАГОЛОВОК (по требованию) -->
+                    <svg class="hero-title-svg" viewBox="0 0 600 120" xmlns="http://www.w3.org/2000/svg">
+                        <text x="0" y="55" font-family="Onest, sans-serif" font-size="52" font-weight="500" fill="#fff" letter-spacing="-0.04em">
+                            Привет, я — Катя
+                        </text>
+                        <text x="0" y="105" font-family="Onest, sans-serif" font-size="52" font-weight="500" fill="#fff" letter-spacing="-0.04em">
+                            Продуктовый Дизайнер
+                        </text>
+                    </svg>
+                </div>
 
-                <!-- RIGHT: PHOTO + LINKS -->
+                <p class="hero-description">
+                    Оканчиваю бакалавр на направлении дизайн цифровых медиа, 2 года работаю как графический и моушн дизайнер для крупных проектов
+                </p>
 
-                <div class="arc-side">
-
-                    <div class="arc-photo">
-                        <img
-                            src="images/portrait-x7k2.jpg"
-                            alt="Екатерина Стрельцова"
-                        >
-                    </div>
-
-                    <div class="arc-links">
-
-                        <div class="arc-links-row">
-                            <a
-                                href="https://dprofile.ru/ТВОЙ_НИК"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                DPROFILE ↗
-                            </a>
-
-                            <a
-                                href="https://www.behance.net/ТВОЙ_НИК"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                BEHANCE ↗
-                            </a>
-                        </div>
-
-                        <div class="arc-links-row">
-                            <a href="mailto:streltsovakatrine@mail.ru">
-                                EMAIL ↗
-                            </a>
-
-                            <a
-                                href="https://t.me/rinn89"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                TELEGRAM ↗
-                            </a>
-                        </div>
-
-                    </div>
-
+                <div class="hero-links">
+                    <a href="https://t.me/rinn89" target="_blank" rel="noopener">Telegram ↗</a>
+                    <a href="https://dprofile.ru/ТВОЙ_НИК" target="_blank" rel="noopener">Dprofile ↗</a>
+                    <a href="https://www.behance.net/ТВОЙ_НИК" target="_blank" rel="noopener">Behance ↗</a>
+                    <a href="mailto:streltsovakatrine@mail.ru">Email ↗</a>
                 </div>
 
             </div>
+
+            <!-- ПРАВАЯ ЧАСТЬ: Колонка с датами, образованием, Hard Skills -->
+            <aside class="hero-right">
+
+                <!-- Звездочка 4-конечная -->
+                <div class="star-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#fff"/>
+                    </svg>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-date">+ 2022 – 2026</span>
+                    <p class="info-text">
+                        Бакалавриат МГУУ ПМ<br>
+                        на направлении управление<br>
+                        цифровыми проектами города
+                    </p>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-date">+ 2025</span>
+                    <p class="info-text">
+                        Курс повышения<br>
+                        квалификации от НИУ ВШЭ<br>
+                        «Дизайн в цифровой среде»
+                    </p>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-date">+ 2026 – настоящее время</span>
+                    <p class="info-text">
+                        Магистратура ИТМО<br>
+                        на направлении дизайн<br>
+                        и развитие цифрового продукта
+                    </p>
+                </div>
+
+                <!-- Hard Skills с обводкой -->
+                <div class="hard-skills-badge">
+                    <span>Hard Skills</span>
+                </div>
+
+                <!-- Список навыков -->
+                <div class="skills-list">
+                    <span>Figma</span>
+                    <span>Adobe Illustrator</span>
+                    <span>SEO</span>
+                    <span>Adobe Photoshop</span>
+                    <span>HTML</span>
+                    <span>AI</span>
+                    <span>Яндекс Метрика</span>
+                    <span>Miro</span>
+                    <span>CSS</span>
+                    <span>Blender</span>
+                </div>
+
+            </aside>
 
         </div>
 
     </section>
 
-
-    <main>
-
-        <!-- =========================
-             PROJECTS
-        ========================== -->
-
-        <section class="projects" id="projects">
-
-            <div class="section-heading">
-
-                <h2>
-                    Портфолио
-                </h2>
-
-            </div>
-
-
-            <div class="project-grid">
-
-
-                <a
-                    href="projects/project-1.html"
-                    class="project-card"
-                >
-
-                    <div class="project-tags">
-
-                        <span class="tag">
-                            Fintech
-                        </span>
-
-                        <span class="tag">
-                            Mobile app
-                        </span>
-
-                    </div>
-
-
-                    <div class="project-body">
-
-                        <h3>
-                            Nebula Pay
-                        </h3>
-
-                        <p>
-                            Разработка интерфейса мобильного
-                            банка: сценарии, прототипы, UI.
-                        </p>
-
-                    </div>
-
-
-                    <div class="project-footer">
-
-                        <span>
-                            2024
-                        </span>
-
-                        <span>
-                            UX/UI дизайн
-                        </span>
-
-                    </div>
-
-                </a>
-
-
-
-                <a
-                    href="projects/project-2.html"
-                    class="project-card"
-                >
-
-                    <div class="project-tags">
-
-                        <span class="tag">
-                            SaaS
-                        </span>
-
-                        <span class="tag">
-                            Dashboard
-                        </span>
-
-                    </div>
-
-
-                    <div class="project-body">
-
-                        <h3>
-                            Orbit CRM
-                        </h3>
-
-                        <p>
-                            Дизайн дашборда для B2B-платформы:
-                            аналитика, роли, дизайн-система.
-                        </p>
-
-                    </div>
-
-
-                    <div class="project-footer">
-
-                        <span>
-                            2024
-                        </span>
-
-                        <span>
-                            Продуктовый дизайн
-                        </span>
-
-                    </div>
-
-                </a>
-
-
-
-                <a
-                    href="projects/project-3.html"
-                    class="project-card"
-                >
-
-                    <div class="project-tags">
-
-                        <span class="tag">
-                            AI
-                        </span>
-
-                        <span class="tag">
-                            Web
-                        </span>
-
-                    </div>
-
-
-                    <div class="project-body">
-
-                        <h3>
-                            Kvant AI
-                        </h3>
-
-                        <p>
-                            Интерфейсы AI-платформы:
-                            посадочные страницы и внутренние
-                            сценарии.
-                        </p>
-
-                    </div>
-
-
-                    <div class="project-footer">
-
-                        <span>
-                            2023
-                        </span>
-
-                        <span>
-                            UX/UI дизайн
-                        </span>
-
-                    </div>
-
-                </a>
-
-
-
-                <a
-                    href="projects/project-1.html"
-                    class="project-card"
-                >
-
-                    <div class="project-tags">
-
-                        <span class="tag">
-                            Branding
-                        </span>
-
-                        <span class="tag">
-                            Web
-                        </span>
-
-                    </div>
-
-
-                    <div class="project-body">
-
-                        <h3>
-                            Lumen Studio
-                        </h3>
-
-                        <p>
-                            Айдентика и сайт для дизайн-студии:
-                            логотип, типографика, digital.
-                        </p>
-
-                    </div>
-
-
-                    <div class="project-footer">
-
-                        <span>
-                            2023
-                        </span>
-
-                        <span>
-                            Брендинг · Web
-                        </span>
-
-                    </div>
-
-                </a>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             ABOUT ME
-        ========================== -->
-
-        <section class="about">
-
-            <div class="section-heading">
-
-                <h2>
-                    About me
-                </h2>
-
-            </div>
-
-
-            <div class="about-grid">
-
-                <div class="about-text">
-
-                    <p class="big-text">
-                        Хороший дизайн должен ощущаться
-                        простым, продуманным и неизбежным.
-                    </p>
-
-                    <p>
-                        В работе сочетаю UX-подход, визуальную
-                        аккуратность и понимание бизнес-задач.
-                        Проектирую интерфейсы полного цикла:
-                        от исследования задачи и структуры
-                        до финального UI и сопровождения
-                        разработки.
-                    </p>
-
-                </div>
-
-
-                <div class="about-image">
-                    <span>
-                        IMAGE
-                    </span>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             CONTACT
-        ========================== -->
-
-        <section class="contact">
-
-            <h2>
-                Мои<br>
-                контакты.
-            </h2>
-
-            <div class="contact-links">
-                <a href="mailto:streltsovakatrine@mail.ru">streltsovakatrine@mail.ru ↗</a>
-                <a href="https://t.me/rinn89" target="_blank" rel="noopener">Telegram ↗</a>
-                <a href="https://www.behance.net/ТВОЙ_НИК" target="_blank" rel="noopener">Behance ↗</a>
-                <a href="https://dprofile.ru/ТВОЙ_НИК" target="_blank" rel="noopener">Dprofile ↗</a>
-            </div>
-
-        </section>
-
-    </main>
-    
     <!-- =========================
-         BOTTOM INTERACTIVE DOTS
+         СЕКЦИЯ "ОБО МНЕ" (для якоря)
     ========================== -->
+    <section class="about-anchor" id="about"></section>
 
-    <section class="particle-section">
+    <!-- =========================
+         СЕКЦИЯ "РАБОТЫ" (для якоря)
+    ========================== -->
+    <section class="projects-anchor" id="projects"></section>
 
-        <canvas id="particleCanvas"></canvas>
-
-    </section>
-
-
-    <script src="cursor.js"></script>
     <script src="script.js"></script>
-
 </body>
 </html>
