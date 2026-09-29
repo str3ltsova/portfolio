@@ -1,10 +1,60 @@
 /* =========================================================
-   ПРЕДИКТИВНАЯ ДУГА (WebGL) — адаптировано из Originkit
+   КУРСОР (оранжево-красная точка)
 ========================================================= */
 
-function initPredictiveArc(canvasId, options = {}) {
+(() => {
 
-    const canvas = document.getElementById(canvasId);
+    const dot = document.querySelector(".cursor-dot");
+    if (!dot) return;
+
+    if (window.matchMedia("(hover: none)").matches) return;
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let dotX = mouseX;
+    let dotY = mouseY;
+
+    document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.classList.add("visible");
+    });
+
+    document.addEventListener("mouseleave", () => {
+        dot.classList.remove("visible");
+    });
+
+    function animate() {
+        dotX += (mouseX - dotX) * 0.25;
+        dotY += (mouseY - dotY) * 0.25;
+
+        dot.style.left = dotX + "px";
+        dot.style.top  = dotY + "px";
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    const hoverables = document.querySelectorAll(
+        "a, button, .project-card, .contact-links a, .hero-links a"
+    );
+
+    hoverables.forEach((el) => {
+        el.addEventListener("mouseenter", () => dot.classList.add("hover"));
+        el.addEventListener("mouseleave", () => dot.classList.remove("hover"));
+    });
+
+})();
+
+
+/* =========================================================
+   ПРЕДИКТИВНАЯ ДУГА (WebGL)
+========================================================= */
+
+(() => {
+
+    const canvas = document.getElementById("arcCanvas");
     if (!canvas) return;
 
     const gl = canvas.getContext("webgl", {
@@ -17,31 +67,6 @@ function initPredictiveArc(canvasId, options = {}) {
         console.error("Predictive Arc: WebGL недоступен");
         return;
     }
-
-    // Настройки по умолчанию (из пресета Originkit)
-    const settings = {
-        background: "#000000",
-        baseColor: "#DC0000",
-        accentColor: "#DC0000",
-        highlight: "#F39A29",
-        density: 133,
-        dotSize: 0.77,
-        speed: 1.06,
-        arch: {
-            peak: 0,
-            falloff: 2.23,
-            thickness: 1.71,
-            archHeight: 0.78
-        },
-        pointer: {
-            enabled: true,
-            radius: 155,
-            strength: 0.24
-        },
-        ...options
-    };
-
-    /* ---------- Шейдеры ---------- */
 
     const vertexShaderSource = `
         attribute vec2 a_pos;
@@ -106,8 +131,6 @@ function initPredictiveArc(canvasId, options = {}) {
         }
     `;
 
-    /* ---------- Компиляция шейдеров ---------- */
-
     function compileShader(type, source) {
         const shader = gl.createShader(type);
         if (!shader) return null;
@@ -123,10 +146,7 @@ function initPredictiveArc(canvasId, options = {}) {
 
     const vertexShader = compileShader(gl.VERTEX_SHADER, vertexShaderSource);
     const fragmentShader = compileShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
-
     if (!vertexShader || !fragmentShader) return;
-
-    /* ---------- Программа ---------- */
 
     const program = gl.createProgram();
     gl.attachShader(program, vertexShader);
@@ -140,8 +160,6 @@ function initPredictiveArc(canvasId, options = {}) {
 
     gl.useProgram(program);
 
-    /* ---------- Буфер ---------- */
-
     const buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
@@ -154,8 +172,6 @@ function initPredictiveArc(canvasId, options = {}) {
     gl.enableVertexAttribArray(aPos);
     gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
 
-    /* ---------- Uniform-локации ---------- */
-
     const uniforms = {};
     function uniform(name) {
         if (!(name in uniforms)) {
@@ -163,8 +179,6 @@ function initPredictiveArc(canvasId, options = {}) {
         }
         return uniforms[name];
     }
-
-    /* ---------- Парсинг цвета ---------- */
 
     function parseColor(value, fallback) {
         if (!value) return fallback;
@@ -181,12 +195,31 @@ function initPredictiveArc(canvasId, options = {}) {
         return fallback;
     }
 
+    const settings = {
+        background: "#000000",
+        baseColor: "#DC0000",
+        accentColor: "#DC0000",
+        highlight: "#F39A29",
+        density: 133,
+        dotSize: 0.77,
+        speed: 1.06,
+        arch: {
+            peak: 0,
+            falloff: 2.23,
+            thickness: 1.71,
+            archHeight: 0.78
+        },
+        pointer: {
+            enabled: true,
+            radius: 155,
+            strength: 0.24
+        }
+    };
+
     const bgColor = parseColor(settings.background, [0, 0, 0]);
     const baseColor = parseColor(settings.baseColor, [0.86, 0, 0]);
     const accentColor = parseColor(settings.accentColor, [0.86, 0, 0]);
     const highlightColor = parseColor(settings.highlight, [0.95, 0.6, 0.16]);
-
-    /* ---------- Курсор ---------- */
 
     const pointer = {
         x: 0,
@@ -207,8 +240,6 @@ function initPredictiveArc(canvasId, options = {}) {
     canvas.addEventListener("pointerleave", () => {
         pointer.targetActive = 0;
     });
-
-    /* ---------- Рендер ---------- */
 
     let lastTime = performance.now();
     let clock = 0;
@@ -264,13 +295,136 @@ function initPredictiveArc(canvasId, options = {}) {
     }
 
     requestAnimationFrame(render);
-}
+
+})();
+
+
+/* =========================================================
+   ТОЧКИ ВНИЗУ
+========================================================= */
+
+(() => {
+
+    const canvas = document.getElementById("particleCanvas");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    const PARTICLE_SIZE = 2.4;
+    const PARTICLE_COLOR = "#363636";
+    const ACTIVE_COLOR = "#DC0000";
+    const SPACING = 17;
+    const MOUSE_RADIUS = 55;
+    const REPULSION = 6.5;
+    const SPRING = 0.075;
+    const FRICTION = 0.82;
+
+    let width = 0;
+    let height = 0;
+    let particles = [];
+
+    const mouse = {
+        x: -1000,
+        y: -1000,
+        active: false
+    };
+
+    function resize() {
+        const rect = canvas.getBoundingClientRect();
+        width = rect.width;
+        height = rect.height;
+
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        createParticles();
+    }
+
+    function createParticles() {
+        particles = [];
+        for (let y = SPACING / 2; y < height; y += SPACING) {
+            for (let x = SPACING / 2; x < width; x += SPACING) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    originalX: x,
+                    originalY: y,
+                    vx: 0,
+                    vy: 0
+                });
+            }
+        }
+    }
+
+    canvas.addEventListener("pointermove", (event) => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = event.clientX - rect.left;
+        mouse.y = event.clientY - rect.top;
+        mouse.active = true;
+    });
+
+    canvas.addEventListener("pointerleave", () => {
+        mouse.active = false;
+        mouse.x = -1000;
+        mouse.y = -1000;
+    });
+
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        particles.forEach((particle) => {
+            particle.vx += (particle.originalX - particle.x) * SPRING;
+            particle.vy += (particle.originalY - particle.y) * SPRING;
+
+            let active = false;
+
+            if (mouse.active) {
+                const dx = particle.x - mouse.x;
+                const dy = particle.y - mouse.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < MOUSE_RADIUS && distance > 0) {
+                    active = true;
+
+                    const force = 1 - distance / MOUSE_RADIUS;
+                    const strength = force * force * REPULSION;
+
+                    particle.vx += (dx / distance) * strength;
+                    particle.vy += (dy / distance) * strength;
+                }
+            }
+
+            particle.vx *= FRICTION;
+            particle.vy *= FRICTION;
+
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, PARTICLE_SIZE, 0, Math.PI * 2);
+            ctx.fillStyle = active ? ACTIVE_COLOR : PARTICLE_COLOR;
+            ctx.fill();
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    window.addEventListener("resize", resize);
+
+    resize();
+    animate();
+
+})();
+
 
 /* =========================================================
    ИСЧЕЗАЮЩИЙ ХЕДЕР
 ========================================================= */
 
-function initHeader() {
+(() => {
+
     const header = document.getElementById("siteHeader");
     if (!header) return;
 
@@ -280,11 +434,9 @@ function initHeader() {
     function updateHeader() {
         const currentScrollY = window.scrollY;
 
-        // Если прокрутили вниз больше 100px и вниз — скрываем
         if (currentScrollY > lastScrollY && currentScrollY > 100) {
             header.classList.add("hidden");
         } else {
-            // Прокрутка вверх — показываем
             header.classList.remove("hidden");
         }
 
@@ -298,13 +450,5 @@ function initHeader() {
             ticking = true;
         }
     }, { passive: true });
-}
 
-/* =========================================================
-   ИНИЦИАЛИЗАЦИЯ
-========================================================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-    initPredictiveArc("arcCanvas");
-    initHeader();
-});
+})();
