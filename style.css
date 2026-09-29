@@ -32,6 +32,16 @@ img {
 
 
 /* =========================
+   GLOBAL GRID
+========================= */
+
+:root {
+    --page-width: 1284px;
+    --header-height: 60px;
+}
+
+
+/* =========================
    CURSOR
 ========================= */
 
@@ -97,10 +107,12 @@ body * {
 
 .site-header {
     position: fixed;
+
     top: 0;
     left: 0;
 
     width: 100%;
+    height: var(--header-height);
 
     z-index: 1000;
 
@@ -117,41 +129,73 @@ body * {
     pointer-events: none;
 }
 
+
 .header-inner {
 
-    width: min(1400px, calc(100% - 80px));
-    max-width: none;
+    width: min(
+        var(--page-width),
+        calc(100% - 48px)
+    );
+
+    height: 100%;
 
     margin: 0 auto;
 
-    padding: 18px 0;
-
     display: flex;
+
+    align-items: center;
+
     justify-content: space-between;
-    align-items: flex-start;
 }
 
+
+.logo-link {
+    display: block;
+    flex-shrink: 0;
+}
+
+
 .logo-img {
+
     height: 40px;
     width: auto;
+
     display: block;
 }
 
+
 .header-nav {
-    width: 320px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+
+    width: 232px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    align-items: center;
+
+    text-align: left;
 }
 
+
 .header-nav a {
+
     font-size: 14px;
+
     font-weight: 500;
+
     letter-spacing: 0.02em;
+
     color: #fff;
 
     transition: color 0.2s ease;
 }
+
+
+.header-nav a:last-child {
+    text-align: right;
+}
+
 
 .header-nav a:hover {
     color: #DC0000;
@@ -163,12 +207,19 @@ body * {
 ========================= */
 
 .hero-section {
+
     position: relative;
+
     width: 100%;
+
+    height: 100vh;
+    min-height: 700px;
+
     background: #000;
+
     overflow: hidden;
-    padding-top: 80px;
 }
+
 
 #arcCanvas {
 
@@ -184,16 +235,39 @@ body * {
     pointer-events: none;
 }
 
+
+/* =========================
+   HERO GRID
+========================= */
+
 .hero-content {
+
     position: relative;
+
     z-index: 2;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 60px 32px 80px;
+
+    width: min(
+        var(--page-width),
+        calc(100% - 48px)
+    );
+
+    height: calc(100vh - var(--header-height));
+
+    min-height: 640px;
+
+    margin: var(--header-height) auto 0;
+
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 320px;
-    gap: 80px;
-    align-items: start;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        232px;
+
+    column-gap: 60px;
+
+    align-items: center;
+
+    padding: 40px 0 50px;
 }
 
 
@@ -210,17 +284,21 @@ body * {
     gap: 32px;
 
     min-width: 0;
+
+    align-self: center;
 }
+
 
 .hero-photo {
 
-    width: 200px;
-    height: 200px;
+    width: 160px;
+    height: 160px;
 
     border-radius: 12px;
 
     overflow: hidden;
 }
+
 
 .hero-photo img {
 
@@ -230,10 +308,12 @@ body * {
     object-fit: cover;
 }
 
+
 .hero-title-block {
 
     width: 100%;
 }
+
 
 .hero-title-img {
 
@@ -245,6 +325,7 @@ body * {
 
     display: block;
 }
+
 
 .hero-description {
 
@@ -261,7 +342,10 @@ body * {
     max-width: 620px;
 }
 
-/* ССЫЛКИ В ШАПКЕ */
+
+/* =========================
+   ССЫЛКИ
+========================= */
 
 .hero-links {
 
@@ -272,29 +356,46 @@ body * {
     gap: 12px;
 }
 
+
 .hero-links a {
+
     display: inline-block;
+
     padding: 12px 20px;
+
     border: 1px solid #fff;
+
     border-radius: 100px;
+
     font-size: 14px;
+
     font-weight: 400;
+
     letter-spacing: 0.02em;
+
     color: #fff;
-    transition: border-color 0.2s, color 0.2s;
+
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease;
 }
 
+
 .hero-links a:hover {
+
     border-color: #DC0000;
+
     color: #DC0000;
 }
 
 
 /* =========================
-   ПРАВАЯ ЧАСТЬ
+   ПРАВАЯ КОЛОНКА
 ========================= */
 
 .hero-right {
+
+    width: 232px;
 
     display: flex;
 
@@ -302,26 +403,15 @@ body * {
 
     gap: 24px;
 
-    padding-top: 8px;
+    padding-top: 0;
 
-    width: 100%;
+    align-self: center;
 }
 
-.star-icon {
 
-    width: 24px;
-    height: 24px;
-
-    margin-bottom: 2px;
-}
-
-.star-icon svg {
-
-    width: 100%;
-    height: 100%;
-
-    display: block;
-}
+/* =========================
+   ОБРАЗОВАНИЕ
+========================= */
 
 .info-item {
 
@@ -331,6 +421,7 @@ body * {
 
     gap: 12px;
 }
+
 
 .info-date {
 
@@ -343,6 +434,7 @@ body * {
     color: #fff;
 }
 
+
 .info-text {
 
     font-size: 14px;
@@ -353,6 +445,11 @@ body * {
 
     color: #fff;
 }
+
+
+/* =========================
+   HARD SKILLS
+========================= */
 
 .hard-skills-badge {
 
@@ -377,6 +474,11 @@ body * {
     margin-top: 4px;
 }
 
+
+/* =========================
+   SKILLS
+========================= */
+
 .skills-list {
 
     display: flex;
@@ -396,10 +498,12 @@ body * {
     color: #fff;
 }
 
+
 .skills-list span {
 
     white-space: nowrap;
 }
+
 
 .skills-list i {
 
@@ -421,10 +525,12 @@ main {
     width: 100%;
 }
 
+
 section:not(.hero-section):not(.particle-section) {
 
     padding: 110px 32px;
 }
+
 
 .section-heading {
 
@@ -436,6 +542,7 @@ section:not(.hero-section):not(.particle-section) {
 
     margin-bottom: 60px;
 }
+
 
 .section-heading h2 {
 
@@ -456,6 +563,7 @@ section:not(.hero-section):not(.particle-section) {
     border-top: 1px solid #222;
 }
 
+
 .project-grid {
 
     display: grid;
@@ -464,6 +572,7 @@ section:not(.hero-section):not(.particle-section) {
 
     gap: 18px;
 }
+
 
 .project-card {
 
@@ -486,12 +595,14 @@ section:not(.hero-section):not(.particle-section) {
     text-decoration: none;
 }
 
+
 .project-card:hover {
 
     transform: translateY(-4px);
 
     background: #F5F5F5;
 }
+
 
 .project-tags {
 
@@ -503,6 +614,7 @@ section:not(.hero-section):not(.particle-section) {
 
     margin-bottom: 40px;
 }
+
 
 .tag {
 
@@ -521,12 +633,14 @@ section:not(.hero-section):not(.particle-section) {
     border-radius: 8px;
 }
 
+
 .project-body {
 
     margin-top: auto;
 
     margin-bottom: 30px;
 }
+
 
 .project-body h3 {
 
@@ -541,6 +655,7 @@ section:not(.hero-section):not(.particle-section) {
     color: #000;
 }
 
+
 .project-body p {
 
     font-size: 14px;
@@ -551,6 +666,7 @@ section:not(.hero-section):not(.particle-section) {
 
     max-width: 340px;
 }
+
 
 .project-footer {
 
@@ -571,6 +687,7 @@ section:not(.hero-section):not(.particle-section) {
     padding-top: 22px;
 }
 
+
 .project-footer span:last-child {
 
     text-align: right;
@@ -586,6 +703,7 @@ section:not(.hero-section):not(.particle-section) {
     border-top: 1px solid #222;
 }
 
+
 .about-grid {
 
     display: grid;
@@ -595,10 +713,12 @@ section:not(.hero-section):not(.particle-section) {
     gap: 70px;
 }
 
+
 .about-text {
 
     max-width: 650px;
 }
+
 
 .big-text {
 
@@ -613,6 +733,7 @@ section:not(.hero-section):not(.particle-section) {
     color: #fff;
 }
 
+
 .about-text > p:last-child {
 
     max-width: 480px;
@@ -621,6 +742,7 @@ section:not(.hero-section):not(.particle-section) {
 
     line-height: 1.6;
 }
+
 
 .about-image {
 
@@ -661,6 +783,7 @@ section:not(.hero-section):not(.particle-section) {
     gap: 60px;
 }
 
+
 .contact h2 {
 
     font-size: clamp(70px, 12vw, 180px);
@@ -672,6 +795,7 @@ section:not(.hero-section):not(.particle-section) {
     letter-spacing: -0.07em;
 }
 
+
 .contact-links {
 
     display: flex;
@@ -680,6 +804,7 @@ section:not(.hero-section):not(.particle-section) {
 
     gap: 12px;
 }
+
 
 .contact-links a {
 
@@ -706,6 +831,7 @@ section:not(.hero-section):not(.particle-section) {
         color .2s ease,
         background .2s ease;
 }
+
 
 .contact-links a:hover {
 
@@ -735,6 +861,7 @@ section:not(.hero-section):not(.particle-section) {
     overflow: hidden;
 }
 
+
 #particleCanvas {
 
     display: block;
@@ -752,17 +879,17 @@ section:not(.hero-section):not(.particle-section) {
 
 @media (max-width: 1100px) {
 
-    .header-inner,
-    .hero-content {
-
-        width: min(100% - 48px, 1200px);
+    :root {
+        --page-width: 1200px;
     }
 
     .hero-content {
 
-        grid-template-columns: minmax(0, 1fr) 320px;
+        grid-template-columns:
+            minmax(0, 1fr)
+            232px;
 
-        gap: 60px;
+        column-gap: 50px;
     }
 
     .hero-title-img {
@@ -774,24 +901,47 @@ section:not(.hero-section):not(.particle-section) {
 
 @media (max-width: 900px) {
 
+    .hero-section {
+
+        height: auto;
+
+        min-height: 100vh;
+
+        overflow: hidden;
+    }
+
+
     .hero-content {
+
+        height: auto;
+
+        min-height: calc(100vh - var(--header-height));
 
         grid-template-columns: 1fr;
 
         gap: 60px;
+
+        padding-top: 80px;
+
+        padding-bottom: 100px;
     }
+
 
     .hero-right {
 
-        order: -1;
+        width: 100%;
 
         max-width: 360px;
+
+        order: -1;
     }
+
 
     .header-nav {
 
-        gap: 24px;
+        width: 232px;
     }
+
 
     .about-grid {
 
@@ -799,6 +949,7 @@ section:not(.hero-section):not(.particle-section) {
 
         gap: 40px;
     }
+
 
     .about-image {
 
@@ -809,41 +960,62 @@ section:not(.hero-section):not(.particle-section) {
 
 @media (max-width: 700px) {
 
+    :root {
+        --header-height: 58px;
+    }
+
+
     section:not(.hero-section):not(.particle-section) {
 
         padding: 75px 20px;
     }
 
+
     .header-inner {
 
         width: calc(100% - 40px);
-
-        padding: 14px 0;
     }
+
 
     .logo-img {
 
         height: 32px;
     }
 
+
+    .header-nav {
+
+        width: auto;
+
+        gap: 24px;
+    }
+
+
     .header-nav a {
 
         font-size: 12px;
     }
 
+
     .hero-section {
 
-        padding-top: 60px;
+        min-height: 100vh;
+
+        padding: 0;
     }
+
 
     .hero-content {
 
         width: calc(100% - 40px);
 
-        padding: 40px 0 80px;
+        min-height: calc(100vh - var(--header-height));
+
+        padding: 50px 0 80px;
 
         gap: 50px;
     }
+
 
     .hero-photo {
 
@@ -851,15 +1023,18 @@ section:not(.hero-section):not(.particle-section) {
         height: 160px;
     }
 
+
     .hero-title-img {
 
         max-width: 100%;
     }
 
+
     .hero-description {
 
         font-size: 20px;
     }
+
 
     .hero-links a,
     .contact-links a {
@@ -869,10 +1044,12 @@ section:not(.hero-section):not(.particle-section) {
         padding: 10px 16px;
     }
 
+
     .hero-right {
 
         max-width: 100%;
     }
+
 
     .info-date,
     .info-text,
@@ -882,10 +1059,12 @@ section:not(.hero-section):not(.particle-section) {
         font-size: 13px;
     }
 
+
     .project-grid {
 
         grid-template-columns: 1fr;
     }
+
 
     .project-card {
 
@@ -894,10 +1073,12 @@ section:not(.hero-section):not(.particle-section) {
         min-height: auto;
     }
 
+
     .project-tags {
 
         margin-bottom: 60px;
     }
+
 
     .tag {
 
@@ -906,31 +1087,37 @@ section:not(.hero-section):not(.particle-section) {
         font-size: 12px;
     }
 
+
     .project-body h3 {
 
         font-size: 20px;
     }
+
 
     .big-text {
 
         font-size: 34px;
     }
 
+
     .about-image {
 
         min-height: 320px;
     }
+
 
     .contact {
 
         min-height: 500px;
     }
 
+
     .particle-section {
 
         width: calc(100% - 12px);
 
         margin-left: 6px;
+
         margin-right: 6px;
 
         height: 220px;
