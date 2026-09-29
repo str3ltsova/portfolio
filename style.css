@@ -129,7 +129,9 @@ body * {
     pointer-events: none;
 }
 
+
 .header-inner {
+
     width: min(
         var(--page-width),
         calc(100% - 48px)
@@ -146,18 +148,24 @@ body * {
     justify-content: space-between;
 }
 
+
 .logo-link {
     display: block;
     flex-shrink: 0;
 }
 
+
 .logo-img {
+
     height: 40px;
     width: auto;
+
     display: block;
 }
 
+
 .header-nav {
+
     width: 232px;
 
     display: grid;
@@ -169,7 +177,9 @@ body * {
     text-align: left;
 }
 
+
 .header-nav a {
+
     font-size: 14px;
 
     font-weight: 500;
@@ -181,9 +191,11 @@ body * {
     transition: color 0.2s ease;
 }
 
+
 .header-nav a:last-child {
     text-align: right;
 }
+
 
 .header-nav a:hover {
     color: #DC0000;
@@ -191,10 +203,11 @@ body * {
 
 
 /* =========================
-   HERO
+   ГЛАВНЫЙ ЭКРАН
 ========================= */
 
 .hero-section {
+
     position: relative;
 
     width: 100%;
@@ -208,11 +221,8 @@ body * {
 }
 
 
-/* =========================
-   КРАСНАЯ ДУГА
-========================= */
-
 #arcCanvas {
+
     position: absolute;
 
     inset: 0;
@@ -227,30 +237,25 @@ body * {
 
 
 /* =========================
-   HERO CONTENT
-   ЦЕНТРАЛЬНЫЙ ПРЯМОУГОЛЬНИК
+   HERO GRID
 ========================= */
 
 .hero-content {
-    position: absolute;
+
+    position: relative;
 
     z-index: 2;
-
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
 
     width: min(
         var(--page-width),
         calc(100% - 48px)
     );
 
-    /*
-       Фиксированная высота
-       невидимого прямоугольника.
-    */
-    height: 620px;
+    height: calc(100vh - var(--header-height));
+
+    min-height: 640px;
+
+    margin: var(--header-height) auto 0;
 
     display: grid;
 
@@ -260,42 +265,43 @@ body * {
 
     column-gap: 60px;
 
-    padding: 0;
+    align-items: center;
+
+    padding: 40px 0 50px;
 }
 
 
 /* =========================
-   ЛЕВАЯ КОЛОНКА
+   ЛЕВАЯ ЧАСТЬ
 ========================= */
 
 .hero-left {
-    height: 100%;
-
-    min-width: 0;
 
     display: flex;
 
     flex-direction: column;
+
+    gap: 32px;
+
+    min-width: 0;
+
+    align-self: center;
 }
 
 
-/* =========================
-   ФОТО
-   ВЕРХНЯЯ ГРАНИЦА
-========================= */
-
 .hero-photo {
+
     width: 160px;
     height: 160px;
 
     border-radius: 12px;
 
     overflow: hidden;
-
-    flex-shrink: 0;
 }
 
+
 .hero-photo img {
+
     width: 100%;
     height: 100%;
 
@@ -303,19 +309,14 @@ body * {
 }
 
 
-/* =========================
-   ЗАГОЛОВОК
-========================= */
-
 .hero-title-block {
+
     width: 100%;
-
-    margin-top: 28px;
-
-    flex-shrink: 0;
 }
 
+
 .hero-title-img {
+
     width: 100%;
 
     max-width: 700px;
@@ -326,14 +327,7 @@ body * {
 }
 
 
-/* =========================
-   ОПИСАНИЕ
-========================= */
-
 .hero-description {
-    margin-top: 14px;
-
-    max-width: 620px;
 
     font-size: 24px;
 
@@ -345,28 +339,26 @@ body * {
 
     color: #fff;
 
-    flex-shrink: 0;
+    max-width: 620px;
 }
 
 
 /* =========================
    ССЫЛКИ
-   НИЖНЯЯ ГРАНИЦА
 ========================= */
 
 .hero-links {
-    margin-top: auto;
 
     display: flex;
 
     flex-wrap: wrap;
 
     gap: 12px;
-
-    flex-shrink: 0;
 }
 
+
 .hero-links a {
+
     display: inline-block;
 
     padding: 12px 20px;
@@ -388,8 +380,11 @@ body * {
         color 0.2s ease;
 }
 
+
 .hero-links a:hover {
+
     border-color: #DC0000;
+
     color: #DC0000;
 }
 
@@ -399,31 +394,18 @@ body * {
 ========================= */
 
 .hero-right {
+
     width: 232px;
 
-    height: 100%;
+    display: flex;
 
-    display: grid;
+    flex-direction: column;
 
-    /*
-       1 — образование
-       2 — AUTO GAP
-       3 — образование
-       4 — AUTO GAP
-       5 — образование
-       6 — AUTO GAP
-       7 — Hard Skills + Skills
-    */
-    grid-template-rows:
-        auto
-        1fr
-        auto
-        1fr
-        auto
-        1fr
-        auto;
+    gap: 24px;
 
-    align-items: start;
+    padding-top: 0;
+
+    align-self: center;
 }
 
 
@@ -432,32 +414,17 @@ body * {
 ========================= */
 
 .info-item {
+
     display: flex;
 
     flex-direction: column;
 
-    /*
-       Фиксированное расстояние
-       внутри пары.
-    */
     gap: 12px;
-
-    align-self: start;
 }
 
-.info-item:nth-of-type(1) {
-    grid-row: 1;
-}
-
-.info-item:nth-of-type(2) {
-    grid-row: 3;
-}
-
-.info-item:nth-of-type(3) {
-    grid-row: 5;
-}
 
 .info-date {
+
     font-size: 14px;
 
     font-weight: 500;
@@ -467,7 +434,9 @@ body * {
     color: #fff;
 }
 
+
 .info-text {
+
     font-size: 14px;
 
     font-weight: 500;
@@ -483,9 +452,8 @@ body * {
 ========================= */
 
 .hard-skills-badge {
-    grid-row: 7;
 
-    align-self: start;
+    display: inline-block;
 
     width: fit-content;
 
@@ -502,6 +470,8 @@ body * {
     letter-spacing: 0.02em;
 
     color: #fff;
+
+    margin-top: 4px;
 }
 
 
@@ -510,13 +480,6 @@ body * {
 ========================= */
 
 .skills-list {
-    grid-row: 7;
-
-    /*
-       Hard Skills и список —
-       одна смысловая пара.
-    */
-    margin-top: 48px;
 
     display: flex;
 
@@ -535,11 +498,15 @@ body * {
     color: #fff;
 }
 
+
 .skills-list span {
+
     white-space: nowrap;
 }
 
+
 .skills-list i {
+
     font-style: normal;
 
     color: #85868D;
@@ -558,11 +525,15 @@ main {
     width: 100%;
 }
 
+
 section:not(.hero-section):not(.particle-section) {
+
     padding: 110px 32px;
 }
 
+
 .section-heading {
+
     display: flex;
 
     align-items: baseline;
@@ -572,7 +543,9 @@ section:not(.hero-section):not(.particle-section) {
     margin-bottom: 60px;
 }
 
+
 .section-heading h2 {
+
     font-size: 34px;
 
     font-weight: 500;
@@ -586,10 +559,13 @@ section:not(.hero-section):not(.particle-section) {
 ========================= */
 
 .projects {
+
     border-top: 1px solid #222;
 }
 
+
 .project-grid {
+
     display: grid;
 
     grid-template-columns: repeat(2, 1fr);
@@ -597,7 +573,9 @@ section:not(.hero-section):not(.particle-section) {
     gap: 18px;
 }
 
+
 .project-card {
+
     background: #ECECEC;
 
     color: #000;
@@ -617,13 +595,17 @@ section:not(.hero-section):not(.particle-section) {
     text-decoration: none;
 }
 
+
 .project-card:hover {
+
     transform: translateY(-4px);
 
     background: #F5F5F5;
 }
 
+
 .project-tags {
+
     display: flex;
 
     justify-content: flex-end;
@@ -633,7 +615,9 @@ section:not(.hero-section):not(.particle-section) {
     margin-bottom: 40px;
 }
 
+
 .tag {
+
     display: inline-block;
 
     padding: 10px 22px;
@@ -649,13 +633,17 @@ section:not(.hero-section):not(.particle-section) {
     border-radius: 8px;
 }
 
+
 .project-body {
+
     margin-top: auto;
 
     margin-bottom: 30px;
 }
 
+
 .project-body h3 {
+
     font-size: 22px;
 
     font-weight: 700;
@@ -667,7 +655,9 @@ section:not(.hero-section):not(.particle-section) {
     color: #000;
 }
 
+
 .project-body p {
+
     font-size: 14px;
 
     line-height: 1.45;
@@ -677,7 +667,9 @@ section:not(.hero-section):not(.particle-section) {
     max-width: 340px;
 }
 
+
 .project-footer {
+
     display: flex;
 
     justify-content: space-between;
@@ -695,7 +687,9 @@ section:not(.hero-section):not(.particle-section) {
     padding-top: 22px;
 }
 
+
 .project-footer span:last-child {
+
     text-align: right;
 }
 
@@ -705,10 +699,13 @@ section:not(.hero-section):not(.particle-section) {
 ========================= */
 
 .about {
+
     border-top: 1px solid #222;
 }
 
+
 .about-grid {
+
     display: grid;
 
     grid-template-columns: 1fr 1fr;
@@ -716,11 +713,15 @@ section:not(.hero-section):not(.particle-section) {
     gap: 70px;
 }
 
+
 .about-text {
+
     max-width: 650px;
 }
 
+
 .big-text {
+
     font-size: 42px;
 
     line-height: 1.05;
@@ -732,7 +733,9 @@ section:not(.hero-section):not(.particle-section) {
     color: #fff;
 }
 
+
 .about-text > p:last-child {
+
     max-width: 480px;
 
     color: #888;
@@ -740,7 +743,9 @@ section:not(.hero-section):not(.particle-section) {
     line-height: 1.6;
 }
 
+
 .about-image {
+
     min-height: 550px;
 
     background: #151515;
@@ -764,6 +769,7 @@ section:not(.hero-section):not(.particle-section) {
 ========================= */
 
 .contact {
+
     background: #111;
 
     min-height: 650px;
@@ -777,7 +783,9 @@ section:not(.hero-section):not(.particle-section) {
     gap: 60px;
 }
 
+
 .contact h2 {
+
     font-size: clamp(70px, 12vw, 180px);
 
     line-height: 0.82;
@@ -787,7 +795,9 @@ section:not(.hero-section):not(.particle-section) {
     letter-spacing: -0.07em;
 }
 
+
 .contact-links {
+
     display: flex;
 
     flex-wrap: wrap;
@@ -795,7 +805,9 @@ section:not(.hero-section):not(.particle-section) {
     gap: 12px;
 }
 
+
 .contact-links a {
+
     display: inline-block;
 
     padding: 12px 20px;
@@ -820,7 +832,9 @@ section:not(.hero-section):not(.particle-section) {
         background .2s ease;
 }
 
+
 .contact-links a:hover {
+
     border-color: #DC0000;
 
     color: #DC0000;
@@ -832,6 +846,7 @@ section:not(.hero-section):not(.particle-section) {
 ========================= */
 
 .particle-section {
+
     position: relative;
 
     width: calc(100% - 20px);
@@ -846,7 +861,9 @@ section:not(.hero-section):not(.particle-section) {
     overflow: hidden;
 }
 
+
 #particleCanvas {
+
     display: block;
 
     width: 100%;
@@ -867,21 +884,16 @@ section:not(.hero-section):not(.particle-section) {
     }
 
     .hero-content {
-        width: min(
-            var(--page-width),
-            calc(100% - 48px)
-        );
 
         grid-template-columns:
             minmax(0, 1fr)
             232px;
 
         column-gap: 50px;
-
-        height: 580px;
     }
 
     .hero-title-img {
+
         max-width: 620px;
     }
 }
@@ -890,6 +902,7 @@ section:not(.hero-section):not(.particle-section) {
 @media (max-width: 900px) {
 
     .hero-section {
+
         height: auto;
 
         min-height: 100vh;
@@ -897,24 +910,12 @@ section:not(.hero-section):not(.particle-section) {
         overflow: hidden;
     }
 
+
     .hero-content {
-        position: relative;
-
-        top: auto;
-        left: auto;
-
-        transform: none;
-
-        width: min(
-            calc(100% - 48px),
-            700px
-        );
 
         height: auto;
 
         min-height: calc(100vh - var(--header-height));
-
-        margin: 0 auto;
 
         grid-template-columns: 1fr;
 
@@ -925,54 +926,33 @@ section:not(.hero-section):not(.particle-section) {
         padding-bottom: 100px;
     }
 
+
     .hero-right {
+
         width: 100%;
 
         max-width: 360px;
 
-        height: auto;
-
         order: -1;
-
-        display: flex;
-
-        flex-direction: column;
-
-        gap: 24px;
     }
 
-    .info-item,
-    .info-item:nth-of-type(1),
-    .info-item:nth-of-type(2),
-    .info-item:nth-of-type(3) {
-        display: flex;
-
-        grid-row: auto;
-    }
-
-    .hard-skills-badge {
-        grid-row: auto;
-
-        margin-top: 4px;
-    }
-
-    .skills-list {
-        grid-row: auto;
-
-        margin-top: 0;
-    }
 
     .header-nav {
+
         width: 232px;
     }
 
+
     .about-grid {
+
         grid-template-columns: 1fr;
 
         gap: 40px;
     }
 
+
     .about-image {
+
         min-height: 400px;
     }
 }
@@ -984,35 +964,49 @@ section:not(.hero-section):not(.particle-section) {
         --header-height: 58px;
     }
 
+
     section:not(.hero-section):not(.particle-section) {
+
         padding: 75px 20px;
     }
 
+
     .header-inner {
+
         width: calc(100% - 40px);
     }
 
+
     .logo-img {
+
         height: 32px;
     }
 
+
     .header-nav {
+
         width: auto;
 
         gap: 24px;
     }
 
+
     .header-nav a {
+
         font-size: 12px;
     }
 
+
     .hero-section {
+
         min-height: 100vh;
 
         padding: 0;
     }
 
+
     .hero-content {
+
         width: calc(100% - 40px);
 
         min-height: calc(100vh - var(--header-height));
@@ -1022,77 +1016,108 @@ section:not(.hero-section):not(.particle-section) {
         gap: 50px;
     }
 
+
     .hero-photo {
+
         width: 160px;
         height: 160px;
     }
 
+
     .hero-title-img {
+
         max-width: 100%;
     }
 
+
     .hero-description {
+
         font-size: 20px;
     }
 
+
     .hero-links a,
     .contact-links a {
+
         font-size: 13px;
 
         padding: 10px 16px;
     }
 
+
     .hero-right {
+
         max-width: 100%;
     }
+
 
     .info-date,
     .info-text,
     .skills-list,
     .hard-skills-badge {
+
         font-size: 13px;
     }
 
+
     .project-grid {
+
         grid-template-columns: 1fr;
     }
 
+
     .project-card {
+
         padding: 24px;
 
         min-height: auto;
     }
 
+
     .project-tags {
+
         margin-bottom: 60px;
     }
 
+
     .tag {
+
         padding: 8px 18px;
 
         font-size: 12px;
     }
 
+
     .project-body h3 {
+
         font-size: 20px;
     }
 
+
     .big-text {
+
         font-size: 34px;
     }
 
+
     .about-image {
+
         min-height: 320px;
     }
 
+
     .contact {
+
         min-height: 500px;
     }
 
+
     .particle-section {
+
         width: calc(100% - 12px);
 
         margin-left: 6px;
+
         margin-right: 6px;
 
         height: 220px;
