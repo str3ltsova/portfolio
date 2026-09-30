@@ -508,146 +508,280 @@ section:not(.hero-section):not(.particle-section) {
     letter-spacing: -1.5px;
 }
 
-
 /* =========================
    ПОРТФОЛИО
 ========================= */
 
 .projects {
 
-    border-top: 1px solid #222;
+    border-top: none;
+
 }
 
+
+/* =========================
+   ЗАГОЛОВОК
+========================= */
+
+.projects .section-heading {
+
+    margin-bottom: 28px;
+
+}
+
+.projects .section-heading h2 {
+
+    font-size: 26px;
+
+    font-weight: 500;
+
+    letter-spacing: -1px;
+
+}
+
+
+/* =========================
+   СЕТКА ПРОЕКТОВ
+========================= */
 
 .project-grid {
 
     display: grid;
 
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 
-    gap: 18px;
+    column-gap: 28px;
+
+    row-gap: 44px;
+
 }
 
+
+/* =========================
+   КАРТОЧКА
+========================= */
 
 .project-card {
 
-    background: #ECECEC;
+    display: block;
 
-    color: #000;
+    min-width: 0;
 
-    padding: 32px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    min-height: 480px;
-
-    transition:
-        transform .3s ease,
-        background .3s ease;
+    color: #fff;
 
     text-decoration: none;
+
 }
 
 
-.project-card:hover {
+/* =========================
+   ИЗОБРАЖЕНИЕ
+========================= */
 
-    transform: translateY(-4px);
+.project-image {
 
-    background: #F5F5F5;
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    overflow: hidden;
+
+    border-radius: 15px;
+
+    background: #151515;
+
 }
 
 
-.project-tags {
+.project-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition: transform .45s ease;
+
+}
+
+
+/* Небольшой zoom только у доступных проектов */
+
+.project-card-active:hover .project-image img {
+
+    transform: scale(1.025);
+
+}
+
+
+/* =========================
+   КРУЖОК СО СТАТУСОМ
+========================= */
+
+.project-status {
+
+    position: absolute;
+
+    top: 14px;
+
+    right: 14px;
+
+    width: 46px;
+
+    height: 46px;
+
+    border-radius: 50%;
 
     display: flex;
 
-    justify-content: flex-end;
+    align-items: center;
 
-    gap: 10px;
+    justify-content: center;
 
-    margin-bottom: 40px;
+    z-index: 2;
+
 }
 
 
-.tag {
+/* ДОСТУПЕН */
 
-    display: inline-block;
+.project-status-open {
 
-    padding: 10px 22px;
+    background: #000;
 
-    background: #BFBFBF;
+    color: #fff;
 
-    color: #000;
+    font-size: 29px;
 
-    font-size: 13px;
+    font-weight: 300;
 
-    letter-spacing: 0.02em;
+    line-height: 1;
 
-    border-radius: 8px;
+    padding-bottom: 4px;
+
 }
 
 
-.project-body {
+/* ЗАБЛОКИРОВАН */
 
-    margin-top: auto;
+.project-status-locked {
 
-    margin-bottom: 30px;
+    background: #858585;
+
+    color: #fff;
+
 }
 
 
-.project-body h3 {
+/* Иконка замка */
 
-    font-size: 22px;
+.lock-symbol {
 
-    font-weight: 700;
+    font-size: 16px;
+
+    line-height: 1;
+
+    filter: grayscale(1);
+
+}
+
+
+/* =========================
+   ТЕКСТ
+========================= */
+
+.project-info {
+
+    padding-top: 13px;
+
+}
+
+
+.project-info h3 {
+
+    margin: 0;
+
+    font-size: 26px;
+
+    line-height: 1.05;
+
+    font-weight: 500;
+
+    letter-spacing: -1px;
+
+    color: #fff;
+
+}
+
+
+.project-info p {
+
+    margin-top: 7px;
+
+    max-width: 330px;
+
+    font-size: 14px;
+
+    line-height: 1.35;
+
+    font-weight: 400;
 
     letter-spacing: -0.02em;
 
-    margin-bottom: 14px;
+    color: #777;
 
-    color: #000;
 }
 
 
-.project-body p {
+/* =========================
+   ЗАБЛОКИРОВАННЫЕ
+========================= */
 
-    font-size: 14px;
+.project-card-locked {
 
-    line-height: 1.45;
+    cursor: default;
 
-    color: #333;
+}
 
-    max-width: 340px;
+.project-card-locked .project-image img {
+
+    transition: none;
+
 }
 
 
-.project-footer {
+/* =========================
+   АДАПТИВНОСТЬ
+========================= */
 
-    display: flex;
+@media (max-width: 700px) {
 
-    justify-content: space-between;
+    .project-grid {
 
-    align-items: flex-end;
+        grid-template-columns: 1fr;
 
-    font-size: 14px;
+        row-gap: 42px;
 
-    line-height: 1.25;
+    }
 
-    color: #000;
+    .project-info h3 {
 
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+        font-size: 24px;
 
-    padding-top: 22px;
+    }
+
+    .project-info p {
+
+        font-size: 14px;
+
+    }
+
 }
-
-
-.project-footer span:last-child {
-
-    text-align: right;
-}
-
 
 /* =========================
    ABOUT
