@@ -429,7 +429,7 @@ body * {
     width: fit-content;
     padding: 12px 20px;
     border: 1px solid #fff;
-    border-radius: 4px;
+    border-radius: 100px;
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 0.02em;
