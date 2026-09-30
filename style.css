@@ -36,7 +36,7 @@ img {
 ========================= */
 
 :root {
-    --page-width: 1284px;
+    --page-width: 1120px;
     --header-height: 60px;
 }
 
@@ -276,18 +276,12 @@ body * {
 ========================= */
 
 .hero-left {
-
     display: flex;
-
     flex-direction: column;
-
     gap: 32px;
-
     min-width: 0;
-
     align-self: center;
 }
-
 
 .hero-photo {
 
@@ -310,8 +304,8 @@ body * {
 
 
 .hero-title-block {
-
     width: 100%;
+    margin-bottom: -16px;
 }
 
 
