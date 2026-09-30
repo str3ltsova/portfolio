@@ -481,12 +481,6 @@ main {
 }
 
 
-section:not(.hero-section):not(.particle-section) {
-
-    padding: 110px 32px;
-}
-
-
 .section-heading {
 
     display: flex;
@@ -515,6 +509,15 @@ section:not(.hero-section):not(.particle-section) {
 .projects {
 
     border-top: none;
+
+    width: min(
+        var(--page-width),
+        calc(100% - 48px)
+    );
+
+    margin: 0 auto;
+
+    padding: 110px 0 !important;
 
 }
 
