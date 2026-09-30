@@ -630,22 +630,15 @@
     const settings = {
 
         background: "#000000",
-
-        baseColor: "#DC0000",
-
-        accentColor: "#DC0000",
-
-        highlight: "#F39A29",
-
+        baseColor: "#8A0000",
+        accentColor: "#8A0000",
+        highlight: "#B86A25",
         density: 133,
-
         dotSize: 0.77,
-
         speed: 1.06,
-
         arch: {
 
-            peak: 0,
+            peak: -0.18,
 
             falloff: 2.23,
 
