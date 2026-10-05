@@ -104,10 +104,6 @@
     }
 
 
-    /* =========================
-       VERTEX SHADER
-    ========================= */
-
     const vertexShaderSource = `
 
         attribute vec2 a_pos;
@@ -120,10 +116,6 @@
 
     `;
 
-
-    /* =========================
-       FRAGMENT SHADER
-    ========================= */
 
     const fragmentShaderSource = `
 
@@ -165,7 +157,6 @@
 
             float cs = max(uCell, 2.0);
 
-
             vec2 ci = floor(gl_FragCoord.xy / cs);
 
             vec2 cc = (ci + 0.5) * cs;
@@ -189,10 +180,6 @@
                 h * uPeak
                 + normX * normX * (h * uHeight);
 
-
-            /* =========================
-               ВЛИЯНИЕ КУРСОРА
-            ========================= */
 
             float mdx = x - uMouse.x;
 
@@ -222,10 +209,6 @@
                     influence
                 );
 
-
-            /* =========================
-               ТОЛЩИНА ДУГИ
-            ========================= */
 
             float dist =
                 abs(y - curveY);
@@ -373,40 +356,19 @@
     `;
 
 
-    /* =========================
-       SHADER COMPILE
-    ========================= */
-
     function compileShader(type, source) {
 
-        const shader =
-            gl.createShader(type);
-
+        const shader = gl.createShader(type);
 
         if (!shader) return null;
 
-
-        gl.shaderSource(
-            shader,
-            source
-        );
-
+        gl.shaderSource(shader, source);
 
         gl.compileShader(shader);
 
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
 
-        if (
-            !gl.getShaderParameter(
-                shader,
-                gl.COMPILE_STATUS
-            )
-        ) {
-
-            console.error(
-                "Ошибка шейдера:",
-                gl.getShaderInfoLog(shader)
-            );
-
+            console.error("Ошибка шейдера:", gl.getShaderInfoLog(shader));
 
             gl.deleteShader(shader);
 
@@ -414,92 +376,38 @@
 
         }
 
-
         return shader;
 
     }
 
 
-    const vertexShader =
-        compileShader(
-            gl.VERTEX_SHADER,
-            vertexShaderSource
-        );
+    const vertexShader = compileShader(gl.VERTEX_SHADER, vertexShaderSource);
+    const fragmentShader = compileShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
+
+    if (!vertexShader || !fragmentShader) return;
 
 
-    const fragmentShader =
-        compileShader(
-            gl.FRAGMENT_SHADER,
-            fragmentShaderSource
-        );
+    const program = gl.createProgram();
 
-
-    if (
-        !vertexShader ||
-        !fragmentShader
-    ) {
-
-        return;
-
-    }
-
-
-    /* =========================
-       PROGRAM
-    ========================= */
-
-    const program =
-        gl.createProgram();
-
-
-    gl.attachShader(
-        program,
-        vertexShader
-    );
-
-
-    gl.attachShader(
-        program,
-        fragmentShader
-    );
-
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
 
     gl.linkProgram(program);
 
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
 
-    if (
-        !gl.getProgramParameter(
-            program,
-            gl.LINK_STATUS
-        )
-    ) {
-
-        console.error(
-            "Ошибка линковки:",
-            gl.getProgramInfoLog(program)
-        );
+        console.error("Ошибка линковки:", gl.getProgramInfoLog(program));
 
         return;
 
     }
-
 
     gl.useProgram(program);
 
 
-    /* =========================
-       FULLSCREEN TRIANGLE
-    ========================= */
+    const buffer = gl.createBuffer();
 
-    const buffer =
-        gl.createBuffer();
-
-
-    gl.bindBuffer(
-        gl.ARRAY_BUFFER,
-        buffer
-    );
-
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 
     gl.bufferData(
         gl.ARRAY_BUFFER,
@@ -514,44 +422,20 @@
     );
 
 
-    const aPos =
-        gl.getAttribLocation(
-            program,
-            "a_pos"
-        );
+    const aPos = gl.getAttribLocation(program, "a_pos");
 
+    gl.enableVertexAttribArray(aPos);
 
-    gl.enableVertexAttribArray(
-        aPos
-    );
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
 
-
-    gl.vertexAttribPointer(
-        aPos,
-        2,
-        gl.FLOAT,
-        false,
-        0,
-        0
-    );
-
-
-    /* =========================
-       UNIFORMS
-    ========================= */
 
     const uniforms = {};
-
 
     function uniform(name) {
 
         if (!(name in uniforms)) {
 
-            uniforms[name] =
-                gl.getUniformLocation(
-                    program,
-                    name
-                );
+            uniforms[name] = gl.getUniformLocation(program, name);
 
         }
 
@@ -560,72 +444,32 @@
     }
 
 
-    /* =========================
-       COLORS
-    ========================= */
-
-    function parseColor(
-        value,
-        fallback
-    ) {
+    function parseColor(value, fallback) {
 
         if (!value) return fallback;
 
-
-        let hex =
-            String(value)
-            .replace("#", "")
-            .trim();
-
+        let hex = String(value).replace("#", "").trim();
 
         if (hex.length === 3) {
 
-            hex =
-                hex[0] + hex[0]
-                +
-                hex[1] + hex[1]
-                +
-                hex[2] + hex[2];
+            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
 
         }
 
-
         if (hex.length >= 6) {
 
-            const r =
-                parseInt(
-                    hex.slice(0, 2),
-                    16
-                ) / 255;
-
-
-            const g =
-                parseInt(
-                    hex.slice(2, 4),
-                    16
-                ) / 255;
-
-
-            const b =
-                parseInt(
-                    hex.slice(4, 6),
-                    16
-                ) / 255;
-
+            const r = parseInt(hex.slice(0, 2), 16) / 255;
+            const g = parseInt(hex.slice(2, 4), 16) / 255;
+            const b = parseInt(hex.slice(4, 6), 16) / 255;
 
             return [r, g, b];
 
         }
 
-
         return fallback;
 
     }
 
-
-    /* =========================
-       SETTINGS
-    ========================= */
 
     const settings = {
 
@@ -636,14 +480,12 @@
         density: 133,
         dotSize: 0.77,
         speed: 1.06,
+
         arch: {
 
             peak: -0.18,
-
             falloff: 2.23,
-
             thickness: 1.71,
-
             archHeight: 0.78
 
         },
@@ -651,9 +493,7 @@
         pointer: {
 
             enabled: true,
-
             radius: 155,
-
             strength: 0.24
 
         }
@@ -661,396 +501,120 @@
     };
 
 
-    const bgColor =
-        parseColor(
-            settings.background,
-            [0, 0, 0]
-        );
+    const bgColor = parseColor(settings.background, [0, 0, 0]);
+    const baseColor = parseColor(settings.baseColor, [0.86, 0, 0]);
+    const accentColor = parseColor(settings.accentColor, [0.86, 0, 0]);
+    const highlightColor = parseColor(settings.highlight, [0.95, 0.6, 0.16]);
 
-
-    const baseColor =
-        parseColor(
-            settings.baseColor,
-            [0.86, 0, 0]
-        );
-
-
-    const accentColor =
-        parseColor(
-            settings.accentColor,
-            [0.86, 0, 0]
-        );
-
-
-    const highlightColor =
-        parseColor(
-            settings.highlight,
-            [0.95, 0.6, 0.16]
-        );
-
-
-    /* =========================
-       POINTER
-    ========================= */
 
     const pointer = {
 
         x: 0,
-
         y: 0,
-
         targetX: 0,
-
         targetY: 0,
-
         active: 0,
-
         targetActive: 0
 
     };
 
 
-    /*
-       ВАЖНО:
-
-       Раньше события слушал canvas,
-       но у canvas стоит pointer-events: none.
-
-       Поэтому теперь слушаем весь hero-section.
-    */
-
-    const heroSection =
-        document.querySelector(
-            ".hero-section"
-        );
+    const heroSection = document.querySelector(".hero-section");
 
 
     if (heroSection) {
 
-        heroSection.addEventListener(
-            "pointermove",
-            (event) => {
+        heroSection.addEventListener("pointermove", (event) => {
 
-                const rect =
-                    heroSection.getBoundingClientRect();
+            const rect = heroSection.getBoundingClientRect();
 
+            pointer.targetX = event.clientX - rect.left;
+            pointer.targetY = rect.height - (event.clientY - rect.top);
 
-                pointer.targetX =
-                    event.clientX
-                    -
-                    rect.left;
+            pointer.targetActive = 1;
+
+        });
 
 
-                pointer.targetY =
-                    rect.height
-                    -
-                    (
-                        event.clientY
-                        -
-                        rect.top
-                    );
+        heroSection.addEventListener("pointerleave", () => {
 
+            pointer.targetActive = 0;
 
-                pointer.targetActive = 1;
-
-            }
-        );
-
-
-        heroSection.addEventListener(
-            "pointerleave",
-            () => {
-
-                pointer.targetActive = 0;
-
-            }
-        );
+        });
 
     }
 
 
-    /* =========================
-       RENDER
-    ========================= */
-
-    let lastTime =
-        performance.now();
-
-
+    let lastTime = performance.now();
     let clock = 0;
 
 
     function render(now) {
 
-        const delta =
-            Math.min(
-                0.05,
-                (now - lastTime) / 1000
-            );
-
+        const delta = Math.min(0.05, (now - lastTime) / 1000);
 
         lastTime = now;
 
-
-        clock =
-            (
-                clock
-                +
-                delta
-                *
-                0.9
-                *
-                settings.speed
-            )
-            %
-            6283;
+        clock = (clock + delta * 0.9 * settings.speed) % 6283;
 
 
-        const dpr =
-            Math.min(
-                window.devicePixelRatio || 1,
-                2
-            );
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        const rect = canvas.getBoundingClientRect();
+
+        const bufferWidth = Math.max(1, Math.round(rect.width * dpr));
+        const bufferHeight = Math.max(1, Math.round(rect.height * dpr));
 
 
-        const rect =
-            canvas.getBoundingClientRect();
+        if (canvas.width !== bufferWidth || canvas.height !== bufferHeight) {
 
-
-        const bufferWidth =
-            Math.max(
-                1,
-                Math.round(
-                    rect.width * dpr
-                )
-            );
-
-
-        const bufferHeight =
-            Math.max(
-                1,
-                Math.round(
-                    rect.height * dpr
-                )
-            );
-
-
-        if (
-            canvas.width !== bufferWidth
-            ||
-            canvas.height !== bufferHeight
-        ) {
-
-            canvas.width =
-                bufferWidth;
-
-            canvas.height =
-                bufferHeight;
+            canvas.width = bufferWidth;
+            canvas.height = bufferHeight;
 
         }
 
 
-        gl.viewport(
-            0,
-            0,
-            bufferWidth,
-            bufferHeight
-        );
+        gl.viewport(0, 0, bufferWidth, bufferHeight);
 
 
-        const pitch =
-            Math.min(
-                bufferWidth,
-                bufferHeight
-            )
-            /
-            settings.density;
+        const pitch = Math.min(bufferWidth, bufferHeight) / settings.density;
+
+        const positionLerp = Math.min(1, delta * 12);
+        const activeLerp = Math.min(1, delta * 6);
 
 
-        const positionLerp =
-            Math.min(
-                1,
-                delta * 12
-            );
+        pointer.x += (pointer.targetX - pointer.x) * positionLerp;
+        pointer.y += (pointer.targetY - pointer.y) * positionLerp;
+        pointer.active += (pointer.targetActive - pointer.active) * activeLerp;
 
 
-        const activeLerp =
-            Math.min(
-                1,
-                delta * 6
-            );
+        gl.uniform2f(uniform("uRes"), bufferWidth, bufferHeight);
+        gl.uniform1f(uniform("uTime"), clock);
+        gl.uniform1f(uniform("uDpr"), dpr);
+        gl.uniform1f(uniform("uCell"), Math.max(2, pitch * dpr));
+        gl.uniform1f(uniform("uDot"), pitch * 1.2 * settings.dotSize);
+        gl.uniform1f(uniform("uPeak"), settings.arch.peak);
+        gl.uniform1f(uniform("uHeight"), settings.arch.archHeight);
+        gl.uniform1f(uniform("uThick"), settings.arch.thickness);
+        gl.uniform1f(uniform("uFall"), settings.arch.falloff);
+        gl.uniform2f(uniform("uMouse"), pointer.x, pointer.y);
+        gl.uniform1f(uniform("uMouseRadius"), settings.pointer.radius);
+        gl.uniform1f(uniform("uMouseStrength"), settings.pointer.enabled ? settings.pointer.strength * pointer.active : 0);
+
+        gl.uniform3f(uniform("uBg"), bgColor[0], bgColor[1], bgColor[2]);
+        gl.uniform3f(uniform("uBase"), baseColor[0], baseColor[1], baseColor[2]);
+        gl.uniform3f(uniform("uAccent"), accentColor[0], accentColor[1], accentColor[2]);
+        gl.uniform3f(uniform("uHigh"), highlightColor[0], highlightColor[1], highlightColor[2]);
 
 
-        pointer.x +=
-            (
-                pointer.targetX
-                -
-                pointer.x
-            )
-            *
-            positionLerp;
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
 
-
-        pointer.y +=
-            (
-                pointer.targetY
-                -
-                pointer.y
-            )
-            *
-            positionLerp;
-
-
-        pointer.active +=
-            (
-                pointer.targetActive
-                -
-                pointer.active
-            )
-            *
-            activeLerp;
-
-
-        /* =========================
-           UNIFORMS
-        ========================= */
-
-        gl.uniform2f(
-            uniform("uRes"),
-            bufferWidth,
-            bufferHeight
-        );
-
-
-        gl.uniform1f(
-            uniform("uTime"),
-            clock
-        );
-
-
-        gl.uniform1f(
-            uniform("uDpr"),
-            dpr
-        );
-
-
-        gl.uniform1f(
-            uniform("uCell"),
-            Math.max(
-                2,
-                pitch * dpr
-            )
-        );
-
-
-        gl.uniform1f(
-            uniform("uDot"),
-            pitch
-            *
-            1.2
-            *
-            settings.dotSize
-        );
-
-
-        gl.uniform1f(
-            uniform("uPeak"),
-            settings.arch.peak
-        );
-
-
-        gl.uniform1f(
-            uniform("uHeight"),
-            settings.arch.archHeight
-        );
-
-
-        gl.uniform1f(
-            uniform("uThick"),
-            settings.arch.thickness
-        );
-
-
-        gl.uniform1f(
-            uniform("uFall"),
-            settings.arch.falloff
-        );
-
-
-        gl.uniform2f(
-            uniform("uMouse"),
-            pointer.x,
-            pointer.y
-        );
-
-
-        gl.uniform1f(
-            uniform("uMouseRadius"),
-            settings.pointer.radius
-        );
-
-
-        gl.uniform1f(
-            uniform("uMouseStrength"),
-            settings.pointer.enabled
-                ?
-                settings.pointer.strength
-                *
-                pointer.active
-                :
-                0
-        );
-
-
-        gl.uniform3f(
-            uniform("uBg"),
-            bgColor[0],
-            bgColor[1],
-            bgColor[2]
-        );
-
-
-        gl.uniform3f(
-            uniform("uBase"),
-            baseColor[0],
-            baseColor[1],
-            baseColor[2]
-        );
-
-
-        gl.uniform3f(
-            uniform("uAccent"),
-            accentColor[0],
-            accentColor[1],
-            accentColor[2]
-        );
-
-
-        gl.uniform3f(
-            uniform("uHigh"),
-            highlightColor[0],
-            highlightColor[1],
-            highlightColor[2]
-        );
-
-
-        gl.drawArrays(
-            gl.TRIANGLES,
-            0,
-            3
-        );
-
-
-        requestAnimationFrame(
-            render
-        );
+        requestAnimationFrame(render);
 
     }
 
 
-    requestAnimationFrame(
-        render
-    );
+    requestAnimationFrame(render);
 
 })();
 
@@ -1062,49 +626,33 @@
 
 (() => {
 
-    const canvas =
-        document.getElementById(
-            "particleCanvas"
-        );
-
+    const canvas = document.getElementById("particleCanvas");
 
     if (!canvas) return;
 
 
-    const ctx =
-        canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
 
 
     const PARTICLE_SIZE = 2.4;
-
     const PARTICLE_COLOR = "#363636";
-
     const ACTIVE_COLOR = "#DC0000";
-
     const SPACING = 17;
-
     const MOUSE_RADIUS = 55;
-
     const REPULSION = 6.5;
-
     const SPRING = 0.075;
-
     const FRICTION = 0.82;
 
 
     let width = 0;
-
     let height = 0;
-
     let particles = [];
 
 
     const mouse = {
 
         x: -1000,
-
         y: -1000,
-
         active: false
 
     };
@@ -1112,39 +660,17 @@
 
     function resize() {
 
-        const rect =
-            canvas.getBoundingClientRect();
-
+        const rect = canvas.getBoundingClientRect();
 
         width = rect.width;
-
         height = rect.height;
 
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-        const dpr =
-            Math.min(
-                window.devicePixelRatio || 1,
-                2
-            );
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
 
-
-        canvas.width =
-            width * dpr;
-
-
-        canvas.height =
-            height * dpr;
-
-
-        ctx.setTransform(
-            dpr,
-            0,
-            0,
-            dpr,
-            0,
-            0
-        );
-
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
         createParticles();
 
@@ -1155,31 +681,17 @@
 
         particles = [];
 
+        for (let y = SPACING / 2; y < height; y += SPACING) {
 
-        for (
-            let y = SPACING / 2;
-            y < height;
-            y += SPACING
-        ) {
-
-            for (
-                let x = SPACING / 2;
-                x < width;
-                x += SPACING
-            ) {
+            for (let x = SPACING / 2; x < width; x += SPACING) {
 
                 particles.push({
 
                     x: x,
-
                     y: y,
-
                     originalX: x,
-
                     originalY: y,
-
                     vx: 0,
-
                     vy: 0
 
                 });
@@ -1191,206 +703,90 @@
     }
 
 
-    canvas.addEventListener(
-        "pointermove",
-        (event) => {
+    canvas.addEventListener("pointermove", (event) => {
 
-            const rect =
-                canvas.getBoundingClientRect();
+        const rect = canvas.getBoundingClientRect();
 
+        mouse.x = event.clientX - rect.left;
+        mouse.y = event.clientY - rect.top;
 
-            mouse.x =
-                event.clientX
-                -
-                rect.left;
+        mouse.active = true;
+
+    });
 
 
-            mouse.y =
-                event.clientY
-                -
-                rect.top;
+    canvas.addEventListener("pointerleave", () => {
 
+        mouse.active = false;
+        mouse.x = -1000;
+        mouse.y = -1000;
 
-            mouse.active = true;
-
-        }
-    );
-
-
-    canvas.addEventListener(
-        "pointerleave",
-        () => {
-
-            mouse.active = false;
-
-            mouse.x = -1000;
-
-            mouse.y = -1000;
-
-        }
-    );
+    });
 
 
     function animate() {
 
-        ctx.clearRect(
-            0,
-            0,
-            width,
-            height
-        );
+        ctx.clearRect(0, 0, width, height);
 
 
-        particles.forEach(
-            (particle) => {
+        particles.forEach((particle) => {
 
-                particle.vx +=
-                    (
-                        particle.originalX
-                        -
-                        particle.x
-                    )
-                    *
-                    SPRING;
+            particle.vx += (particle.originalX - particle.x) * SPRING;
+            particle.vy += (particle.originalY - particle.y) * SPRING;
 
 
-                particle.vy +=
-                    (
-                        particle.originalY
-                        -
-                        particle.y
-                    )
-                    *
-                    SPRING;
+            let active = false;
 
 
-                let active = false;
+            if (mouse.active) {
+
+                const dx = particle.x - mouse.x;
+                const dy = particle.y - mouse.y;
+
+                const distance = Math.sqrt(dx * dx + dy * dy);
 
 
-                if (mouse.active) {
+                if (distance < MOUSE_RADIUS && distance > 0) {
 
-                    const dx =
-                        particle.x
-                        -
-                        mouse.x;
+                    active = true;
 
+                    const force = 1 - distance / MOUSE_RADIUS;
+                    const strength = force * force * REPULSION;
 
-                    const dy =
-                        particle.y
-                        -
-                        mouse.y;
-
-
-                    const distance =
-                        Math.sqrt(
-                            dx * dx
-                            +
-                            dy * dy
-                        );
-
-
-                    if (
-                        distance < MOUSE_RADIUS
-                        &&
-                        distance > 0
-                    ) {
-
-                        active = true;
-
-
-                        const force =
-                            1
-                            -
-                            distance
-                            /
-                            MOUSE_RADIUS;
-
-
-                        const strength =
-                            force
-                            *
-                            force
-                            *
-                            REPULSION;
-
-
-                        particle.vx +=
-                            (
-                                dx / distance
-                            )
-                            *
-                            strength;
-
-
-                        particle.vy +=
-                            (
-                                dy / distance
-                            )
-                            *
-                            strength;
-
-                    }
+                    particle.vx += (dx / distance) * strength;
+                    particle.vy += (dy / distance) * strength;
 
                 }
 
-
-                particle.vx *=
-                    FRICTION;
-
-
-                particle.vy *=
-                    FRICTION;
-
-
-                particle.x +=
-                    particle.vx;
-
-
-                particle.y +=
-                    particle.vy;
-
-
-                ctx.beginPath();
-
-
-                ctx.arc(
-                    particle.x,
-                    particle.y,
-                    PARTICLE_SIZE,
-                    0,
-                    Math.PI * 2
-                );
-
-
-                ctx.fillStyle =
-                    active
-                        ?
-                        ACTIVE_COLOR
-                        :
-                        PARTICLE_COLOR;
-
-
-                ctx.fill();
-
             }
-        );
 
 
-        requestAnimationFrame(
-            animate
-        );
+            particle.vx *= FRICTION;
+            particle.vy *= FRICTION;
+
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+
+
+            ctx.beginPath();
+
+            ctx.arc(particle.x, particle.y, PARTICLE_SIZE, 0, Math.PI * 2);
+
+            ctx.fillStyle = active ? ACTIVE_COLOR : PARTICLE_COLOR;
+
+            ctx.fill();
+
+        });
+
+
+        requestAnimationFrame(animate);
 
     }
 
 
-    window.addEventListener(
-        "resize",
-        resize
-    );
-
+    window.addEventListener("resize", resize);
 
     resize();
-
     animate();
 
 })();
@@ -1398,79 +794,129 @@
 
 
 /* =========================================================
-   ИСЧЕЗАЮЩИЙ ХЕДЕР
+   ХЕДЕР
 ========================================================= */
 
 (() => {
 
-    const header =
-        document.getElementById(
-            "siteHeader"
-        );
-
+    const header = document.getElementById("siteHeader");
 
     if (!header) return;
 
 
-    let lastScrollY =
-        window.scrollY;
+    const isProjectPage = !document.querySelector(".hero-section");
 
 
+    /*
+     * СТРАНИЦА ПРОЕКТА:
+     * хедер скрыт изначально (класс .hidden в HTML),
+     * появляется при скролле вниз
+     */
+
+    if (isProjectPage) {
+
+        window.addEventListener("scroll", () => {
+
+            if (window.scrollY > 30) {
+                header.classList.remove("hidden");
+            } else {
+                header.classList.add("hidden");
+            }
+
+        }, { passive: true });
+
+        return;
+
+    }
+
+
+    /*
+     * ГЛАВНАЯ:
+     * скрывается при скролле вниз, появляется при скролле вверх
+     */
+
+    let lastScrollY = window.scrollY;
     let ticking = false;
 
 
     function updateHeader() {
 
-        const currentScrollY =
-            window.scrollY;
+        const currentScrollY = window.scrollY;
 
-
-        if (
-            currentScrollY > lastScrollY
-            &&
-            currentScrollY > 100
-        ) {
-
-            header.classList.add(
-                "hidden"
-            );
-
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            header.classList.add("hidden");
         } else {
-
-            header.classList.remove(
-                "hidden"
-            );
-
+            header.classList.remove("hidden");
         }
 
-
-        lastScrollY =
-            currentScrollY;
-
-
+        lastScrollY = currentScrollY;
         ticking = false;
 
     }
 
 
-    window.addEventListener(
-        "scroll",
-        () => {
+    window.addEventListener("scroll", () => {
 
-            if (!ticking) {
+        if (!ticking) {
 
-                requestAnimationFrame(
-                    updateHeader
-                );
+            requestAnimationFrame(updateHeader);
+            ticking = true;
 
-                ticking = true;
+        }
+
+    }, { passive: true });
+
+})();
+
+
+
+/* =========================================================
+   АНИМАЦИЯ ПОЯВЛЕНИЯ (только страницы проектов)
+========================================================= */
+
+(() => {
+
+    const revealElements = document.querySelectorAll(
+        ".project-image-full, .project-block"
+    );
+
+    if (!revealElements.length) return;
+
+
+    if (!("IntersectionObserver" in window)) {
+
+        revealElements.forEach((el) => {
+            el.classList.add("revealed");
+        });
+
+        return;
+
+    }
+
+
+    const observer = new IntersectionObserver((entries) => {
+
+        entries.forEach((entry) => {
+
+            if (entry.isIntersecting) {
+
+                entry.target.classList.add("revealed");
+                observer.unobserve(entry.target);
 
             }
 
-        },
-        {
-            passive: true
-        }
-    );
+        });
+
+    }, {
+
+        threshold: 0.12,
+        rootMargin: "0px 0px -60px 0px"
+
+    });
+
+
+    revealElements.forEach((el) => {
+        observer.observe(el);
+    });
 
 })();
