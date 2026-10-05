@@ -502,6 +502,7 @@ main {
     letter-spacing: -1.5px;
 }
 
+
 /* =========================
    ПОРТФОЛИО
 ========================= */
@@ -601,7 +602,6 @@ main {
 .project-image img {
 
     width: 100%;
-
     height: 100%;
 
     display: block;
@@ -612,8 +612,6 @@ main {
 
 }
 
-
-/* Небольшой zoom только у доступных проектов */
 
 .project-card-active:hover .project-image img {
 
@@ -651,8 +649,6 @@ main {
 }
 
 
-/* ДОСТУПЕН */
-
 .project-status-open {
 
     background: #000;
@@ -670,8 +666,6 @@ main {
 }
 
 
-/* ЗАБЛОКИРОВАН */
-
 .project-status-locked {
 
     background: #858585;
@@ -680,8 +674,6 @@ main {
 
 }
 
-
-/* Иконка замка */
 
 .lock-symbol {
 
@@ -741,10 +733,6 @@ main {
 }
 
 
-/* =========================
-   ЗАБЛОКИРОВАННЫЕ
-========================= */
-
 .project-card-locked {
 
     cursor: default;
@@ -755,104 +743,6 @@ main {
 
     transition: none;
 
-}
-
-
-/* =========================
-   АДАПТИВНОСТЬ
-========================= */
-
-@media (max-width: 700px) {
-
-    .project-grid {
-
-        grid-template-columns: 1fr;
-
-        row-gap: 42px;
-
-    }
-
-    .project-info h3 {
-
-        font-size: 24px;
-
-    }
-
-    .project-info p {
-
-        font-size: 14px;
-
-    }
-
-}
-
-/* =========================
-   ABOUT
-========================= */
-
-.about {
-
-    border-top: 1px solid #222;
-}
-
-
-.about-grid {
-
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 70px;
-}
-
-
-.about-text {
-
-    max-width: 650px;
-}
-
-
-.big-text {
-
-    font-size: 42px;
-
-    line-height: 1.05;
-
-    letter-spacing: -2px;
-
-    margin-bottom: 50px;
-
-    color: #fff;
-}
-
-
-.about-text > p:last-child {
-
-    max-width: 480px;
-
-    color: #888;
-
-    line-height: 1.6;
-}
-
-
-.about-image {
-
-    min-height: 550px;
-
-    background: #151515;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    color: #555;
-
-    font-size: 11px;
-
-    letter-spacing: 0.1em;
 }
 
 
@@ -1033,20 +923,6 @@ main {
 
         width: 232px;
     }
-
-
-    .about-grid {
-
-        grid-template-columns: 1fr;
-
-        gap: 40px;
-    }
-
-
-    .about-image {
-
-        min-height: 400px;
-    }
 }
 
 
@@ -1155,46 +1031,29 @@ main {
     .project-grid {
 
         grid-template-columns: 1fr;
+
+        row-gap: 42px;
+
     }
 
 
-    .project-card {
+    .project-info h3 {
 
-        padding: 24px;
+        font-size: 24px;
 
-        min-height: auto;
     }
 
 
-    .project-tags {
+    .project-info p {
 
-        margin-bottom: 60px;
-    }
+        font-size: 14px;
 
-
-    .tag {
-
-        padding: 8px 18px;
-
-        font-size: 12px;
-    }
-
-
-    .project-body h3 {
-
-        font-size: 20px;
     }
 
 
     .big-text {
 
         font-size: 34px;
-    }
-
-
-    .about-image {
-
-        min-height: 320px;
     }
 
 
