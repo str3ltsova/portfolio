@@ -21,10 +21,10 @@
 
 
     <!-- =========================
-         ХЕДЕР
+         ХЕДЕР (скрыт изначально)
     ========================== -->
 
-    <header class="site-header" id="siteHeader">
+    <header class="site-header hidden" id="siteHeader">
 
         <div class="header-inner">
 
@@ -53,169 +53,164 @@
     </header>
 
 
-    <main class="project-page">
+    <main>
 
 
         <!-- =========================
-             ХЛЕБНЫЕ КРОШКИ
+             ОБЛОЖКА (full-width)
         ========================== -->
 
-        <nav class="breadcrumbs">
+        <div class="project-cover-wrap">
 
-            <a href="../index.html">Главная</a>
-            <span>/</span>
-            <a href="../index.html#projects">Работы</a>
-            <span>/</span>
-            <span class="current">VK x Drofile</span>
-
-        </nav>
-
-
-        <!-- =========================
-             ОБЛОЖКА
-        ========================== -->
-
-        <figure class="project-cover">
-
-            <div class="placeholder placeholder-wide">
-                <span>COVER IMAGE</span>
+            <div class="project-cover-full">
+                <div class="placeholder placeholder-cover">
+                    <span>COVER IMAGE</span>
+                </div>
             </div>
 
-        </figure>
+            <a
+                href="../index.html#projects"
+                class="project-back"
+                aria-label="Назад к проектам"
+            >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5"/>
+                    <path d="M12 19l-7-7 7-7"/>
+                </svg>
+            </a>
+
+        </div>
 
 
         <!-- =========================
-             ЗАГОЛОВОК + МЕТА
+             КОНТЕНТ
         ========================== -->
 
-        <header class="project-hero">
+        <div class="project-content">
 
-            <h1>VK x Drofile / Цифровое Облако Будущего</h1>
+            <!-- ЗАГОЛОВОК -->
+            <header class="project-hero">
 
-            <div class="project-meta">
-                <span>UX/UI дизайн</span>
-                <span>Mobile app</span>
-                <span>2024</span>
-            </div>
+                <h1>VK x Drofile / Цифровое Облако Будущего</h1>
 
-        </header>
+                <div class="project-meta">
+                    <span>UX/UI дизайн</span>
+                    <span>Mobile app</span>
+                    <span>2024</span>
+                </div>
 
-
-        <!-- =========================
-             ИНТРО
-        ========================== -->
-
-        <section class="project-intro">
-
-            <p class="big-text">
-                Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit. Integer posuere erat a ante.
-            </p>
-
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit. Integer posuere erat a ante. Praesent commodo
-                cursus magna, vel scelerisque nisl consectetur et.
-                Donec sed odio dui.
-            </p>
-
-        </section>
+            </header>
 
 
-        <!-- =========================
-             ФОТО 1
-        ========================== -->
+            <!-- ИНТРО -->
+            <section class="project-intro">
 
-        <figure class="project-image-full">
+                <p class="big-text">
+                    Lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit. Integer posuere erat a ante.
+                </p>
 
-            <div class="placeholder placeholder-wide">
-                <span>IMAGE 01</span>
-            </div>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit. Integer posuere erat a ante. Praesent commodo
+                    cursus magna, vel scelerisque nisl consectetur et.
+                    Donec sed odio dui.
+                </p>
 
-        </figure>
-
-
-        <!-- =========================
-             ТЕКСТ
-        ========================== -->
-
-        <section class="project-block">
-
-            <h2>01 — Challenge</h2>
-
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit. Integer posuere erat a ante. Praesent commodo
-                cursus magna, vel scelerisque nisl consectetur et.
-                Donec sed odio dui. Nulla vitae elit libero, a
-                pharetra augue. Cras mattis consectetur purus sit
-                amet fermentum.
-            </p>
-
-        </section>
+            </section>
 
 
-        <!-- =========================
-             ФОТО 2
-        ========================== -->
+            <!-- ФОТО 1 -->
+            <figure class="project-image-full">
 
-        <figure class="project-image-full">
+                <div class="placeholder placeholder-wide">
+                    <span>IMAGE 01</span>
+                </div>
 
-            <div class="placeholder placeholder-wide">
-                <span>IMAGE 02</span>
-            </div>
+                <figcaption class="project-image-caption">
+                    Описание первого фото в две строки,
+                    выровненное по центру.
+                </figcaption>
 
-        </figure>
-
-
-        <!-- =========================
-             ТЕКСТ
-        ========================== -->
-
-        <section class="project-block">
-
-            <h2>02 — Solution</h2>
-
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit. Integer posuere erat a ante. Praesent commodo
-                cursus magna, vel scelerisque nisl consectetur et.
-                Donec sed odio dui. Nulla vitae elit libero, a
-                pharetra augue.
-            </p>
-
-        </section>
+            </figure>
 
 
-        <!-- =========================
-             ФОТО 3
-        ========================== -->
+            <!-- ТЕКСТ 01 -->
+            <section class="project-block">
 
-        <figure class="project-image-full">
+                <h2>01 — Challenge</h2>
 
-            <div class="placeholder placeholder-wide">
-                <span>IMAGE 03</span>
-            </div>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit. Integer posuere erat a ante. Praesent commodo
+                    cursus magna, vel scelerisque nisl consectetur et.
+                    Donec sed odio dui. Nulla vitae elit libero, a
+                    pharetra augue. Cras mattis consectetur purus sit
+                    amet fermentum.
+                </p>
 
-        </figure>
+            </section>
 
 
-        <!-- =========================
-             ТЕКСТ
-        ========================== -->
+            <!-- ФОТО 2 -->
+            <figure class="project-image-full">
 
-        <section class="project-block">
+                <div class="placeholder placeholder-wide">
+                    <span>IMAGE 02</span>
+                </div>
 
-            <h2>03 — Result</h2>
+                <figcaption class="project-image-caption">
+                    Описание второго фото.
+                </figcaption>
 
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit. Integer posuere erat a ante. Praesent commodo
-                cursus magna, vel scelerisque nisl consectetur et.
-                Donec sed odio dui.
-            </p>
+            </figure>
 
-        </section>
+
+            <!-- ТЕКСТ 02 -->
+            <section class="project-block">
+
+                <h2>02 — Solution</h2>
+
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit. Integer posuere erat a ante. Praesent commodo
+                    cursus magna, vel scelerisque nisl consectetur et.
+                    Donec sed odio dui. Nulla vitae elit libero, a
+                    pharetra augue.
+                </p>
+
+            </section>
+
+
+            <!-- ФОТО 3 -->
+            <figure class="project-image-full">
+
+                <div class="placeholder placeholder-wide">
+                    <span>IMAGE 03</span>
+                </div>
+
+                <figcaption class="project-image-caption">
+                    Описание третьего фото.
+                </figcaption>
+
+            </figure>
+
+
+            <!-- ТЕКСТ 03 -->
+            <section class="project-block">
+
+                <h2>03 — Result</h2>
+
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit. Integer posuere erat a ante. Praesent commodo
+                    cursus magna, vel scelerisque nisl consectetur et.
+                    Donec sed odio dui.
+                </p>
+
+            </section>
+
+        </div>
 
     </main>
 
