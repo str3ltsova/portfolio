@@ -917,13 +917,13 @@ main {
     z-index: 5;
 
     transition:
-        transform .2s ease,
-        background .2s ease;
+        background .2s ease,
+        color .2s ease;
 }
 
-
 .project-back:hover {
-    transform: translateX(-4px);
+    background: #DC0000;
+    color: #fff;
 }
 
 
