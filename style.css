@@ -868,6 +868,21 @@ main {
 }
 
 
+.project-cover-full {
+
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+
+    height: 60vh;        /* ← вот здесь меняешь высоту */
+    min-height: 420px;
+    max-height: 700px;
+
+    overflow: hidden;
+
+    background: #151515;
+}
+
+
 .project-cover-img {
 
     width: 100%;
@@ -902,13 +917,14 @@ main {
         calc((100vw - var(--page-width)) / 2)
     );
 
-    width: 48px;
-    height: 48px;
+    width: 56px;                     /* ← было 48px */
+    height: 56px;                    /* ← было 48px */
 
     border-radius: 50%;
 
-    background: #fff;
-    color: #000;
+    background: transparent;         /* ← прозрачный фон */
+    border: 1px solid #fff;          /* ← белая обводка */
+    color: #fff;                     /* ← белая стрелка */
 
     display: flex;
     align-items: center;
@@ -918,20 +934,22 @@ main {
 
     transition:
         background .2s ease,
+        border-color .2s ease,
         color .2s ease;
 }
 
+
 .project-back:hover {
     background: #DC0000;
+    border-color: #DC0000;
     color: #fff;
 }
 
 
 .project-back svg {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
 }
-
 
 /* =========================
    КОНТЕНТ СТРАНИЦЫ
