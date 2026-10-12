@@ -734,7 +734,7 @@ main {
 .project-info-content {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 26px;
     max-width: 500px;
 }
 
@@ -749,8 +749,8 @@ main {
 
 .project-info-content p {
     font-size: 16px;
-    line-height: 1.55;
-    font-weight: 400;
+    line-height: 1.45;
+    font-weight: 300;
     color: #999;
     margin: 0;
 }
