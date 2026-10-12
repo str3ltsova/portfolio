@@ -917,38 +917,67 @@ main {
         calc((100vw - var(--page-width)) / 2)
     );
 
-    width: 56px;                     /* ← было 48px */
-    height: 56px;                    /* ← было 48px */
+    width: 56px;
+    height: 56px;
 
     border-radius: 50%;
 
-    background: transparent;         /* ← прозрачный фон */
-    border: 1px solid #fff;          /* ← белая обводка */
-    color: #fff;                     /* ← белая стрелка */
+    background: #fff;
+    color: #000;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
+    overflow: hidden;
     z-index: 5;
 
-    transition:
-        background .2s ease,
-        border-color .2s ease,
-        color .2s ease;
+    transition: color .35s ease;
+}
+
+
+/* Заливка — расширяется из центра */
+
+.project-back::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    transform: scale(0);
+
+    transition: transform .5s cubic-bezier(0.4, 0, 0.2, 1);
+
+    z-index: 0;
+}
+
+
+.project-back:hover::before {
+
+    transform: scale(1);
 }
 
 
 .project-back:hover {
-    background: #DC0000;
-    border-color: #DC0000;
+
     color: #fff;
 }
 
 
 .project-back svg {
+
     width: 22px;
     height: 22px;
+
+    position: relative;
+
+    z-index: 1;
 }
 
 /* =========================
