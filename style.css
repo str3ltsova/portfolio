@@ -873,7 +873,7 @@ main {
     width: 100vw;
     margin-left: calc(50% - 50vw);
 
-    height: 60vh;        /* ← вот здесь меняешь высоту */
+    height: 60vh;
     min-height: 420px;
     max-height: 700px;
 
@@ -938,17 +938,16 @@ main {
 
 
 .project-back:hover {
-
     background: #000;
     color: #fff;
 }
 
 
 .project-back svg {
-
     width: 22px;
     height: 22px;
 }
+
 
 /* =========================
    КОНТЕНТ СТРАНИЦЫ
@@ -968,31 +967,8 @@ main {
 
 
 /* =========================
-   ЗАГОЛОВОК + МЕТА + ЛИД
+   ТЕГИ-ОВАЛЬЧИКИ
 ========================= */
-
-.project-hero {
-    margin-bottom: 70px;
-}
-
-
-.project-hero h1 {
-
-    font-size: clamp(28px, 3vw, 44px);
-
-    line-height: 1.15;
-
-    font-weight: 500;
-
-    letter-spacing: -0.02em;
-
-    margin-bottom: 24px;
-
-    color: #fff;
-}
-
-
-/* Теги-овальчики */
 
 .project-meta {
 
@@ -1001,7 +977,7 @@ main {
 
     gap: 10px;
 
-    margin-bottom: 40px;
+    margin-bottom: 28px;
 }
 
 
@@ -1009,58 +985,85 @@ main {
 
     display: inline-block;
 
-    padding: 8px 18px;
+    padding: 10px 22px;
 
     border: 1px solid #666666;
 
     border-radius: 100px;
 
-    font-size: 13px;
+    font-size: 14px;
 
     font-weight: 400;
 
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
 
-    color: #ccc;
-}
-
-
-/* Текст под заголовком */
-
-.project-lead {
-
-    max-width: 720px;
-
-    font-size: 18px;
-
-    line-height: 1.55;
-
-    font-weight: 400;
-
-    color: #888;
-
-    text-align: left;
+    color: #fff;
 }
 
 
 /* =========================
-   ТЕКСТОВЫЕ БЛОКИ (без h2)
+   ЗАГОЛОВОК
+========================= */
+
+.project-hero {
+    margin-bottom: 60px;
+}
+
+
+.project-hero h1 {
+
+    font-size: clamp(36px, 4.5vw, 64px);
+
+    line-height: 1.05;
+
+    font-weight: 500;
+
+    letter-spacing: -0.03em;
+
+    color: #fff;
+}
+
+
+/* =========================
+   СЕКЦИИ С ПЛАШКАМИ
 ========================= */
 
 .project-block {
 
     max-width: 720px;
 
-    margin: 0 auto 80px;
+    margin: 0 auto 40px;
 
     text-align: left;
 }
 
 
+.project-block-label {
+
+    display: inline-block;
+
+    padding: 10px 22px;
+
+    background: #F36D07;
+
+    color: #fff;
+
+    border-radius: 100px;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.01em;
+
+    margin-bottom: 20px;
+}
+
+
 .project-block p {
 
-    font-size: 18px;
-    line-height: 1.6;
+    font-size: 16px;
+    line-height: 1.55;
 
     font-weight: 400;
 
@@ -1461,29 +1464,30 @@ main {
 
     .project-hero h1 {
         font-size: 24px;
-        margin-bottom: 18px;
     }
 
     .project-meta {
         gap: 8px;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
 
     .project-meta span {
-        padding: 6px 14px;
+        padding: 8px 16px;
         font-size: 12px;
     }
 
-    .project-lead {
-        font-size: 16px;
+    .project-block {
+        margin-bottom: 32px;
     }
 
-    .project-block {
-        margin-bottom: 50px;
+    .project-block-label {
+        padding: 8px 18px;
+        font-size: 13px;
+        margin-bottom: 16px;
     }
 
     .project-block p {
-        font-size: 16px;
+        font-size: 15px;
     }
 
     .project-image-full {
