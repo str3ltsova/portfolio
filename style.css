@@ -784,6 +784,13 @@ main {
    ФОТО + ПОДПИСЬ
 ========================= */
 
+.project-image-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 15px;
+}
+
 .project-image-full {
     margin: 40px auto 60px;
     max-width: 100%;
@@ -822,7 +829,6 @@ main {
         transition: none;
     }
 }
-
 
 /* =========================
    ДРУГИЕ ПРОЕКТЫ
