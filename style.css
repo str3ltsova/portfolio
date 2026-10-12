@@ -37,6 +37,7 @@ img {
 
 :root {
     --page-width: 1120px;
+    --project-width: 820px;   /* ← ширина контента на страницах проектов */
     --header-height: 60px;
 }
 
@@ -956,7 +957,7 @@ main {
 .project-content {
 
     width: min(
-        var(--page-width),
+        var(--project-width),   /* ← было var(--page-width) */
         calc(100% - 48px)
     );
 
