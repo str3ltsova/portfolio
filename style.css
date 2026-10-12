@@ -37,7 +37,7 @@ img {
 
 :root {
     --page-width: 1120px;
-    --project-width: 820px;   /* ← ширина контента на страницах проектов */
+    --project-width: 960px;
     --header-height: 60px;
 }
 
@@ -108,17 +108,12 @@ body * {
 
 .site-header {
     position: fixed;
-
     top: 0;
     left: 0;
-
     width: 100%;
     height: var(--header-height);
-
     z-index: 1000;
-
     background: #000;
-
     transition:
         transform 0.35s ease,
         opacity 0.35s ease;
@@ -130,73 +125,45 @@ body * {
     pointer-events: none;
 }
 
-
 .header-inner {
-
-    width: min(
-        var(--page-width),
-        calc(100% - 48px)
-    );
-
+    width: min(var(--page-width), calc(100% - 48px));
     height: 100%;
-
     margin: 0 auto;
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 }
-
 
 .logo-link {
     display: block;
     flex-shrink: 0;
 }
 
-
 .logo-img {
-
     height: 40px;
     width: auto;
-
     display: block;
 }
 
-
 .header-nav {
-
     width: 232px;
-
     display: grid;
-
     grid-template-columns: 1fr 1fr;
-
     align-items: center;
-
     text-align: left;
 }
 
-
 .header-nav a {
-
     font-size: 14px;
-
     font-weight: 500;
-
     letter-spacing: 0.02em;
-
     color: #fff;
-
     transition: color 0.2s ease;
 }
-
 
 .header-nav a:last-child {
     text-align: right;
 }
-
 
 .header-nav a:hover {
     color: #DC0000;
@@ -208,73 +175,36 @@ body * {
 ========================= */
 
 .hero-section {
-
     position: relative;
-
     width: 100%;
-
     height: 100vh;
     min-height: 700px;
-
     background: #000;
-
     overflow: hidden;
 }
 
-
 #arcCanvas {
-
     position: absolute;
-
     inset: 0;
-
     width: 100%;
     height: 100%;
-
     display: block;
-
     pointer-events: none;
 }
 
-
-/* =========================
-   HERO GRID
-========================= */
-
 .hero-content {
-
     position: relative;
-
     z-index: 2;
-
-    width: min(
-        var(--page-width),
-        calc(100% - 48px)
-    );
-
+    width: min(var(--page-width), calc(100% - 48px));
     height: calc(100vh - var(--header-height));
-
     min-height: 640px;
-
     margin: var(--header-height) auto 0;
-
     display: grid;
-
-    grid-template-columns:
-        minmax(0, 1fr)
-        232px;
-
+    grid-template-columns: minmax(0, 1fr) 232px;
     column-gap: 60px;
-
     align-items: center;
-
     padding: 40px 0 50px;
 }
-
-
-/* =========================
-   ЛЕВАЯ ЧАСТЬ
-========================= */
 
 .hero-left {
     display: flex;
@@ -285,45 +215,31 @@ body * {
 }
 
 .hero-photo {
-
     width: 160px;
     height: 160px;
-
     border-radius: 36px;
-
     overflow: hidden;
 }
 
-
 .hero-photo img {
-
     width: 100%;
     height: 100%;
-
     object-fit: cover;
 }
-
 
 .hero-title-block {
     width: 100%;
     margin-bottom: -30px;
 }
 
-
 .hero-title-img {
-
     width: 100%;
-
     max-width: 624px;
-
     height: auto;
-
     display: block;
 }
 
-
 .hero-description {
-
     font-size: 20px;
     letter-spacing: -0.04em;
     line-height: 1.4;
@@ -332,59 +248,32 @@ body * {
     max-width: 620px;
 }
 
-
-/* =========================
-   ССЫЛКИ
-========================= */
-
 .hero-links {
-
     display: flex;
-
     flex-wrap: wrap;
-
     gap: 12px;
 }
 
-
 .hero-links a {
-
     display: inline-block;
-
     padding: 12px 20px;
-
     border: 1px solid #666666;
-
     border-radius: 100px;
-
     font-size: 14px;
-
     font-weight: 400;
-
     letter-spacing: 0.02em;
-
     color: #666666;
-
     transition:
         border-color 0.2s ease,
         color 0.2s ease;
 }
 
-
 .hero-links a:hover {
-
     border-color: #DC0000;
-
     color: #DC0000;
 }
 
-
-/* =========================
-   ПРАВАЯ КОЛОНКА
-========================= */
-
 .hero-right {
-
     width: 232px;
     display: flex;
     flex-direction: column;
@@ -393,17 +282,11 @@ body * {
     align-self: center;
 }
 
-
-/* =========================
-   ОБРАЗОВАНИЕ
-========================= */
-
 .info-item {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
-
 
 .info-date {
     font-size: 14px;
@@ -412,18 +295,12 @@ body * {
     color: #666666;
 }
 
-
 .info-text {
     font-size: 14px;
     font-weight: 500;
     line-height: 1.45;
     color: #fff;
 }
-
-
-/* =========================
-   HARD SKILLS
-========================= */
 
 .hard-skills-badge {
     display: inline-block;
@@ -438,10 +315,6 @@ body * {
     margin-top: 4px;
 }
 
-/* =========================
-   SKILLS
-========================= */
-
 .skills-list {
     display: flex;
     margin-top: -12px;
@@ -454,21 +327,14 @@ body * {
     color: #fff;
 }
 
-
 .skills-list span {
-
     white-space: nowrap;
 }
 
-
 .skills-list i {
-
     font-style: normal;
-
     color: #85868D;
-
     font-size: 10px;
-
     line-height: 1;
 }
 
@@ -481,25 +347,16 @@ main {
     width: 100%;
 }
 
-
 .section-heading {
-
     display: flex;
-
     align-items: baseline;
-
     gap: 20px;
-
     margin-bottom: 60px;
 }
 
-
 .section-heading h2 {
-
     font-size: 34px;
-
     font-weight: 500;
-
     letter-spacing: -1.5px;
 }
 
@@ -509,225 +366,119 @@ main {
 ========================= */
 
 .projects {
-
     border-top: none;
-
-    width: min(
-        var(--page-width),
-        calc(100% - 48px)
-    );
-
+    width: min(var(--page-width), calc(100% - 48px));
     margin: 0 auto;
-
     padding: 110px 0 !important;
-
 }
 
-
 .projects .section-heading {
-
     margin-bottom: 28px;
-
 }
 
 .projects .section-heading h2 {
-
     font-size: clamp(36px, 4vw, 56px);
-
     font-weight: 500;
-
     letter-spacing: -0.03em;
-
 }
-
-
-/* =========================
-   СЕТКА ПРОЕКТОВ
-========================= */
 
 .project-grid {
-
     display: grid;
-
     grid-template-columns: repeat(2, minmax(0, 1fr));
-
     column-gap: 28px;
-
     row-gap: 44px;
-
 }
-
 
 .project-card {
-
     display: block;
-
     min-width: 0;
-
     color: #fff;
-
     text-decoration: none;
-
 }
-
 
 .project-image {
-
     position: relative;
-
     width: 100%;
-
     aspect-ratio: 1 / 1;
-
     overflow: hidden;
-
     border-radius: 15px;
-
     background: #151515;
-
 }
-
 
 .project-image img {
-
     width: 100%;
     height: 100%;
-
     display: block;
-
     object-fit: cover;
-
     transition: transform .45s ease;
-
 }
-
 
 .project-card-active:hover .project-image img {
-
     transform: scale(1.025);
-
 }
-
-
-/* =========================
-   КРУЖОК СО СТАТУСОМ
-========================= */
 
 .project-status {
-
     position: absolute;
-
     top: 14px;
-
     right: 14px;
-
     width: 46px;
-
     height: 46px;
-
     border-radius: 50%;
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     z-index: 2;
-
 }
-
 
 .project-status-open {
-
     background: #000;
-
     color: #fff;
-
     font-size: 29px;
-
     font-weight: 300;
-
     line-height: 1;
-
     padding-bottom: 4px;
-
 }
-
 
 .project-status-locked {
-
     background: #858585;
-
     color: #fff;
-
 }
-
 
 .lock-symbol {
-
     font-size: 16px;
-
     line-height: 1;
-
     filter: grayscale(1);
-
 }
-
 
 .project-info {
-
     padding-top: 13px;
-
 }
-
 
 .project-info h3 {
-
     margin: 0;
-
     font-size: 26px;
-
     line-height: 1.05;
-
     font-weight: 500;
-
     letter-spacing: -1px;
-
     color: #fff;
-
 }
-
 
 .project-info p {
-
     margin-top: 7px;
-
     max-width: 330px;
-
     font-size: 14px;
-
     line-height: 1.35;
-
     font-weight: 400;
-
     letter-spacing: -0.02em;
-
     color: #777;
-
 }
 
-
 .project-card-locked {
-
     cursor: default;
-
 }
 
 .project-card-locked .project-image img {
-
     transition: none;
-
 }
 
 
@@ -736,87 +487,48 @@ main {
 ========================= */
 
 .contact {
-
     background: #111;
-
     padding: 80px 0;
-
     display: flex;
-
     flex-direction: column;
-
     gap: 40px;
 }
 
-
 .contact h2 {
-
-    width: min(
-        var(--page-width),
-        calc(100% - 48px)
-    );
-
+    width: min(var(--page-width), calc(100% - 48px));
     margin: 0 auto;
-
     font-size: clamp(36px, 4vw, 56px);
-
     line-height: 1.05;
-
     font-weight: 500;
-
     letter-spacing: -0.03em;
-
     color: #fff;
 }
 
-
 .contact-links {
-
-    width: min(
-        var(--page-width),
-        calc(100% - 48px)
-    );
-
+    width: min(var(--page-width), calc(100% - 48px));
     margin: 0 auto;
-
     display: flex;
-
     flex-wrap: wrap;
-
     gap: 12px;
 }
 
-
 .contact-links a {
-
     display: inline-block;
-
     padding: 12px 22px;
-
     background: transparent;
-
     border: 1px solid #666666;
-
     border-radius: 100px;
-
     font-size: 14px;
-
     font-weight: 400;
-
     letter-spacing: 0.02em;
-
     color: #ccc;
-
     transition:
         border-color .2s ease,
         color .2s ease;
 }
 
-
 .contact-links a:hover {
-
     border-color: #DC0000;
-
     color: #DC0000;
 }
 
@@ -826,29 +538,19 @@ main {
 ========================= */
 
 .particle-section {
-
     position: relative;
-
     width: calc(100% - 20px);
-
     margin-left: 10px;
     margin-right: 10px;
-
     height: 280px;
-
     background: #000;
-
     overflow: hidden;
 }
 
-
 #particleCanvas {
-
     display: block;
-
     width: 100%;
     height: 100%;
-
     background: #000;
 }
 
@@ -859,7 +561,7 @@ main {
 
 
 /* =========================
-   ОБЛОЖКА FULL-WIDTH
+   ОБЛОЖКА
 ========================= */
 
 .project-cover-wrap {
@@ -868,38 +570,27 @@ main {
     margin-bottom: 60px;
 }
 
-
 .project-cover-full {
-
     width: 100vw;
     margin-left: calc(50% - 50vw);
-
     height: 60vh;
     min-height: 420px;
     max-height: 700px;
-
     overflow: hidden;
-
     background: #151515;
 }
 
-
 .project-cover-img {
-
     width: 100%;
     height: 100%;
-
     object-fit: cover;
     display: block;
 }
 
-
 .placeholder-cover {
-
     width: 100%;
     height: 100%;
     min-height: 100%;
-
     border-radius: 0;
     border: none;
 }
@@ -908,41 +599,27 @@ main {
 /* Кружок со стрелкой */
 
 .project-back {
-
     position: absolute;
-
     top: 24px;
-
-    left: max(
-        24px,
-        calc((100vw - var(--page-width)) / 2)
-    );
-
+    left: max(24px, calc((100vw - var(--page-width)) / 2));
     width: 56px;
     height: 56px;
-
     border-radius: 50%;
-
     background: #fff;
     color: #000;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     z-index: 5;
-
     transition:
         background .3s ease,
         color .3s ease;
 }
 
-
 .project-back:hover {
     background: #000;
     color: #fff;
 }
-
 
 .project-back svg {
     width: 22px;
@@ -955,49 +632,31 @@ main {
 ========================= */
 
 .project-content {
-
-    width: min(
-        var(--project-width),   /* ← было var(--page-width) */
-        calc(100% - 48px)
-    );
-
+    width: min(var(--project-width), calc(100% - 48px));
     margin: 0 auto;
-
     padding: 0 0 80px;
 }
 
 
 /* =========================
-   ТЕГИ-ОВАЛЬЧИКИ
+   ТЕГИ
 ========================= */
 
 .project-meta {
-
     display: flex;
     flex-wrap: wrap;
-
     gap: 10px;
-
     margin-bottom: 28px;
 }
 
-
 .project-meta span {
-
     display: inline-block;
-
     padding: 10px 22px;
-
     border: 1px solid #666666;
-
     border-radius: 100px;
-
     font-size: 14px;
-
     font-weight: 400;
-
     letter-spacing: 0.01em;
-
     color: #fff;
 }
 
@@ -1007,68 +666,115 @@ main {
 ========================= */
 
 .project-hero {
-    margin-bottom: 60px;
+    margin-bottom: 70px;
 }
 
-
 .project-hero h1 {
-
     font-size: 44px;
-
     line-height: 1.1;
-
     font-weight: 500;
-
     letter-spacing: -0.03em;
-
     color: #fff;
 }
 
 
 /* =========================
-   СЕКЦИИ С ПЛАШКАМИ
+   ИНФО-БЛОК (два столбца)
 ========================= */
 
-.project-block {
+.project-info-block {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    column-gap: 80px;
+    align-items: start;
 
-    max-width: 500px;
+    padding: 50px 0;
+    border-top: 1px solid #1a1a1a;
 
-    margin: 0 0 40px;
+    opacity: 0;
+    transform: translateY(60px);
 
-    text-align: left;
+    transition:
+        opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-info-block.revealed {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 
-.project-block-label {
+/* Левый столбец — маленький заголовок */
 
-    display: inline-block;
-
-    padding: 10px 22px;
-
-    background: #FF6525;
-
-    color: #fff;
-
-    border-radius: 100px;
-
-    font-size: 14px;
-
+.project-info-title {
+    font-size: 20px;
+    line-height: 1.3;
     font-weight: 500;
-
-    letter-spacing: 0.01em;
-
-    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin: 0;
 }
 
 
-.project-block p {
+/* Правый столбец — текст */
 
-    font-size: 16px;
-    line-height: 1.55;
+.project-info-content {
+    max-width: 640px;
+}
 
+
+/* Крупный лид */
+
+.project-info-lead {
+    font-size: 24px;
+    line-height: 1.3;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 24px;
+}
+
+
+/* Обычные абзацы */
+
+.project-info-content p {
+    font-size: 15px;
+    line-height: 1.6;
     font-weight: 400;
+    color: #999;
+    margin-bottom: 16px;
+}
 
-    color: #ccc;
+.project-info-content p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* Списки */
+
+.project-info-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+}
+
+.project-info-content ul li {
+    position: relative;
+    padding-left: 18px;
+    margin-bottom: 8px;
+
+    font-size: 15px;
+    line-height: 1.55;
+    font-weight: 400;
+    color: #999;
+}
+
+.project-info-content ul li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #666;
 }
 
 
@@ -1077,42 +783,10 @@ main {
 ========================= */
 
 .project-image-full {
-
-    margin: 0 auto 80px;
-
+    margin: 60px auto 60px;
     max-width: 100%;
-}
-
-
-.project-image-caption {
-
-    margin-top: 16px;
-
-    max-width: 640px;
-
-    margin-left: auto;
-    margin-right: auto;
-
-    font-size: 13px;
-    line-height: 1.5;
-
-    font-weight: 400;
-
-    color: #4a4a4a;
-
-    text-align: center;
-}
-
-
-/* =========================
-   АНИМАЦИЯ ПОЯВЛЕНИЯ
-========================= */
-
-.project-image-full,
-.project-block {
 
     opacity: 0;
-
     transform: translateY(60px);
 
     transition:
@@ -1120,21 +794,29 @@ main {
         transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-
-.project-image-full.revealed,
-.project-block.revealed {
-
+.project-image-full.revealed {
     opacity: 1;
-
     transform: translateY(0);
+}
+
+.project-image-caption {
+    margin-top: 16px;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 400;
+    color: #4a4a4a;
+    text-align: center;
 }
 
 
 @media (prefers-reduced-motion: reduce) {
 
-    .project-image-full,
-    .project-block {
-
+    .project-info-block,
+    .project-image-full {
         opacity: 1;
         transform: none;
         transition: none;
@@ -1147,30 +829,19 @@ main {
 ========================= */
 
 .other-projects {
-
-    width: min(
-        var(--page-width),
-        calc(100% - 48px)
-    );
-
+    width: min(var(--page-width), calc(100% - 48px));
     margin: 0 auto;
-
     padding: 80px 0;
-
     border-top: 1px solid #1a1a1a;
 }
-
 
 .other-projects .section-heading {
     margin-bottom: 28px;
 }
 
-
 .other-projects .section-heading h2 {
-
     font-size: 26px;
     font-weight: 500;
-
     letter-spacing: -1px;
 }
 
@@ -1180,28 +851,20 @@ main {
 ========================= */
 
 .placeholder {
-
     width: 100%;
     height: 100%;
-
     min-height: 380px;
-
     background: #151515;
     border: 1px solid #222;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     color: #555;
-
     font-size: 11px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-
     border-radius: 15px;
 }
-
 
 .placeholder-wide {
     min-height: 620px;
@@ -1219,16 +882,11 @@ main {
     }
 
     .hero-content {
-
-        grid-template-columns:
-            minmax(0, 1fr)
-            232px;
-
+        grid-template-columns: minmax(0, 1fr) 232px;
         column-gap: 50px;
     }
 
     .hero-title-img {
-
         max-width: 620px;
     }
 }
@@ -1237,44 +895,44 @@ main {
 @media (max-width: 900px) {
 
     .hero-section {
-
         height: auto;
-
         min-height: 100vh;
-
         overflow: hidden;
     }
 
-
     .hero-content {
-
         height: auto;
-
         min-height: calc(100vh - var(--header-height));
-
         grid-template-columns: 1fr;
-
         gap: 60px;
-
         padding-top: 80px;
-
         padding-bottom: 100px;
     }
 
-
     .hero-right {
-
         width: 100%;
-
         max-width: 360px;
-
         order: -1;
     }
 
-
     .header-nav {
-
         width: 232px;
+    }
+
+    /* PROJECT INFO BLOCK — планшет */
+
+    .project-info-block {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 40px 0;
+    }
+
+    .project-info-title {
+        font-size: 18px;
+    }
+
+    .project-info-lead {
+        font-size: 20px;
     }
 }
 
@@ -1285,152 +943,98 @@ main {
         --header-height: 58px;
     }
 
-
     section:not(.hero-section):not(.particle-section) {
-
         padding: 75px 20px;
     }
 
-
     .header-inner {
-
         width: calc(100% - 40px);
     }
 
-
     .logo-img {
-
         height: 32px;
     }
 
-
     .header-nav {
-
         width: auto;
-
         gap: 24px;
     }
 
-
     .header-nav a {
-
         font-size: 12px;
     }
 
-
     .hero-section {
-
         min-height: 100vh;
-
         padding: 0;
     }
 
-
     .hero-content {
-
         width: calc(100% - 40px);
-
         min-height: calc(100vh - var(--header-height));
-
         padding: 50px 0 80px;
-
         gap: 50px;
     }
 
-
     .hero-photo {
-
         width: 160px;
         height: 160px;
     }
 
-
     .hero-title-img {
-
         max-width: 100%;
     }
 
-
     .hero-description {
-
         font-size: 20px;
     }
 
-
     .hero-links a,
     .contact-links a {
-
         font-size: 13px;
-
         padding: 10px 16px;
     }
 
-
     .hero-right {
-
         max-width: 100%;
     }
-
 
     .info-date,
     .info-text,
     .skills-list,
     .hard-skills-badge {
-
         font-size: 13px;
     }
 
-
     .project-grid {
-
         grid-template-columns: 1fr;
-
         row-gap: 42px;
-
     }
-
 
     .project-info h3 {
-
         font-size: 24px;
-
     }
-
 
     .project-info p {
-
         font-size: 14px;
-
     }
 
-
     .big-text {
-
         font-size: 34px;
     }
 
-
     .contact {
-
         min-height: 500px;
     }
 
-
     .particle-section {
-
         width: calc(100% - 12px);
-
         margin-left: 6px;
-
         margin-right: 6px;
-
         height: 220px;
     }
 
-
-    /* =========================
-       PROJECT PAGE — MOBILE
-    ========================== */
+    /* PROJECT PAGE — MOBILE */
 
     .project-cover-wrap {
         margin-bottom: 40px;
@@ -1464,7 +1068,7 @@ main {
     }
 
     .project-hero h1 {
-        font-size: 24px;
+        font-size: 26px;
     }
 
     .project-meta {
@@ -1477,18 +1081,24 @@ main {
         font-size: 12px;
     }
 
-    .project-block {
-        margin-bottom: 32px;
+    .project-info-block {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 32px 0;
     }
 
-    .project-block-label {
-        padding: 8px 18px;
-        font-size: 13px;
-        margin-bottom: 16px;
+    .project-info-title {
+        font-size: 17px;
     }
 
-    .project-block p {
-        font-size: 15px;
+    .project-info-lead {
+        font-size: 18px;
+        margin-bottom: 18px;
+    }
+
+    .project-info-content p,
+    .project-info-content ul li {
+        font-size: 14px;
     }
 
     .project-image-full {
