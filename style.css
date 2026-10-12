@@ -635,7 +635,7 @@ main {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .project-meta span {
@@ -792,7 +792,7 @@ main {
 }
 
 .project-image-full {
-    margin: 40px auto 60px;
+    margin: 100px auto 60px;
     max-width: 100%;
 
     opacity: 0;
