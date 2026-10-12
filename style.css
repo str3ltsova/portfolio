@@ -1443,13 +1443,13 @@ main {
         top: 16px;
         left: 16px;
 
-        width: 40px;
-        height: 40px;
+        width: 46px;
+        height: 46px;
     }
 
     .project-back svg {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
     }
 
     .project-content {
