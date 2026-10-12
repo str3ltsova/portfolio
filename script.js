@@ -877,7 +877,7 @@
 (() => {
 
     const revealElements = document.querySelectorAll(
-        ".project-image-full, .project-block"
+        ".project-image-full, .project-info-block, .project-block"
     );
 
     if (!revealElements.length) return;
