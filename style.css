@@ -1012,9 +1012,9 @@ main {
 
 .project-hero h1 {
 
-    font-size: clamp(36px, 4.5vw, 64px);
+    font-size: 44px;
 
-    line-height: 1.05;
+    line-height: 1.1;
 
     font-weight: 500;
 
@@ -1044,7 +1044,7 @@ main {
 
     padding: 10px 22px;
 
-    background: #F36D07;
+    background: #FF6525;
 
     color: #fff;
 
