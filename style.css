@@ -565,9 +565,9 @@ main {
 .project-cover-full {
     width: 100vw;
     margin-left: calc(50% - 50vw);
-    height: 60vh;
-    min-height: 420px;
-    max-height: 700px;
+    height: 68vh;
+    min-height: 520px;
+    max-height: 800px;
     overflow: hidden;
     background: #151515;
 }
