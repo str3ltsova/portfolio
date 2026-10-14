@@ -757,6 +757,16 @@ main {
     max-width: 500px;
 }
 
+.project-info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.project-info-group p {
+    margin: 0;
+}
+
 .project-info-heading {
     font-size: 20px;
     line-height: 1.2;
