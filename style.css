@@ -811,7 +811,7 @@ main {
 }
 
 .project-image-full {
-    margin: 0 auto 60px;
+    margin: 60 auto 60px;
     max-width: 100%;
 
     opacity: 0;
