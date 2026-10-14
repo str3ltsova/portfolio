@@ -710,9 +710,9 @@ main {
 
 .project-block p {
     font-size: 16px;
-    line-height: 1.45;
+    line-height: 1.4;
     font-weight: 300;
-    color: #ccc;
+    color: #999;
 }
 
 
@@ -760,25 +760,26 @@ main {
 .project-info-group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 }
 
 .project-info-group p {
     margin: 0;
+    line-height: 1.4;
 }
 
 .project-info-heading {
     font-size: 20px;
-    line-height: 1.2;
+    line-height: 1.25;
     font-weight: 400;
     letter-spacing: -0.02em;
-    color: #ccc;
+    color: #fff;
     margin: 0;
 }
 
 .project-info-content p {
     font-size: 16px;
-    line-height: 1.45;
+    line-height: 1.4;
     font-weight: 300;
     color: #999;
     margin: 0;
@@ -788,15 +789,19 @@ main {
     list-style: none;
     padding: 0;
     margin: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .project-info-content ul li {
     position: relative;
     padding-left: 18px;
-    margin-bottom: 4px;
+    margin: 0;
 
     font-size: 16px;
-    line-height: 1.5;
+    line-height: 1.4;
     font-weight: 400;
     color: #999;
 }
