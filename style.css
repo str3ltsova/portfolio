@@ -654,7 +654,7 @@ main {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .project-meta span {
@@ -692,7 +692,7 @@ main {
 
 .project-block {
     max-width: 500px;
-    margin: 0 0 50px;
+    margin: 0 0 30px;
     text-align: left;
 }
 
