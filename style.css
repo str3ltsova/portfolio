@@ -93,6 +93,24 @@ body * {
     }
 }
 
+/* =========================
+   CV BUTTON (красный)
+========================= */
+
+.hero-links a.btn-cv,
+.contact-links a.btn-cv {
+    background: #DC0000;
+    border-color: #DC0000;
+    color: #fff;
+    font-weight: 500;
+}
+
+.hero-links a.btn-cv:hover,
+.contact-links a.btn-cv:hover {
+    background: #ff2a2a;
+    border-color: #ff2a2a;
+    color: #fff;
+}
 
 /* =========================
    ХЕДЕР
@@ -254,10 +272,11 @@ body * {
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 0.02em;
-    color: #666666;
+    color: #ccc;
     transition:
         border-color 0.2s ease,
-        color 0.2s ease;
+        color 0.2s ease,
+        background 0.2s ease;
 }
 
 .hero-links a:hover {
