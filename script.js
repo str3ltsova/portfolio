@@ -50,7 +50,7 @@
 
 
     const hoverables = document.querySelectorAll(
-        "a, button, .project-card, .contact-links a, .hero-links a"
+        "a, button, .project-card:not(.project-card-locked), .contact-links a, .hero-links a"
     );
 
 
