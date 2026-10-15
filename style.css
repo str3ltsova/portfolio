@@ -1175,6 +1175,10 @@ main {
     background: #6C61FF;
 }
 
+.project-softlogic .project-block-label {
+    background: #5B83FF;
+}
+
 .project-moment .project-block-label {
     background: #FF6525;
 }
