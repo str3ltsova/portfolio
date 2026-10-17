@@ -238,9 +238,10 @@ body * {
     object-fit: cover;
 }
 
+/* ДЕСКТОП: расстояние как было */
 .hero-title-block {
     width: 100%;
-    margin-bottom: -15px;
+    margin-bottom: -30px;
 }
 
 .hero-title-img {
@@ -1031,6 +1032,11 @@ main {
         border-radius: 32px;
     }
 
+    /* МОБИЛКА: переопределяем расстояние, чтобы не впритык */
+    .hero-title-block {
+        margin-bottom: 10px; 
+    }
+
     .hero-title-img {
         max-width: 100%;
     }
@@ -1152,6 +1158,7 @@ main {
         justify-content: center;
     }
 
+    /* ТОЧКИ (возвращаем, но отключаем клики) */
     .particle-section {
         width: calc(100% - 24px);
         margin-left: 12px;
