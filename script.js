@@ -521,27 +521,17 @@
 
     const heroSection = document.querySelector(".hero-section");
 
-
-    if (heroSection) {
-
+    if (heroSection && window.matchMedia("(hover: hover)").matches) {
         heroSection.addEventListener("pointermove", (event) => {
-
             const rect = heroSection.getBoundingClientRect();
-
             pointer.targetX = event.clientX - rect.left;
             pointer.targetY = rect.height - (event.clientY - rect.top);
-
             pointer.targetActive = 1;
-
         });
-
 
         heroSection.addEventListener("pointerleave", () => {
-
             pointer.targetActive = 0;
-
         });
-
     }
 
 
