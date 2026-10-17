@@ -240,7 +240,7 @@ body * {
 
 .hero-title-block {
     width: 100%;
-    margin-bottom: -30px;
+    margin-bottom: 10px;
 }
 
 .hero-title-img {
@@ -1042,18 +1042,23 @@ main {
 
     /* КНОПКИ */
     .hero-links {
-        gap: 12px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        width: 100%;
         margin-top: 8px;
     }
 
     .hero-links a {
         font-size: 14px;
-        padding: 14px 20px;
+        padding: 14px 10px;
         text-align: center;
-        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    /* ПРАВАЯ КОЛОНКА (Учеба и Скиллы) */
+    /* ПРАВАЯ КОЛОНКА */
     .hero-right {
         gap: 24px;
         padding-top: 40px;
@@ -1061,13 +1066,13 @@ main {
     }
 
     .info-text {
-        font-size: 14px;
+        font-size: 16px;
         line-height: 1.4;
     }
 
     .info-date {
-        font-size: 13px;
-        margin-bottom: 4px;
+        font-size: 14px;
+        margin-bottom: 6px;
     }
 
     .hard-skills-badge {
@@ -1118,7 +1123,7 @@ main {
         font-size: 20px;
     }
 
-    /* КОНТАКТЫ И ПОДВАЛ */
+    /* КОНТАКТЫ */
     .contact {
         padding: 60px 0;
         gap: 30px;
@@ -1129,21 +1134,23 @@ main {
     }
 
     .contact-links {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 10px;
+        width: 100%;
     }
 
     .contact-links a {
         font-size: 14px;
-        padding: 12px 20px;
-        flex-grow: 1;
+        padding: 12px 10px;
         text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .particle-section {
-        width: calc(100% - 24px);
-        margin-left: 12px;
-        margin-right: 12px;
-        height: 180px;
+        display: none;
     }
 
     /* СТРАНИЦА ПРОЕКТА */
@@ -1280,4 +1287,18 @@ main {
 
 .project-moment .project-block-label {
     background: #FF6525;
+}
+
+@media (hover: none) {
+    .hero-links a:hover {
+        border-color: #666666;
+        color: #ccc;
+    }
+    .contact-links a:hover {
+        border-color: #666666;
+        color: #ccc;
+    }
+    .project-card-active:hover .project-image img {
+        transform: none;
+    }
 }
