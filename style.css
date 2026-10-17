@@ -238,7 +238,7 @@ body * {
     object-fit: cover;
 }
 
-/* ИСХОДНЫЙ ОТСТУП */
+/* ИСХОДНЫЙ ОТСТУП ДЛЯ ПК */
 .hero-title-block {
     width: 100%;
     margin-bottom: -30px; 
@@ -1022,8 +1022,13 @@ main {
         gap: 48px;
     }
 
+    /* ИСПРАВЛЕННЫЙ ОТСТУП ДЛЯ МОБИЛКИ */
     .hero-left {
-        gap: 24px;
+        gap: 32px; 
+    }
+
+    .hero-title-block {
+        margin-bottom: -20px; 
     }
 
     .hero-photo {
