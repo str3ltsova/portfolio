@@ -913,7 +913,6 @@ main {
     min-height: 620px;
 }
 
-
 /* =========================
    АДАПТИВНОСТЬ
 ========================= */
@@ -933,7 +932,9 @@ main {
     }
 }
 
-
+/* =========================
+   ПЛАНШЕТ (до 900px)
+========================= */
 @media (max-width: 900px) {
     .hero-section {
         height: auto;
@@ -944,20 +945,26 @@ main {
     .hero-content {
         height: auto;
         min-height: calc(100vh - var(--header-height));
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
         gap: 60px;
         padding-top: 80px;
         padding-bottom: 100px;
     }
 
+    .hero-left {
+        width: 100%;
+        max-width: 100%;
+    }
+
     .hero-right {
         width: 100%;
-        max-width: 360px;
-        order: -1;
+        max-width: 100%;
     }
 
     .header-nav {
-        width: 232px;
+        width: auto;
+        gap: 24px;
     }
 
     .project-info-block {
@@ -972,14 +979,16 @@ main {
     }
 }
 
-
+/* =========================
+   МОБИЛКА (до 700px)
+========================= */
 @media (max-width: 700px) {
     :root {
         --header-height: 58px;
     }
 
     section:not(.hero-section):not(.particle-section) {
-        padding: 75px 20px;
+        padding: 60px 20px;
     }
 
     .header-inner {
@@ -992,13 +1001,14 @@ main {
 
     .header-nav {
         width: auto;
-        gap: 24px;
+        gap: 20px;
     }
 
     .header-nav a {
-        font-size: 12px;
+        font-size: 13px;
     }
 
+    /* ГЛАВНЫЙ ЭКРАН */
     .hero-section {
         min-height: 100vh;
         padding: 0;
@@ -1007,13 +1017,18 @@ main {
     .hero-content {
         width: calc(100% - 40px);
         min-height: calc(100vh - var(--header-height));
-        padding: 50px 0 80px;
-        gap: 50px;
+        padding: 90px 0 60px;
+        gap: 48px;
+    }
+
+    .hero-left {
+        gap: 24px;
     }
 
     .hero-photo {
-        width: 160px;
-        height: 160px;
+        width: 140px;
+        height: 140px;
+        border-radius: 32px;
     }
 
     .hero-title-img {
@@ -1021,71 +1036,132 @@ main {
     }
 
     .hero-description {
-        font-size: 20px;
+        font-size: 18px;
+        line-height: 1.35;
     }
 
-    .hero-links a,
-    .contact-links a {
-        font-size: 13px;
-        padding: 10px 16px;
+    /* КНОПКИ */
+    .hero-links {
+        gap: 12px;
+        margin-top: 8px;
     }
 
+    .hero-links a {
+        font-size: 14px;
+        padding: 14px 20px;
+        text-align: center;
+        flex-grow: 1;
+    }
+
+    /* ПРАВАЯ КОЛОНКА (Учеба и Скиллы) */
     .hero-right {
-        max-width: 100%;
+        gap: 24px;
+        padding-top: 40px;
+        border-top: 1px solid #222;
     }
 
-    .info-date,
-    .info-text,
-    .skills-list,
+    .info-text {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .info-date {
+        font-size: 13px;
+        margin-bottom: 4px;
+    }
+
     .hard-skills-badge {
         font-size: 13px;
+        padding: 10px 16px;
+        margin-top: 8px;
+    }
+
+    .skills-list {
+        font-size: 13px;
+        gap: 6px 8px;
+    }
+
+    /* ПОРТФОЛИО */
+    .projects {
+        padding: 60px 0 !important;
+    }
+
+    .projects .section-heading h2 {
+        font-size: 36px;
     }
 
     .project-grid {
         grid-template-columns: 1fr;
-        row-gap: 42px;
+        row-gap: 36px;
     }
 
     .project-info h3 {
-        font-size: 24px;
+        font-size: 22px;
     }
 
     .project-info p {
         font-size: 14px;
     }
 
-    .big-text {
-        font-size: 34px;
+    .project-status {
+        width: 48px;
+        height: 48px;
+        top: 12px;
+        right: 12px;
+    }
+    
+    .project-status-open {
+        font-size: 20px;
     }
 
+    .lock-symbol {
+        font-size: 20px;
+    }
+
+    /* КОНТАКТЫ И ПОДВАЛ */
     .contact {
-        min-height: 500px;
+        padding: 60px 0;
+        gap: 30px;
+    }
+
+    .contact h2 {
+        font-size: 40px; 
+    }
+
+    .contact-links {
+        gap: 10px;
+    }
+
+    .contact-links a {
+        font-size: 14px;
+        padding: 12px 20px;
+        flex-grow: 1;
+        text-align: center;
     }
 
     .particle-section {
-        width: calc(100% - 12px);
-        margin-left: 6px;
-        margin-right: 6px;
-        height: 220px;
+        width: calc(100% - 24px);
+        margin-left: 12px;
+        margin-right: 12px;
+        height: 180px;
     }
 
-    /* PROJECT PAGE — MOBILE */
-
+    /* СТРАНИЦА ПРОЕКТА */
     .project-cover-wrap {
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }
 
     .project-cover-full {
-        height: 70vh;
-        min-height: 380px;
-        max-height: 600px;
+        height: 45vh;
+        min-height: 300px;
+        max-height: 450px;
     }
 
     .project-back {
         top: 16px;
         left: 16px;
-        width: 46px;
-        height: 46px;
+        width: 44px;
+        height: 44px;
     }
 
     .project-back svg {
@@ -1099,31 +1175,32 @@ main {
     }
 
     .project-hero {
-        margin-bottom: 40px;
+        margin-bottom: 24px;
     }
 
     .project-hero h1 {
-        font-size: 26px;
+        font-size: 28px;
     }
 
     .project-meta {
         gap: 8px;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
     }
 
     .project-meta span {
-        padding: 8px 16px;
+        padding: 8px 14px;
         font-size: 12px;
     }
 
     .project-block {
-        margin-bottom: 32px;
+        margin-bottom: 24px;
+        max-width: 100%;
     }
 
     .project-block-label {
-        padding: 10px 20px;
-        font-size: 14px;
-        margin-bottom: 18px;
+        padding: 8px 16px;
+        font-size: 13px;
+        margin-bottom: 12px;
     }
 
     .project-block p {
@@ -1133,12 +1210,21 @@ main {
     .project-info-block {
         grid-template-columns: 1fr;
         gap: 16px;
-        padding: 28px 0;
+        padding: 24px 0;
     }
 
-    .project-info-title,
-    .project-info-heading {
+    .project-info-title {
         font-size: 20px;
+    }
+
+    .project-info-heading {
+        font-size: 18px;
+        line-height: 1.3;
+    }
+
+    .project-info-content {
+        gap: 12px;
+        max-width: 100%;
     }
 
     .project-info-content p,
@@ -1146,16 +1232,29 @@ main {
         font-size: 15px;
     }
 
+    .project-info-group {
+        gap: 4px;
+    }
+
     .project-image-full {
-        margin-bottom: 50px;
+        margin: 40px auto;
+    }
+
+    .project-image-img {
+        border-radius: 15px;
     }
 
     .project-image-caption {
         font-size: 12px;
+        margin-top: 10px;
     }
 
     .other-projects {
         padding: 60px 0;
+    }
+
+    .other-projects .section-heading h2 {
+        font-size: 32px;
     }
 
     .placeholder {
