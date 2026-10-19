@@ -1088,7 +1088,7 @@ main {
 
     .project-meta {
         padding: 0;
-        margin: 0 0 20px 0;
+        margin: 20px 0 !important;
     }
 
     .project-meta span {
@@ -1097,8 +1097,8 @@ main {
     }
 
     .project-block {
-        padding: 20px 0;
-        margin: 0;
+        padding: 20px 0 !important;
+        margin: 0 !important;
         max-width: 100%;
     }
 
@@ -1115,9 +1115,9 @@ main {
 
     .project-info-block {
         grid-template-columns: 1fr;
-        gap: 24px; 
-        padding: 20px 0; 
-        margin: 0;
+        gap: 24px;
+        padding: 32px 0 !important;
+        margin: 0 !important;
     }
 
     .project-info-title {
