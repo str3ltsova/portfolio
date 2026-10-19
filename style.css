@@ -1046,12 +1046,13 @@ main {
     }
 
     .project-cover-wrap {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
         margin-bottom: 0;
     }
 
     .project-cover-full {
         width: 100%;
-        margin-left: 0;
         height: 380px;
         min-height: 380px;
         max-height: 380px;
@@ -1070,7 +1071,8 @@ main {
     }
 
     .project-content {
-        width: 100%;
+        width: calc(100% - 40px);
+        margin: 0 auto;
         padding: 0;
     }
 
@@ -1086,7 +1088,7 @@ main {
 
     .project-meta {
         padding: 0;
-        margin-bottom: 20px;
+        margin: 0 0 20px 0;
     }
 
     .project-meta span {
@@ -1114,7 +1116,7 @@ main {
     .project-info-block {
         grid-template-columns: 1fr;
         gap: 24px; 
-        padding: 32px 0; 
+        padding: 20px 0; 
         margin: 0;
     }
 
@@ -1148,7 +1150,7 @@ main {
     }
 
     .project-image-img {
-        border-radius: 0;
+        border-radius: 16px;
     }
 
     .project-image-caption {
@@ -1157,8 +1159,9 @@ main {
     }
 
     .other-projects {
-        width: 100%;
-        padding: 40px 20px;
+        width: calc(100% - 40px);
+        margin: 0 auto;
+        padding: 40px 0;
     }
 
     .other-projects .section-heading h2 {
