@@ -1175,6 +1175,13 @@ main {
     .placeholder-wide {
         min-height: 320px;
     }
+
+    .project-iframe-wrapper {
+        padding-bottom: 0;
+        height: 80vh;
+        margin: 20px 0;
+        border-radius: 16px;
+    }
 }
 
 .project-yolo .project-block-label {
