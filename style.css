@@ -1,7 +1,3 @@
-/* =========================
-   RESET
-========================= */
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -31,21 +27,11 @@ img {
     -webkit-user-drag: none;
 }
 
-
-/* =========================
-   GLOBAL GRID
-========================= */
-
 :root {
     --page-width: 1120px;
     --project-width: 960px;
     --header-height: 60px;
 }
-
-
-/* =========================
-   CURSOR
-========================= */
 
 html {
     cursor: none !important;
@@ -94,10 +80,6 @@ body * {
     }
 }
 
-/* =========================
-   CV BUTTON (красный)
-========================= */
-
 .hero-links a.btn-cv,
 .contact-links a.btn-cv {
     background: #DC0000;
@@ -112,10 +94,6 @@ body * {
     border-color: #ff2a2a;
     color: #fff;
 }
-
-/* =========================
-   ХЕДЕР
-========================= */
 
 .site-header {
     position: fixed;
@@ -180,11 +158,6 @@ body * {
     color: #DC0000;
 }
 
-
-/* =========================
-   ГЛАВНЫЙ ЭКРАН
-========================= */
-
 .hero-section {
     position: relative;
     width: 100%;
@@ -238,7 +211,6 @@ body * {
     object-fit: cover;
 }
 
-/* ИСХОДНЫЙ ОТСТУП ДЛЯ ПК */
 .hero-title-block {
     width: 100%;
     margin-bottom: -30px; 
@@ -351,11 +323,6 @@ body * {
     line-height: 1;
 }
 
-
-/* =========================
-   ОБЩИЕ СЕКЦИИ
-========================= */
-
 main {
     width: 100%;
 }
@@ -372,11 +339,6 @@ main {
     font-weight: 500;
     letter-spacing: -1.5px;
 }
-
-
-/* =========================
-   ПОРТФОЛИО
-========================= */
 
 .projects {
     border-top: none;
@@ -496,11 +458,6 @@ main {
     transition: none;
 }
 
-
-/* =========================
-   CONTACT
-========================= */
-
 .contact {
     background: #111;
     padding: 80px 0;
@@ -547,11 +504,6 @@ main {
     color: #DC0000;
 }
 
-
-/* =========================
-   ТОЧКИ ВНИЗУ
-========================= */
-
 .particle-section {
     position: relative;
     width: calc(100% - 20px);
@@ -568,16 +520,6 @@ main {
     height: 100%;
     background: #000;
 }
-
-
-/* =========================================================
-   PROJECT PAGE
-========================================================= */
-
-
-/* =========================
-   ОБЛОЖКА
-========================= */
 
 .project-cover-wrap {
     position: relative;
@@ -638,21 +580,11 @@ main {
     height: 22px;
 }
 
-
-/* =========================
-   КОНТЕНТ СТРАНИЦЫ
-========================= */
-
 .project-content {
     width: min(var(--project-width), calc(100% - 48px));
     margin: 0 auto;
     padding: 0 0 80px;
 }
-
-
-/* =========================
-   ТЕГИ
-========================= */
 
 .project-meta {
     display: flex;
@@ -672,11 +604,6 @@ main {
     color: #fff;
 }
 
-
-/* =========================
-   ЗАГОЛОВОК
-========================= */
-
 .project-hero {
     margin-bottom: 30px;
 }
@@ -688,11 +615,6 @@ main {
     letter-spacing: -0.03em;
     color: #fff;
 }
-
-
-/* =========================
-   ПЛАШКИ (оранжевые)
-========================= */
 
 .project-block {
     max-width: 500px;
@@ -719,22 +641,14 @@ main {
     color: #999;
 }
 
-
-/* =========================
-   ИНФО-БЛОК (два столбца)
-========================= */
-
 .project-info-block {
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 60px;
     align-items: start;
-
     padding: 40px 0;
-
     opacity: 0;
     transform: translateY(60px);
-
     transition:
         opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
         transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
@@ -793,7 +707,6 @@ main {
     list-style: none;
     padding: 0;
     margin: 0;
-
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -803,7 +716,6 @@ main {
     position: relative;
     padding-left: 18px;
     margin: 0;
-
     font-size: 16px;
     line-height: 1.4;
     font-weight: 400;
@@ -817,11 +729,6 @@ main {
     color: #666;
 }
 
-
-/* =========================
-   ФОТО + ПОДПИСЬ
-========================= */
-
 .project-image-img {
     width: 100%;
     height: auto;
@@ -832,10 +739,8 @@ main {
 .project-image-full {
     margin: 60px auto;
     max-width: 100%;
-
     opacity: 0;
     transform: translateY(60px);
-
     transition:
         opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
         transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
@@ -851,7 +756,6 @@ main {
     max-width: 640px;
     margin-left: auto;
     margin-right: auto;
-
     font-size: 13px;
     line-height: 1.5;
     font-weight: 400;
@@ -867,10 +771,6 @@ main {
         transition: none;
     }
 }
-
-/* =========================
-   ДРУГИЕ ПРОЕКТЫ
-========================= */
 
 .other-projects {
     width: min(var(--page-width), calc(100% - 48px));
@@ -888,11 +788,6 @@ main {
     font-weight: 500;
     letter-spacing: -1px;
 }
-
-
-/* =========================
-   PLACEHOLDER
-========================= */
 
 .placeholder {
     width: 100%;
@@ -914,10 +809,6 @@ main {
     min-height: 620px;
 }
 
-/* =========================
-   АДАПТИВНОСТЬ
-========================= */
-
 @media (max-width: 1100px) {
     :root {
         --page-width: 1200px;
@@ -933,9 +824,6 @@ main {
     }
 }
 
-/* =========================
-   ПЛАНШЕТ (до 900px)
-========================= */
 @media (max-width: 900px) {
     .hero-section {
         height: auto;
@@ -970,8 +858,8 @@ main {
 
     .project-info-block {
         grid-template-columns: 1fr;
-        gap: 16px;
-        padding: 24px 0;
+        gap: 24px;
+        padding: 32px 0;
     }
 
     .project-info-title,
@@ -980,9 +868,6 @@ main {
     }
 }
 
-/* =========================
-   МОБИЛКА (до 700px)
-========================= */
 @media (max-width: 700px) {
     :root {
         --header-height: 58px;
@@ -1009,7 +894,6 @@ main {
         font-size: 13px;
     }
 
-    /* ГЛАВНЫЙ ЭКРАН */
     .hero-section {
         min-height: 100vh;
         padding: 0;
@@ -1045,7 +929,6 @@ main {
         line-height: 1.35;
     }
 
-    /* КНОПКИ */
     .hero-links {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -1063,7 +946,6 @@ main {
         justify-content: center;
     }
 
-    /* ПРАВАЯ КОЛОНКА */
     .hero-right {
         gap: 24px;
         padding-top: 40px;
@@ -1091,7 +973,6 @@ main {
         gap: 6px 8px;
     }
 
-    /* ПОРТФОЛИО */
     .projects {
         padding: 60px 0 !important;
     }
@@ -1128,7 +1009,6 @@ main {
         font-size: 20px;
     }
 
-    /* КОНТАКТЫ */
     .contact {
         padding: 60px 20px;
         gap: 30px;
@@ -1165,20 +1045,16 @@ main {
         pointer-events: none;
     }
 
-    /* ==========================================
-       СТРАНИЦА ПРОЕКТА (УМЕНЬШЕНЫ ОТСТУПЫ)
-    ========================================== */
-    
     .project-cover-wrap {
-        margin-bottom: 20px; /* Уменьшил */
+        margin-bottom: 0;
     }
 
     .project-cover-full {
         width: 100%;
         margin-left: 0;
-        height: 40vh; /* Сделал меньше (было 60vh) */
-        min-height: 280px; 
-        max-height: 450px;
+        height: 380px;
+        min-height: 380px;
+        max-height: 380px;
     }
 
     .project-back {
@@ -1194,97 +1070,95 @@ main {
     }
 
     .project-content {
-        width: calc(100% - 40px);
-        padding-bottom: 40px; /* Уменьшил */
+        width: 100%;
+        padding: 0;
     }
 
     .project-hero {
-        margin-bottom: 20px; /* Уменьшил (было 32px) */
+        margin: 0;
+        padding: 20px 0;
     }
 
     .project-hero h1 {
-        font-size: 28px; 
-        line-height: 1.1;
-        margin-bottom: 16px;
+        font-size: 32px;
+        line-height: 1.2;
     }
 
-    /* ТЕГИ */
     .project-meta {
-        gap: 6px;
-        margin-bottom: 20px; /* Уменьшил (было 32px) */
+        padding: 0;
+        margin-bottom: 20px;
     }
 
     .project-meta span {
-        padding: 6px 12px; /* Сделал аккуратнее */
-        font-size: 12px; 
+        padding: 8px 14px;
+        font-size: 13px;
     }
 
-    /* БЛОК С ПЛАШКАМИ */
     .project-block {
-        margin-bottom: 16px; /* Сильно уменьшил (было 24px) */
+        padding: 20px 0;
+        margin: 0;
         max-width: 100%;
     }
 
     .project-block-label {
+        margin-bottom: 12px;
         padding: 8px 16px;
         font-size: 13px;
-        margin-bottom: 10px; /* Уменьшил (было 14px) */
     }
 
     .project-block p {
-        font-size: 15px; 
-        line-height: 1.4;
+        font-size: 16px;
+        line-height: 1.2;
     }
 
-    /* ТЕКСТ ПОСЛЕ ФОТОК */
     .project-info-block {
         grid-template-columns: 1fr;
-        gap: 12px; /* Уменьшил */
-        padding: 16px 0; /* Сильно уменьшил (было 24px/40px) */
+        gap: 24px; 
+        padding: 32px 0; 
+        margin: 0;
     }
 
     .project-info-title {
-        font-size: 24px; /* Увеличил главный заголовок (было 22px) */
+        font-size: 28px; 
         line-height: 1.2;
     }
 
     .project-info-heading {
-        font-size: 18px; /* Белый текст */
-        line-height: 1.3;
+        font-size: 20px; 
+        line-height: 1.2;
     }
 
     .project-info-content {
-        gap: 10px; /* Уменьшил */
+        gap: 12px;
         max-width: 100%;
     }
 
     .project-info-content p,
     .project-info-content ul li {
-        font-size: 15px; 
-        line-height: 1.4;
+        font-size: 16px; 
+        line-height: 1.2;
     }
 
     .project-info-group {
         gap: 4px;
     }
 
-    /* ФОТКИ */
     .project-image-full {
-        margin: 20px auto; /* Сильно уменьшил отступы вокруг фото (было 32px) */
+        margin: 20px 0;
     }
 
     .project-image-img {
-        border-radius: 16px;
+        border-radius: 0;
     }
 
     .project-image-caption {
         font-size: 12px;
-        margin-top: 8px; /* Уменьшил */
+        margin-top: 10px;
     }
 
     .other-projects {
-        width: calc(100% - 40px);
-        padding: 60px 0;
+        width: 100%;
+        padding: 40px 20px;
     }
 
     .other-projects .section-heading h2 {
@@ -1299,10 +1173,6 @@ main {
         min-height: 320px;
     }
 }
-
-/* =========================
-   ЦВЕТ ПЛАШЕК ПО ПРОЕКТАМ
-========================= */
 
 .project-yolo .project-block-label {
     background: #6C61FF;
