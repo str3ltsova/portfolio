@@ -1022,7 +1022,6 @@ main {
         gap: 48px;
     }
 
-    /* ИСПРАВЛЕННЫЙ ОТСТУП ДЛЯ МОБИЛКИ */
     .hero-left {
         gap: 32px; 
     }
@@ -1166,14 +1165,19 @@ main {
         pointer-events: none;
     }
 
-    /* СТРАНИЦА ПРОЕКТА */
+    /* ==========================================
+       СТРАНИЦА ПРОЕКТА (ИСПРАВЛЕНО)
+    ========================================== */
+    
     .project-cover-wrap {
-        margin-bottom: 30px;
+        margin-bottom: 24px;
     }
 
     .project-cover-full {
-        height: 45vh;
-        min-height: 300px;
+        width: 100%;
+        margin-left: 0;
+        height: 40vh;
+        min-height: 280px;
         max-height: 450px;
     }
 
@@ -1199,7 +1203,8 @@ main {
     }
 
     .project-hero h1 {
-        font-size: 28px;
+        font-size: 26px;
+        line-height: 1.15;
     }
 
     .project-meta {
@@ -1229,12 +1234,12 @@ main {
 
     .project-info-block {
         grid-template-columns: 1fr;
-        gap: 16px;
-        padding: 24px 0;
+        gap: 20px;
+        padding: 32px 0;
     }
 
     .project-info-title {
-        font-size: 20px;
+        font-size: 22px;
     }
 
     .project-info-heading {
@@ -1243,7 +1248,7 @@ main {
     }
 
     .project-info-content {
-        gap: 12px;
+        gap: 16px;
         max-width: 100%;
     }
 
@@ -1253,7 +1258,7 @@ main {
     }
 
     .project-info-group {
-        gap: 4px;
+        gap: 6px;
     }
 
     .project-image-full {
@@ -1270,11 +1275,12 @@ main {
     }
 
     .other-projects {
+        width: calc(100% - 40px);
         padding: 60px 0;
     }
 
     .other-projects .section-heading h2 {
-        font-size: 32px;
+        font-size: 28px;
     }
 
     .placeholder {
