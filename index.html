@@ -3,15 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=113697041', 'ym');
+
+        ym(113697041, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/113697041" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 
     <title>Стрельцова Екатерина — Продуктовый дизайнер</title>
 
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -19,409 +29,162 @@
 
     <div class="cursor-dot"></div>
 
-
-    <!-- =========================
-         ХЕДЕР
-    ========================== -->
-
     <header class="site-header" id="siteHeader">
-
         <div class="header-inner">
-
             <a href="#" class="logo-link" aria-label="Главная">
-                <img
-                    src="images/logo.svg"
-                    alt="Стрельцова Екатерина"
-                    class="logo-img"
-                >
+                <img src="images/logo.svg" alt="Стрельцова Екатерина" class="logo-img">
             </a>
-
             <nav class="header-nav">
-
-                <a href="#projects">
-                    Кейсы
-                </a>
-
-                <a href="#contact">
-                    Контакты
-                </a>
-
+                <a href="#projects">Кейсы</a>
+                <a href="#contact">Контакты</a>
             </nav>
-
         </div>
-
     </header>
 
-
-    <!-- =========================
-         ГЛАВНЫЙ ЭКРАН
-    ========================== -->
-
     <section class="hero-section" id="about">
-
         <canvas id="arcCanvas"></canvas>
 
-
         <div class="hero-content">
-
-
-            <!-- =========================
-                 ЛЕВАЯ ЧАСТЬ
-            ========================== -->
-
             <div class="hero-left">
-
                 <div class="hero-photo">
-
-                    <img
-                        src="images/portrait-x7k2.jpg"
-                        alt="Екатерина Стрельцова"
-                    >
-
+                    <img src="images/portrait-x7k2.jpg" alt="Екатерина Стрельцова">
                 </div>
-
 
                 <div class="hero-title-block">
-
-                    <img
-                        src="images/hero-title.svg"
-                        alt="Привет, я — Катя. Продуктовый Дизайнер"
-                        class="hero-title-img"
-                    >
-
+                    <img src="images/hero-title.svg" alt="Привет, я — Катя. Продуктовый Дизайнер" class="hero-title-img">
                 </div>
-
 
                 <p class="hero-description">
                     Занималась дизайном B2B2G-продуктов и&nbsp;цифровых сервисов в&nbsp;AI&#8209;компании, проходила практику в&nbsp;АНО &laquo;Агентство креативных индустрий&raquo; при Департаменте культуры Москвы.
                 </p>
 
-
                 <div class="hero-links">
-
-                    <a
-                        href="streltsova_CV.pdf"
-                        class="btn-cv"
-                        target="_blank"
-                        rel="noopener"
-                    >
-                        Скачать CV
-                    </a>
-
-                    <a
-                        href="https://t.me/rinn89"
-                        target="_blank"
-                        rel="noopener"
-                    >
-                        Telegram ↗
-                    </a>
-
-                    <a href="mailto:streltsovakatrine@mail.ru">
-                        Email ↗
-                    </a>
-
-                    <a
-                        href="https://dprofile.ru/blessk"
-                        target="_blank"
-                        rel="noopener"
-                    >
-                        Dprofile ↗
-                    </a>
-
+                    <a href="streltsova_CV.pdf" class="btn-cv" target="_blank" rel="noopener">Скачать CV</a>
+                    <a href="https://t.me/rinn89" target="_blank" rel="noopener">Telegram ↗</a>
+                    <a href="mailto:streltsovakatrine@mail.ru">Email ↗</a>
+                    <a href="https://dprofile.ru/blessk" target="_blank" rel="noopener">Dprofile ↗</a>
                 </div>
-
             </div>
 
-
-            <!-- =========================
-                 ПРАВАЯ КОЛОНКА
-            ========================== -->
-
             <aside class="hero-right">
-
-
                 <div class="info-item">
-
-                    <span class="info-date">
-                        2022 – 2026
-                    </span>
-
+                    <span class="info-date">2022 – 2026</span>
                     <p class="info-text">
                         Бакалавриат МГУУ ПМ<br>
                         на направлении управление<br>
                         цифровыми проектами города
                     </p>
-
                 </div>
 
-
                 <div class="info-item">
-
-                    <span class="info-date">
-                        2025
-                    </span>
-
+                    <span class="info-date">2025</span>
                     <p class="info-text">
                         Курс повышения<br>
                         квалификации от НИУ ВШЭ<br>
                         «Дизайн в цифровой среде»
                     </p>
-
                 </div>
 
-
                 <div class="info-item">
-
-                    <span class="info-date">
-                        2026 – сейчас
-                    </span>
-
+                    <span class="info-date">2026 – сейчас</span>
                     <p class="info-text">
                         Магистратура ИТМО<br>
                         на направлении дизайн<br>
                         и развитие цифрового продукта
                     </p>
-
                 </div>
-
 
                 <div class="hard-skills-badge">
                     <span>Hard Skills</span>
                 </div>
 
-
                 <div class="skills-list">
-
                     <span>AI-First Design</span>
-
                     <span>Figma</span>
-
                     <span>SEO</span>
-                    
                     <span>HTML/CSS</span>
-
                     <span>Яндекс Метрика</span>
-
                     <span>Accessibility</span>
-
                     <span>Adobe Illustrator</span>
-
                     <span>Adobe Photoshop</span>
-
                     <span>Blender 3D</span>
-                    
                 </div>
-
-
             </aside>
-
         </div>
-
     </section>
 
-
-
     <main>
-
-
-        <!-- =========================
-             ПОРТФОЛИО
-        ========================== -->
-
         <section class="projects" id="projects">
-
             <div class="section-heading">
                 <h2>Работы</h2>
             </div>
 
             <div class="project-grid">
-
-                <!-- ПРОЕКТ 1 — ДОСТУПЕН -->
-                <a
-                    href="projects/moment.html"
-                    class="project-card project-card-active"
-                >
-
+                <a href="projects/moment.html" class="project-card project-card-active">
                     <div class="project-image">
-
-                        <img
-                            src="images/project-1.webp"
-                            alt="moment"
-                        >
-
-                        <div class="project-status project-status-open">
-                            ↗
-                        </div>
-
+                        <img src="images/project-1.webp" alt="moment">
+                        <div class="project-status project-status-open">↗</div>
                     </div>
-
                     <div class="project-info">
-
-                        <h3>
-                            VK x Drofile / Цифровое Облако Будущего
-                        </h3>
-
-                        <p>
-                            Разработка мобильного приложения с&nbsp;новым пользовательским сценарием в&nbsp;рамках конкурса
-                        </p>
-
+                        <h3>VK x Drofile / Цифровое Облако Будущего</h3>
+                        <p>Разработка мобильного приложения с&nbsp;новым пользовательским сценарием в&nbsp;рамках конкурса</p>
                     </div>
-
                 </a>
 
-
-                <!-- ПРОЕКТ 2 — ДОСТУПЕН -->
-                <a
-                    href="projects/yolo.html"
-                    class="project-card project-card-active"
-                >
-
+                <a href="projects/yolo.html" class="project-card project-card-active">
                     <div class="project-image">
-
-                        <img
-                            src="images/project-2.webp"
-                            alt="Проект 2"
-                        >
-
-                        <div class="project-status project-status-open">
-                            ↗
-                        </div>
-
+                        <img src="images/project-2.webp" alt="Проект 2">
+                        <div class="project-status project-status-open">↗</div>
                     </div>
-
                     <div class="project-info">
-
-                        <h3>
-                            YOLO&nbsp;/ Планирование Мероприятий
-                        </h3>
-
-                        <p>
-                            Учебный продуктовый кейс по&nbsp;созданию мобильного приложения на&nbsp;основе исследований
-                        </p>
-
+                        <h3>YOLO&nbsp;/ Планирование Мероприятий</h3>
+                        <p>Учебный продуктовый кейс по&nbsp;созданию мобильного приложения на&nbsp;основе исследований</p>
                     </div>
-
                 </a>
 
-
-                <!-- ПРОЕКТ 3 — ЗАБЛОКИРОВАН -->
                 <div class="project-card project-card-locked">
-
                     <div class="project-image">
-
-                        <img
-                            src="images/project-3.webp"
-                            alt="Проект 3"
-                        >
-
+                        <img src="images/project-3.webp" alt="Проект 3">
                         <div class="project-status project-status-locked">
                             <span class="lock-symbol">🔒</span>
                         </div>
-
                     </div>
-
                     <div class="project-info">
-
-                        <h3>
-                            Сайт softlogic.ai
-                        </h3>
-
-                        <p>
-                            Ведение сайта компании и&nbsp;полная переработка структуры и&nbsp;дизайна с&nbsp;нуля
-                        </p>
-
+                        <h3>Сайт softlogic.ai</h3>
+                        <p>Ведение сайта компании и&nbsp;полная переработка структуры и&nbsp;дизайна с&nbsp;нуля</p>
                     </div>
-
                 </div>
 
-
-                <!-- ПРОЕКТ 4 — ЗАБЛОКИРОВАН -->
                 <div class="project-card project-card-locked">
-
                     <div class="project-image">
-
-                        <img
-                            src="images/project-4.webp"
-                            alt="Проект 4"
-                        >
-
+                        <img src="images/project-4.webp" alt="Проект 4">
                         <div class="project-status project-status-locked">
                             <span class="lock-symbol">🔒</span>
                         </div>
-
                     </div>
-
                     <div class="project-info">
-
-                        <h3>
-                            Сайт московского кластера видеоигр и&nbsp;анимации
-
-                        </h3>
-
-                        <p>
-                            Обновление существующей версии сайта и&nbsp;пересборка страниц
-                        </p>
-
+                        <h3>Сайт московского кластера видеоигр и&nbsp;анимации</h3>
+                        <p>Обновление существующей версии сайта и&nbsp;пересборка страниц</p>
                     </div>
-
                 </div>
-
             </div>
-
         </section>
-
-
-        <!-- =========================
-             CONTACT
-        ========================== -->
 
         <section class="contact" id="contact">
-
-            <h2>
-                Мои контакты
-            </h2>
-
+            <h2>Мои контакты</h2>
             <div class="contact-links">
-
-                <a
-                    href="streltsova_CV.pdf"
-                    class="btn-cv"
-                    target="_blank"
-                    rel="noopener"
-                >
-                    Скачать CV
-                </a>
-                
-                <a href="https://t.me/rinn89" target="_blank" rel="noopener">
-                    Telegram ↗
-                </a>
-                
-                <a href="mailto:streltsovakatrine@mail.ru">
-                    Email ↗
-                </a>
-
-                <a href="https://dprofile.ru/blessk" target="_blank" rel="noopener">
-                    Dprofile ↗
-                </a>
-
+                <a href="streltsova_CV.pdf" class="btn-cv" target="_blank" rel="noopener">Скачать CV</a>
+                <a href="https://t.me/rinn89" target="_blank" rel="noopener">Telegram ↗</a>
+                <a href="mailto:streltsovakatrine@mail.ru">Email ↗</a>
+                <a href="https://dprofile.ru/blessk" target="_blank" rel="noopener">Dprofile ↗</a>
             </div>
-
         </section>
 
-
-    <!-- =========================
-         ТОЧКИ ВНИЗУ
-    ========================== -->
-
-    <section class="particle-section">
-
-        <canvas id="particleCanvas"></canvas>
-
-    </section>
-
-
+        <section class="particle-section">
+            <canvas id="particleCanvas"></canvas>
+        </section>
+    </main>
 
     <script src="script.js"></script>
-
 </body>
 </html>
