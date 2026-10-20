@@ -907,7 +907,7 @@ main {
     }
 
     .hero-left {
-        gap: 32px; 
+        gap: 44px; 
     }
 
     .hero-title-block {
@@ -1126,7 +1126,7 @@ main {
     }
 
     .project-info-heading {
-        font-size: 20px; 
+        font-size: 16px; 
         line-height: 1.2;
     }
 
