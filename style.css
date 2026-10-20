@@ -1178,7 +1178,7 @@ main {
 
     .project-iframe-wrapper {
         padding-bottom: 0;
-        height: 80vh;
+        height: 600px;
         margin: 20px 0;
         border-radius: 16px;
     }
